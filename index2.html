@@ -1,0 +1,1898 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rock 'n' Roll Store — Premium Musical Instruments</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ─── Reset & Base ─────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    /* ─── Design Tokens ─────────────────────────────────────────────── */
+    :root {
+      --bg:           #ffffff;
+      --bg-2:         #f5f6f9;
+      --bg-3:         #eceef3;
+      --fg:           #0c0c16;
+      --fg-muted:     #555870;
+      --fg-subtle:    #9ea4b4;
+      --accent:       #1257E8;
+      --accent-hover: #0d44c4;
+      --accent-dim:   #dce8fc;
+      --border:       #e2e4eb;
+      --border-2:     #d0d3dd;
+      --card:         #ffffff;
+      --card-border:  #e2e4eb;
+      --nav-bg:       rgba(255,255,255,0.88);
+      --shadow-sm:    0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md:    0 4px 16px rgba(0,0,0,0.08);
+      --radius:       10px;
+      --radius-sm:    6px;
+      --radius-lg:    16px;
+    }
+
+    [data-theme="dark"] {
+      --bg:           #0b0b12;
+      --bg-2:         #111120;
+      --bg-3:         #181828;
+      --fg:           #ededf6;
+      --fg-muted:     #8a8ba8;
+      --fg-subtle:    #55566e;
+      --accent:       #4287FF;
+      --accent-hover: #5a97ff;
+      --accent-dim:   #0e1e40;
+      --border:       #1e1e30;
+      --border-2:     #2a2a3e;
+      --card:         #111120;
+      --card-border:  #1e1e30;
+      --nav-bg:       rgba(11,11,18,0.88);
+      --shadow-sm:    0 1px 3px rgba(0,0,0,0.5);
+      --shadow-md:    0 4px 24px rgba(0,0,0,0.5);
+    }
+
+    /* ─── Typography ─────────────────────────────────────────────────── */
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+      transition: background 0.25s ease, color 0.25s ease;
+      overflow-x: hidden;
+    }
+
+    .display {
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.04em;
+      line-height: 0.92;
+    }
+
+    h1, h2, h3 { font-weight: 600; }
+
+    /* ─── Utility ─────────────────────────────────────────────────────── */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+
+    /* ─── Nav ─────────────────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: var(--nav-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.25s ease, border-color 0.25s ease;
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .logo-mark {
+      width: 34px;
+      height: 34px;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .logo-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 18px;
+      letter-spacing: 0.1em;
+      color: var(--fg);
+      line-height: 1;
+    }
+
+    .logo-sub {
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      color: var(--accent);
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--fg-muted);
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+      transition: color 0.15s ease, background 0.15s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--fg);
+      background: var(--bg-3);
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--fg-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+    }
+
+    .icon-btn:hover {
+      color: var(--fg);
+      border-color: var(--border-2);
+      background: var(--bg-2);
+    }
+
+    .icon-btn svg { width: 17px; height: 17px; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      border: none;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
+      white-space: nowrap;
+    }
+
+    .btn:active { transform: scale(0.98); }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      padding: 9px 20px;
+    }
+
+    .btn-primary:hover { background: var(--accent-hover); }
+
+    .btn-secondary {
+      background: var(--bg-3);
+      color: var(--fg);
+      padding: 9px 20px;
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--border-2);
+      background: var(--bg-2);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--accent);
+      padding: 11px 24px;
+      border: 1.5px solid var(--accent);
+      font-size: 15px;
+    }
+
+    .btn-outline:hover {
+      background: var(--accent-dim);
+    }
+
+    .btn-large {
+      padding: 14px 32px;
+      font-size: 15px;
+      border-radius: var(--radius);
+    }
+
+    .btn-primary.btn-large { background: var(--accent); }
+    .btn-primary.btn-large:hover { background: var(--accent-hover); }
+
+    .cart-badge {
+      position: relative;
+    }
+    .cart-badge::after {
+      content: '3';
+      position: absolute;
+      top: 4px; right: 4px;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-size: 9px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+
+    .hamburger { display: none; }
+
+    /* ─── Hero ─────────────────────────────────────────────────────────── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding-top: 64px;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    /* Subtle bolt shape in background */
+    .hero-bg svg {
+      position: absolute;
+      right: -2%;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 52%;
+      height: auto;
+      opacity: 0.06;
+    }
+
+    [data-theme="dark"] .hero-bg svg { opacity: 0.045; }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 80px 0;
+      max-width: 700px;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 28px;
+    }
+
+    .hero-eyebrow .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .hero-heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(72px, 10vw, 128px);
+      line-height: 0.9;
+      letter-spacing: 0.02em;
+      color: var(--fg);
+      margin-bottom: 28px;
+    }
+
+    .hero-heading .line-accent { color: var(--accent); }
+
+    .hero-subline {
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--fg-muted);
+      max-width: 460px;
+      line-height: 1.65;
+      margin-bottom: 44px;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+      margin-top: 64px;
+      padding-top: 40px;
+      border-top: 1px solid var(--border);
+    }
+
+    .stat-item {}
+
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px;
+      letter-spacing: 0.04em;
+      color: var(--fg);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--fg-subtle);
+      margin-top: 3px;
+      letter-spacing: 0.02em;
+    }
+
+    /* ─── Brand Marquee ─────────────────────────────────────────────────── */
+    #brands {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 0;
+      width: max-content;
+      animation: marquee 28s linear infinite;
+    }
+
+    .marquee-track:hover { animation-play-state: paused; }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    .brand-item {
+      display: flex;
+      align-items: center;
+      padding: 0 36px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 19px;
+      letter-spacing: 0.12em;
+      color: var(--fg-subtle);
+      transition: color 0.15s ease;
+      cursor: default;
+      white-space: nowrap;
+    }
+
+    .brand-item:hover { color: var(--fg-muted); }
+
+    .brand-sep {
+      display: flex;
+      align-items: center;
+      color: var(--border-2);
+      font-size: 10px;
+    }
+
+    /* ─── Section Shared ─────────────────────────────────────────────────── */
+    .section { padding: 96px 0; }
+    .section-alt { background: var(--bg-2); }
+
+    .section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 52px;
+      gap: 20px;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(36px, 5vw, 54px);
+      letter-spacing: 0.03em;
+      color: var(--fg);
+      line-height: 1;
+    }
+
+    .section-subtitle {
+      font-size: 16px;
+      color: var(--fg-muted);
+      max-width: 400px;
+      line-height: 1.6;
+      margin-top: 10px;
+    }
+
+    /* ─── Categories ─────────────────────────────────────────────────────── */
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+    }
+
+    .cat-card {
+      position: relative;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 28px 20px 24px;
+      background: var(--card);
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+      overflow: hidden;
+      transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: pointer;
+    }
+
+    .cat-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .cat-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-sm);
+      background: var(--accent-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .cat-icon svg {
+      width: 22px;
+      height: 22px;
+      color: var(--accent);
+    }
+
+    .cat-name {
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--fg);
+      line-height: 1.2;
+    }
+
+    .cat-count {
+      font-size: 12px;
+      color: var(--fg-subtle);
+    }
+
+    .cat-arrow {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      color: var(--fg-subtle);
+      transition: color 0.15s ease, right 0.15s ease;
+    }
+
+    .cat-card:hover .cat-arrow { color: var(--accent); right: 16px; }
+
+    /* ─── Products ─────────────────────────────────────────────────────── */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .product-card {
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: var(--card);
+      transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .product-card:hover {
+      border-color: var(--border-2);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .product-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .product-img svg {
+      width: 60%;
+      height: 60%;
+    }
+
+    .product-badge {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 4px;
+    }
+
+    .badge-new { background: var(--accent); color: #fff; }
+    .badge-sale { background: #dc2626; color: #fff; }
+    .badge-hot { background: #ea580c; color: #fff; }
+
+    .product-wishlist {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: border-color 0.15s ease;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+    }
+
+    .product-card:hover .product-wishlist { opacity: 1; }
+
+    .product-wishlist:hover { border-color: #dc2626; }
+    .product-wishlist svg { width: 15px; height: 15px; color: var(--fg-muted); }
+
+    .product-body {
+      padding: 18px 18px 20px;
+    }
+
+    .product-brand {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 5px;
+    }
+
+    .product-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--fg);
+      line-height: 1.35;
+      margin-bottom: 8px;
+    }
+
+    .product-stars {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 14px;
+    }
+
+    .stars {
+      display: flex;
+      gap: 2px;
+    }
+
+    .star-filled { color: #f59e0b; }
+    .star-empty  { color: var(--border-2); }
+
+    .stars svg { width: 12px; height: 12px; }
+
+    .review-count {
+      font-size: 12px;
+      color: var(--fg-subtle);
+    }
+
+    .product-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .price-group { display: flex; flex-direction: column; }
+
+    .price {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      letter-spacing: 0.03em;
+      color: var(--fg);
+      line-height: 1;
+    }
+
+    .price-orig {
+      font-size: 12px;
+      color: var(--fg-subtle);
+      text-decoration: line-through;
+    }
+
+    .add-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      background: var(--accent);
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease, transform 0.1s ease;
+    }
+
+    .add-btn:hover { background: var(--accent-hover); }
+    .add-btn:active { transform: scale(0.94); }
+    .add-btn svg { width: 16px; height: 16px; }
+
+    /* ─── Value Props ─────────────────────────────────────────────────────── */
+    .props-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .props-visual {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: var(--bg-3);
+      aspect-ratio: 4/5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .props-visual-inner {
+      width: 90%;
+      height: 90%;
+      position: relative;
+    }
+
+    .props-bg-text {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .props-bg-text span {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 200px;
+      letter-spacing: -0.04em;
+      color: var(--border);
+      line-height: 1;
+      user-select: none;
+    }
+
+    .props-guitar-wrap {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .props-guitar-wrap svg {
+      width: 65%;
+      height: auto;
+      filter: drop-shadow(0 24px 48px rgba(66,135,255,0.2));
+    }
+
+    .props-list {
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+
+    .prop-item {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .prop-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: var(--radius-sm);
+      background: var(--accent-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .prop-icon svg {
+      width: 22px; height: 22px;
+      color: var(--accent);
+    }
+
+    .prop-title {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--fg);
+      margin-bottom: 6px;
+    }
+
+    .prop-text {
+      font-size: 14px;
+      color: var(--fg-muted);
+      line-height: 1.6;
+    }
+
+    /* ─── Testimonials ─────────────────────────────────────────────────── */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .testi-card {
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      background: var(--card);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .testi-stars { display: flex; gap: 3px; }
+    .testi-stars svg { width: 14px; height: 14px; color: #f59e0b; }
+
+    .testi-quote {
+      font-size: 15px;
+      color: var(--fg-muted);
+      line-height: 1.65;
+      flex: 1;
+    }
+
+    .testi-quote strong { color: var(--fg); font-weight: 600; }
+
+    .testi-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .testi-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 16px;
+      letter-spacing: 0.05em;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .avatar-a { background: linear-gradient(135deg, #1257E8, #4287FF); }
+    .avatar-b { background: linear-gradient(135deg, #7c3aed, #a78bfa); }
+    .avatar-c { background: linear-gradient(135deg, #065f46, #34d399); }
+
+    .testi-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--fg);
+    }
+
+    .testi-role {
+      font-size: 12px;
+      color: var(--fg-subtle);
+    }
+
+    /* ─── Newsletter ─────────────────────────────────────────────────────── */
+    #newsletter {
+      padding: 96px 0;
+      background: var(--bg-3);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .newsletter-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 48px;
+    }
+
+    .newsletter-copy { max-width: 480px; }
+
+    .newsletter-tag {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .newsletter-heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 44px;
+      letter-spacing: 0.03em;
+      line-height: 0.95;
+      color: var(--fg);
+      margin-bottom: 14px;
+    }
+
+    .newsletter-sub {
+      font-size: 15px;
+      color: var(--fg-muted);
+      line-height: 1.6;
+    }
+
+    .newsletter-form {
+      display: flex;
+      gap: 10px;
+      flex-shrink: 0;
+      min-width: 360px;
+    }
+
+    .newsletter-input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 1.5px solid var(--border-2);
+      border-radius: var(--radius-sm);
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+
+    .newsletter-input::placeholder { color: var(--fg-subtle); }
+    .newsletter-input:focus { border-color: var(--accent); }
+
+    /* ─── Footer ─────────────────────────────────────────────────────────── */
+    footer {
+      padding: 64px 0 40px;
+      background: var(--bg);
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+      padding-bottom: 52px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .footer-brand p {
+      font-size: 14px;
+      color: var(--fg-muted);
+      line-height: 1.65;
+      max-width: 260px;
+      margin-top: 12px;
+    }
+
+    .footer-socials {
+      display: flex;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .social-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--fg-muted);
+      transition: color 0.15s ease, border-color 0.15s ease;
+      cursor: pointer;
+    }
+
+    .social-btn:hover { color: var(--fg); border-color: var(--border-2); }
+    .social-btn svg { width: 15px; height: 15px; }
+
+    .footer-col h4 {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--fg-muted);
+      margin-bottom: 18px;
+    }
+
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+
+    .footer-col ul a {
+      text-decoration: none;
+      font-size: 14px;
+      color: var(--fg-muted);
+      transition: color 0.15s ease;
+    }
+
+    .footer-col ul a:hover { color: var(--fg); }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 32px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-copy {
+      font-size: 13px;
+      color: var(--fg-subtle);
+    }
+
+    .footer-legal {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-legal a {
+      font-size: 13px;
+      color: var(--fg-subtle);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .footer-legal a:hover { color: var(--fg-muted); }
+
+    /* ─── Scroll Animations ─────────────────────────────────────────────── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .stagger > * {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.45s ease, transform 0.45s ease;
+    }
+
+    .stagger.visible > *:nth-child(1) { opacity: 1; transform: none; transition-delay: 0s; }
+    .stagger.visible > *:nth-child(2) { opacity: 1; transform: none; transition-delay: 0.07s; }
+    .stagger.visible > *:nth-child(3) { opacity: 1; transform: none; transition-delay: 0.14s; }
+    .stagger.visible > *:nth-child(4) { opacity: 1; transform: none; transition-delay: 0.21s; }
+    .stagger.visible > *:nth-child(5) { opacity: 1; transform: none; transition-delay: 0.28s; }
+
+    /* ─── Responsive ─────────────────────────────────────────────────────── */
+    @media (max-width: 1100px) {
+      .categories-grid { grid-template-columns: repeat(3, 1fr); }
+      .products-grid   { grid-template-columns: repeat(2, 1fr); }
+      .props-layout    { gap: 52px; }
+    }
+
+    @media (max-width: 900px) {
+      .section { padding: 72px 0; }
+      .categories-grid { grid-template-columns: repeat(2, 1fr); }
+      .props-layout { grid-template-columns: 1fr; }
+      .props-visual { aspect-ratio: 16/9; }
+      .newsletter-inner { flex-direction: column; align-items: flex-start; }
+      .newsletter-form { min-width: unset; width: 100%; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .hero-heading { font-size: clamp(60px, 15vw, 96px); }
+      .hero-stats { gap: 24px; flex-wrap: wrap; }
+      .products-grid { grid-template-columns: 1fr; }
+      .categories-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-top { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+      .section-header { flex-direction: column; align-items: flex-start; }
+    }
+
+    /* ─── Mobile Nav ─────────────────────────────────────────────────────── */
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      gap: 0;
+      background: var(--nav-bg);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 8px 0 16px;
+    }
+
+    .mobile-nav.open { display: flex; }
+
+    .mobile-nav a {
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--fg-muted);
+      padding: 11px 24px;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.15s ease;
+    }
+
+    .mobile-nav a:hover { color: var(--fg); }
+  </style>
+</head>
+
+<body>
+
+  <!-- ─── Navigation ─────────────────────────────────────────────────────── -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <!-- Logo -->
+      <a href="#" class="logo" aria-label="Rock 'n' Roll Store Home">
+        <svg class="logo-mark" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="34" height="34" rx="7" fill="var(--accent)"/>
+          <path d="M21 7L13 17.5H19L13 27L25 14.5H18.5L21 7Z" fill="white"/>
+        </svg>
+        <div class="logo-text">
+          <span class="logo-name">R&amp;R STORE</span>
+          <span class="logo-sub">Musical Instruments</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <ul class="nav-links">
+        <li><a href="#categories">Guitars</a></li>
+        <li><a href="#categories">Bass</a></li>
+        <li><a href="#categories">Drums &amp; Keys</a></li>
+        <li><a href="#categories">Amps</a></li>
+        <li><a href="#products">Deals</a></li>
+      </ul>
+
+      <!-- Actions -->
+      <div class="nav-right">
+        <!-- Dark Mode Toggle -->
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle light/dark mode">
+          <svg id="iconMoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/>
+          </svg>
+          <svg id="iconSun" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+
+        <!-- Search -->
+        <button class="icon-btn" aria-label="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </button>
+
+        <!-- Cart -->
+        <button class="icon-btn cart-badge" aria-label="Shopping cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 01-8 0"/>
+          </svg>
+        </button>
+
+        <!-- Shop CTA -->
+        <a href="#products" class="btn btn-primary">Shop Now</a>
+
+        <!-- Hamburger -->
+        <button class="icon-btn hamburger" id="hamburger" aria-label="Open menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Nav -->
+    <div class="mobile-nav" id="mobileNav">
+      <a href="#categories">Guitars</a>
+      <a href="#categories">Bass</a>
+      <a href="#categories">Drums &amp; Keys</a>
+      <a href="#categories">Amps</a>
+      <a href="#products">Deals</a>
+    </div>
+  </nav>
+
+  <!-- ─── Hero ─────────────────────────────────────────────────────────────── -->
+  <section id="hero">
+    <!-- Background decoration: abstract bolt -->
+    <div class="hero-bg" aria-hidden="true">
+      <svg viewBox="0 0 600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M380 20L160 450H320L120 880L580 320H380L380 20Z" fill="var(--accent)" />
+      </svg>
+    </div>
+
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-eyebrow">
+          <span class="dot"></span>
+          Premium Musical Instruments
+        </div>
+        <h1 class="hero-heading display">
+          Play What<br>
+          <span class="line-accent">You Mean.</span>
+        </h1>
+        <p class="hero-subline">
+          Guitars, basses, amps, and everything between. Curated for players who take their sound seriously.
+        </p>
+        <div class="hero-actions">
+          <a href="#products" class="btn btn-primary btn-large">
+            Browse Collection
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+          <a href="#categories" class="btn btn-outline btn-large">Shop by Category</a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat-item">
+            <div class="stat-num">3,800+</div>
+            <div class="stat-label">Instruments in stock</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">140+</div>
+            <div class="stat-label">Brands carried</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">24h</div>
+            <div class="stat-label">Fast shipping</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">4.9</div>
+            <div class="stat-label">Customer rating</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Brand Marquee ──────────────────────────────────────────────────────── -->
+  <div id="brands" aria-label="Brands we carry">
+    <div class="marquee-track">
+      <!-- Set repeated twice for seamless loop -->
+      <span class="brand-item">FENDER</span><span class="brand-sep">—</span>
+      <span class="brand-item">GIBSON</span><span class="brand-sep">—</span>
+      <span class="brand-item">MARSHALL</span><span class="brand-sep">—</span>
+      <span class="brand-item">ROLAND</span><span class="brand-sep">—</span>
+      <span class="brand-item">PEARL</span><span class="brand-sep">—</span>
+      <span class="brand-item">PRS</span><span class="brand-sep">—</span>
+      <span class="brand-item">ORANGE</span><span class="brand-sep">—</span>
+      <span class="brand-item">EPIPHONE</span><span class="brand-sep">—</span>
+      <span class="brand-item">IBANEZ</span><span class="brand-sep">—</span>
+      <span class="brand-item">BOSS</span><span class="brand-sep">—</span>
+      <span class="brand-item">YAMAHA</span><span class="brand-sep">—</span>
+      <span class="brand-item">ERNIE BALL</span><span class="brand-sep">—</span>
+      <!-- Duplicate -->
+      <span class="brand-item">FENDER</span><span class="brand-sep">—</span>
+      <span class="brand-item">GIBSON</span><span class="brand-sep">—</span>
+      <span class="brand-item">MARSHALL</span><span class="brand-sep">—</span>
+      <span class="brand-item">ROLAND</span><span class="brand-sep">—</span>
+      <span class="brand-item">PEARL</span><span class="brand-sep">—</span>
+      <span class="brand-item">PRS</span><span class="brand-sep">—</span>
+      <span class="brand-item">ORANGE</span><span class="brand-sep">—</span>
+      <span class="brand-item">EPIPHONE</span><span class="brand-sep">—</span>
+      <span class="brand-item">IBANEZ</span><span class="brand-sep">—</span>
+      <span class="brand-item">BOSS</span><span class="brand-sep">—</span>
+      <span class="brand-item">YAMAHA</span><span class="brand-sep">—</span>
+      <span class="brand-item">ERNIE BALL</span><span class="brand-sep">—</span>
+    </div>
+  </div>
+
+  <!-- ─── Categories ─────────────────────────────────────────────────────────── -->
+  <section class="section" id="categories">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div>
+          <p class="section-label">Browse</p>
+          <h2 class="section-title">Shop by Category</h2>
+          <p class="section-subtitle">Find exactly what you're looking for, from stage gear to studio essentials.</p>
+        </div>
+        <a href="#" class="btn btn-secondary">View All</a>
+      </div>
+
+      <div class="categories-grid stagger">
+        <!-- Guitars -->
+        <a class="cat-card" href="#">
+          <div class="cat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/>
+            </svg>
+          </div>
+          <div>
+            <div class="cat-name">Electric Guitars</div>
+            <div class="cat-count">840 items</div>
+          </div>
+          <svg class="cat-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+
+        <!-- Bass -->
+        <a class="cat-card" href="#">
+          <div class="cat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/>
+              <line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
+            </svg>
+          </div>
+          <div>
+            <div class="cat-name">Bass Guitars</div>
+            <div class="cat-count">310 items</div>
+          </div>
+          <svg class="cat-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+
+        <!-- Drums -->
+        <a class="cat-card" href="#">
+          <div class="cat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4.03 3-9 3S3 13.66 3 12"/>
+              <path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/>
+            </svg>
+          </div>
+          <div>
+            <div class="cat-name">Drums &amp; Percussion</div>
+            <div class="cat-count">520 items</div>
+          </div>
+          <svg class="cat-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+
+        <!-- Keys -->
+        <a class="cat-card" href="#">
+          <div class="cat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="7" width="20" height="13" rx="2"/><path d="M8 7V4"/><path d="M12 7V4"/><path d="M16 7V4"/>
+              <line x1="2" y1="13" x2="22" y2="13"/>
+            </svg>
+          </div>
+          <div>
+            <div class="cat-name">Keys &amp; Synths</div>
+            <div class="cat-count">280 items</div>
+          </div>
+          <svg class="cat-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+
+        <!-- Amps & Effects -->
+        <a class="cat-card" href="#">
+          <div class="cat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+          </div>
+          <div>
+            <div class="cat-name">Amps &amp; Effects</div>
+            <div class="cat-count">460 items</div>
+          </div>
+          <svg class="cat-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Products ──────────────────────────────────────────────────────────── -->
+  <section class="section section-alt" id="products">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div>
+          <p class="section-label">Top Picks</p>
+          <h2 class="section-title">Best Sellers</h2>
+          <p class="section-subtitle">Gear that players come back for. Updated weekly.</p>
+        </div>
+        <a href="#" class="btn btn-secondary">See All Products</a>
+      </div>
+
+      <div class="products-grid stagger">
+
+        <!-- Product 1 -->
+        <div class="product-card">
+          <div class="product-img" style="background: linear-gradient(145deg, #0d1a35 0%, #172450 100%);">
+            <span class="product-badge badge-hot">Hot</span>
+            <button class="product-wishlist" aria-label="Add to wishlist">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+            </button>
+            <!-- Guitar SVG -->
+            <svg viewBox="0 0 120 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="52" y="10" width="16" height="80" rx="4" fill="#4287FF" opacity="0.4"/>
+              <rect x="54" y="10" width="2" height="80" fill="#4287FF" opacity="0.7"/>
+              <rect x="58" y="10" width="2" height="80" fill="#4287FF" opacity="0.7"/>
+              <rect x="62" y="10" width="2" height="80" fill="#4287FF" opacity="0.7"/>
+              <ellipse cx="60" cy="135" rx="35" ry="40" fill="#4287FF" opacity="0.15" stroke="#4287FF" stroke-width="1.5" opacity="0.5"/>
+              <ellipse cx="60" cy="115" rx="22" ry="22" fill="#4287FF" opacity="0.08"/>
+              <circle cx="60" cy="135" r="6" fill="none" stroke="#4287FF" stroke-width="1.5" opacity="0.7"/>
+              <line x1="60" y1="90" x2="60" y2="95" stroke="#4287FF" stroke-width="3"/>
+            </svg>
+          </div>
+          <div class="product-body">
+            <div class="product-brand">Fender</div>
+            <div class="product-name">American Professional II Stratocaster</div>
+            <div class="product-stars">
+              <div class="stars">
+                <svg viewBox="0 0 24 24" fill="currentColor" class="star-filled"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor" class="star-filled"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor" class="star-filled"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor" class="star-filled"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor" class="star-filled"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+              </div>
+              <span class="review-count">(248)</span>
+            </div>
+            <div class="product-footer">
+              <div class="price-group">
+                <span class="price">Rp 28.500.000</span>
+              </div>
+              <button class="add-btn" aria-label="Add to cart">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="product-card">
+          <div class="product-img" style="background: linear-gradient(145deg, #1a0d0d 0%, #3d1212 100%);">
+            <span class="product-badge badge-sale">–15%</span>
+            <button class="product-wishlist" aria-label="Add to wishlist">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+            </button>
+            <svg viewBox="0 0 120 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="52" y="10" width="16" height="85" rx="4" fill="#FF6B6B" opacity="0.35"/>
+              <rect x="55" y="10" width="2" height="85" fill="#FF6B6B" opacity="0.6"/>
+              <rect x="59" y="10" width="2" height="85" fill="#FF6B6B" opacity="0.6"/>
+              <rect x="63" y="10" width="2" height="85" fill="#FF6B6B" opacity="0.6"/>
+              <path d="M25 130 Q60 100 95 130 Q95 170 60 175 Q25 170 25 130Z" fill="#FF6B6B" opacity="0.12" stroke="#FF6B6B" stroke-width="1.5" opacity="0.45"/>
+              <circle cx="60" cy="138" r="5" fill="none" stroke="#FF6B6B" stroke-width="1.5" opacity="0.65"/>
+            </svg>
+          </div>
+          <div class="product-body">
+            <div class="product-brand">Gibson</div>
+            <div class="product-name">Les Paul Standard '60s — Bourbon Burst</div>
+            <div class="product-stars">
+              <div class="stars">
+                <svg viewBox="0 0 24 24" fill="currentColor" class="star-filled"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor" class="star-filled"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor" class="star-filled"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor" class="star-filled"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor" class="star-filled"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+              </div>
+              <span class="review-count">(192)</span>
+            </div>
+            <div class="product-footer">
+              <div class="price-group">
+                <span class="price">Rp 37.900.000</span>
+                <span class="price-orig">Rp 44.600.000</span>
+              </div>
+              <button class="add-btn" aria-label="Add to cart">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="product-card">
+          <div class="product-img" style="background: linear-gradient(145deg, #0d1a10 0%, #112418 100%);">
+            <span class="product-badge badge-new">New</span>
+            <button class="product-wishlist" aria-label="Add to wishlist">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+            </button>
+            <svg viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="10" y="30" width="140" height="60" rx="8" fill="#34d399" opacity="0.1" stroke="#34d399" stroke-width="1.5" opacity="0.4"/>
+              <rect x="22" y="44" width="116" height="32" rx="4" fill="#34d399" opacity="0.07"/>
+              <circle cx="40" cy="60" r="12" fill="none" stroke="#34d399" stroke-width="1.5" opacity="0.5"/>
+              <circle cx="120" cy="60" r="12" fill="none" stroke="#34d399" stroke-width="1.5" opacity="0.5"/>
+              <line x1="52" y1="56" x2="108" y2="56" stroke="#34d399" stroke-width="1" opacity="0.4"/>
+              <line x1="52" y1="60" x2="108" y2="60" stroke="#34d399" stroke-width="1" opacity="0.4"/>
+              <line x1="52" y1="64" x2="108" y2="64" stroke="#34d399" stroke-width="1" opacity="0.4"/>
+            </svg>
+          </div>
+          <div class="product-body">
+            <div class="product-brand">Marshall</div>
+            <div class="product-name">Origin50C 50W Valve Combo Amp</div>
+            <div class="product-stars">
+              <div class="stars">
+                <svg viewBox="0 0 24 24" fill="currentColor" class="star-filled"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor" class="star-filled"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor" class="star-filled"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor" class="star-filled"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor" class="star-empty"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+              </div>
+              <span class="review-count">(77)</span>
+            </div>
+            <div class="product-footer">
+              <div class="price-group">
+                <span class="price">Rp 18.200.000</span>
+              </div>
+              <button class="add-btn" aria-label="Add to cart">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 4 -->
+        <div class="product-card">
+          <div class="product-img" style="background: linear-gradient(145deg, #180d25 0%, #2a1242 100%);">
+            <button class="product-wishlist" aria-label="Add to wishlist">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+            </button>
+            <svg viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="15" y="35" width="130" height="50" rx="6" fill="#a78bfa" opacity="0.1" stroke="#a78bfa" stroke-width="1.5" opacity="0.4"/>
+              <rect x="20" y="40" width="10" height="40" rx="3" fill="#a78bfa" opacity="0.25"/>
+              <rect x="34" y="45" width="6" height="30" rx="2" fill="#a78bfa" opacity="0.2"/>
+              <rect x="44" y="40" width="10" height="40" rx="3" fill="#a78bfa" opacity="0.25"/>
+              <rect x="58" y="45" width="6" height="30" rx="2" fill="#a78bfa" opacity="0.2"/>
+              <rect x="68" y="40" width="10" height="40" rx="3" fill="#a78bfa" opacity="0.25"/>
+              <rect x="82" y="45" width="6" height="30" rx="2" fill="#a78bfa" opacity="0.2"/>
+              <rect x="92" y="40" width="10" height="40" rx="3" fill="#a78bfa" opacity="0.25"/>
+              <rect x="106" y="45" width="6" height="30" rx="2" fill="#a78bfa" opacity="0.2"/>
+              <rect x="116" y="40" width="10" height="40" rx="3" fill="#a78bfa" opacity="0.25"/>
+              <rect x="130" y="45" width="6" height="30" rx="2" fill="#a78bfa" opacity="0.2"/>
+            </svg>
+          </div>
+          <div class="product-body">
+            <div class="product-brand">Roland</div>
+            <div class="product-name">Fantom-6 88-Key Synthesizer Workstation</div>
+            <div class="product-stars">
+              <div class="stars">
+                <svg viewBox="0 0 24 24" fill="currentColor" class="star-filled"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor" class="star-filled"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor" class="star-filled"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor" class="star-filled"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor" class="star-filled"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+              </div>
+              <span class="review-count">(134)</span>
+            </div>
+            <div class="product-footer">
+              <div class="price-group">
+                <span class="price">Rp 54.000.000</span>
+              </div>
+              <button class="add-btn" aria-label="Add to cart">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Value Props ─────────────────────────────────────────────────────── -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="props-layout">
+
+        <!-- Visual Side -->
+        <div class="props-visual fade-up">
+          <div class="props-bg-text" aria-hidden="true">
+            <span>RNR</span>
+          </div>
+          <div class="props-guitar-wrap" aria-hidden="true">
+            <svg viewBox="0 0 200 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Neck -->
+              <rect x="88" y="10" width="24" height="170" rx="8" fill="var(--accent)" opacity="0.3"/>
+              <!-- Headstock -->
+              <rect x="80" y="8" width="40" height="28" rx="6" fill="var(--accent)" opacity="0.5"/>
+              <!-- Tuning pegs -->
+              <circle cx="82" cy="16" r="4" fill="var(--accent)" opacity="0.7"/>
+              <circle cx="82" cy="28" r="4" fill="var(--accent)" opacity="0.7"/>
+              <circle cx="118" cy="16" r="4" fill="var(--accent)" opacity="0.7"/>
+              <circle cx="118" cy="28" r="4" fill="var(--accent)" opacity="0.7"/>
+              <!-- Fret lines -->
+              <line x1="88" y1="60" x2="112" y2="60" stroke="var(--fg-subtle)" stroke-width="1.5"/>
+              <line x1="88" y1="80" x2="112" y2="80" stroke="var(--fg-subtle)" stroke-width="1.5"/>
+              <line x1="88" y1="100" x2="112" y2="100" stroke="var(--fg-subtle)" stroke-width="1.5"/>
+              <line x1="88" y1="120" x2="112" y2="120" stroke="var(--fg-subtle)" stroke-width="1.5"/>
+              <line x1="88" y1="140" x2="112" y2="140" stroke="var(--fg-subtle)" stroke-width="1.5"/>
+              <!-- Strings -->
+              <line x1="93" y1="10" x2="93" y2="180" stroke="var(--fg-subtle)" stroke-width="0.8" opacity="0.6"/>
+              <line x1="97" y1="10" x2="97" y2="180" stroke="var(--fg-subtle)" stroke-width="0.8" opacity="0.6"/>
+              <line x1="101" y1="10" x2="101" y2="180" stroke="var(--fg-subtle)" stroke-width="1" opacity="0.6"/>
+              <line x1="105" y1="10" x2="105" y2="180" stroke="var(--fg-subtle)" stroke-width="1.2" opacity="0.6"/>
+              <line x1="109" y1="10" x2="109" y2="180" stroke="var(--fg-subtle)" stroke-width="1.4" opacity="0.6"/>
+              <!-- Body -->
+              <path d="M60 180 Q30 185 22 220 Q16 260 38 285 Q50 300 50 320 Q50 360 100 368 Q150 360 150 320 Q150 300 162 285 Q184 260 178 220 Q170 185 140 180 Q120 175 100 178 Q80 175 60 180Z" 
+                    fill="var(--accent)" opacity="0.15" stroke="var(--accent)" stroke-width="2" opacity="0.5"/>
+              <!-- Sound hole -->
+              <circle cx="100" cy="270" r="22" fill="none" stroke="var(--accent)" stroke-width="1.5" opacity="0.5"/>
+              <!-- Bridge -->
+              <rect x="82" y="305" width="36" height="8" rx="3" fill="var(--accent)" opacity="0.5"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Text Side -->
+        <div class="props-list">
+          <div class="fade-up">
+            <p class="section-label">Why Us</p>
+            <h2 class="section-title" style="margin-bottom:12px;">Gear you can trust.<br>People who get it.</h2>
+            <p style="font-size:15px; color: var(--fg-muted); line-height:1.65; margin-bottom: 36px;">
+              We're not a big-box store. We're players who built something for players — with a catalog that's been hand-picked and a staff that can actually talk tone.
+            </p>
+          </div>
+
+          <div class="prop-item fade-up">
+            <div class="prop-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+            </div>
+            <div>
+              <div class="prop-title">Every item is properly tested</div>
+              <p class="prop-text">Our team plays and checks each instrument before it ships. No dead pickups. No setup issues. Just gear that works like it should.</p>
+            </div>
+          </div>
+
+          <div class="prop-item fade-up">
+            <div class="prop-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
+                <circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+              </svg>
+            </div>
+            <div>
+              <div class="prop-title">Fast, careful delivery</div>
+              <p class="prop-text">Instruments are packed to actually survive shipping — padded, secured, and insured. Most orders ship within 24 hours.</p>
+            </div>
+          </div>
+
+          <div class="prop-item fade-up">
+            <div class="prop-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="prop-title">Real support from real musicians</div>
+              <p class="prop-text">Have a question about whether a guitar neck feels right for your style? Our team knows instruments — and they're not reading from a script.</p>
+            </div>
+          </div>
+
+          <div class="prop-item fade-up">
+            <div class="prop-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/>
+              </svg>
+            </div>
+            <div>
+              <div class="prop-title">30-day no-hassle returns</div>
+              <p class="prop-text">If it's not right, send it back. No restocking fees on most items. We want you to play what actually suits you.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Testimonials ───────────────────────────────────────────────────────── -->
+  <section class="section section-alt" id="testimonials">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div>
+          <p class="section-label">Players Say</p>
+          <h2 class="section-title">From the Community</h2>
+        </div>
+      </div>
+
+      <div class="testimonials-grid stagger">
+
+        <div class="testi-card">
+          <div class="testi-stars">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </div>
+          <p class="testi-quote">
+            Ordered a Strat on a Tuesday, had it by Thursday. <strong>Setup was already dialed in</strong> — intonation, action, the works. Haven't touched a thing since it arrived.
+          </p>
+          <div class="testi-author">
+            <div class="testi-avatar avatar-a">RW</div>
+            <div>
+              <div class="testi-name">Rio Wibowo</div>
+              <div class="testi-role">Guitarist, Surabaya</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testi-card">
+          <div class="testi-stars">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </div>
+          <p class="testi-quote">
+            Asked about the difference between two bass models via chat. Got a real answer in five minutes — not a spec sheet, <strong>an actual opinion</strong>. Bought the right one for my needs.
+          </p>
+          <div class="testi-author">
+            <div class="testi-avatar avatar-b">AP</div>
+            <div>
+              <div class="testi-name">Adinda Putri</div>
+              <div class="testi-role">Session musician, Jakarta</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testi-card">
+          <div class="testi-stars">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </div>
+          <p class="testi-quote">
+            Bought a Marshall combo for my home studio. <strong>Packaging was outstanding</strong> — thick foam, double-boxed, no damage. I've ordered from three other stores that couldn't manage that.
+          </p>
+          <div class="testi-author">
+            <div class="testi-avatar avatar-c">DS</div>
+            <div>
+              <div class="testi-name">Dimas Santoso</div>
+              <div class="testi-role">Producer, Bandung</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Newsletter ─────────────────────────────────────────────────────────── -->
+  <div id="newsletter">
+    <div class="container">
+      <div class="newsletter-inner fade-up">
+        <div class="newsletter-copy">
+          <p class="newsletter-tag">Stay In The Loop</p>
+          <h2 class="newsletter-heading">New gear.<br>Real deals.<br>No noise.</h2>
+          <p class="newsletter-sub">Weekly emails — new arrivals, limited stock alerts, and the occasional genuine deal. Nothing else.</p>
+        </div>
+        <div style="display:flex; flex-direction:column; gap: 10px; min-width:360px; flex-shrink:0">
+          <div class="newsletter-form">
+            <input type="email" class="newsletter-input" placeholder="your@email.com" aria-label="Email address">
+            <button class="btn btn-primary" style="padding: 12px 20px; white-space:nowrap">Subscribe</button>
+          </div>
+          <p style="font-size: 12px; color: var(--fg-subtle);">No spam. Unsubscribe any time.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Footer ─────────────────────────────────────────────────────────────── -->
+  <footer>
+    <div class="container">
+      <div class="footer-top">
+        <!-- Brand -->
+        <div class="footer-brand">
+          <a href="#" class="logo" aria-label="Home" style="margin-bottom: 8px; display: inline-flex;">
+            <svg class="logo-mark" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="34" height="34" rx="7" fill="var(--accent)"/>
+              <path d="M21 7L13 17.5H19L13 27L25 14.5H18.5L21 7Z" fill="white"/>
+            </svg>
+            <div class="logo-text" style="margin-left:10px;">
+              <span class="logo-name">R&amp;R STORE</span>
+              <span class="logo-sub">Musical Instruments</span>
+            </div>
+          </a>
+          <p>Premium instruments for players who are serious about their sound. Based in Indonesia, shipping nationwide.</p>
+          <div class="footer-socials">
+            <div class="social-btn" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+              </svg>
+            </div>
+            <div class="social-btn" aria-label="YouTube">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58z"/>
+                <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/>
+              </svg>
+            </div>
+            <div class="social-btn" aria-label="TikTok">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 12a4 4 0 104 4V4a5 5 0 005 5"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Shop -->
+        <div class="footer-col">
+          <h4>Shop</h4>
+          <ul>
+            <li><a href="#">Electric Guitars</a></li>
+            <li><a href="#">Acoustic Guitars</a></li>
+            <li><a href="#">Bass Guitars</a></li>
+            <li><a href="#">Drums &amp; Percussion</a></li>
+            <li><a href="#">Keys &amp; Synths</a></li>
+            <li><a href="#">Amps &amp; Effects</a></li>
+          </ul>
+        </div>
+
+        <!-- Support -->
+        <div class="footer-col">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">Order Tracking</a></li>
+            <li><a href="#">Returns &amp; Exchanges</a></li>
+            <li><a href="#">Warranty Claims</a></li>
+            <li><a href="#">Instrument Setup FAQ</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <!-- Company -->
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Press</a></li>
+            <li><a href="#">Partner Brands</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="footer-copy">&copy; 2025 Rock 'n' Roll Store. All rights reserved.</p>
+        <div class="footer-legal">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Cookie Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ─── JavaScript ─────────────────────────────────────────────────────────── -->
+  <script>
+    // ─── Theme Toggle ───────────────────────────────────────────────────
+    const html = document.documentElement;
+    const themeToggle = document.getElementById('themeToggle');
+    const iconMoon = document.getElementById('iconMoon');
+    const iconSun  = document.getElementById('iconSun');
+
+    function setTheme(theme) {
+      html.setAttribute('data-theme', theme);
+      localStorage.setItem('rnr-theme', theme);
+      if (theme === 'dark') {
+        iconMoon.style.display = '';
+        iconSun.style.display  = 'none';
+      } else {
+        iconMoon.style.display = 'none';
+        iconSun.style.display  = '';
+      }
+    }
+
+    // Load saved preference or default dark
+    const saved = localStorage.getItem('rnr-theme') || 'dark';
+    setTheme(saved);
+
+    themeToggle.addEventListener('click', () => {
+      const current = html.getAttribute('data-theme');
+      setTheme(current === 'dark' ? 'light' : 'dark');
+    });
+
+    // ─── Mobile Nav ─────────────────────────────────────────────────────
+    const hamburger  = document.getElementById('hamburger');
+    const mobileNav  = document.getElementById('mobileNav');
+
+    hamburger.addEventListener('click', () => {
+      mobileNav.classList.toggle('open');
+    });
+
+    mobileNav.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => mobileNav.classList.remove('open'));
+    });
+
+    // ─── Scroll Animations ──────────────────────────────────────────────
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-up, .stagger').forEach(el => {
+      observer.observe(el);
+    });
+
+    // ─── Nav scroll state ───────────────────────────────────────────────
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 20) {
+        navbar.style.borderBottomColor = 'var(--border-2)';
+      } else {
+        navbar.style.borderBottomColor = 'var(--border)';
+      }
+    }, { passive: true });
+
+    // ─── Add to Cart feedback ───────────────────────────────────────────
+    document.querySelectorAll('.add-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const orig = this.innerHTML;
+        this.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>`;
+        this.style.background = '#16a34a';
+        setTimeout(() => {
+          this.innerHTML = orig;
+          this.style.background = '';
+        }, 1600);
+      });
+    });
+  </script>
+
+</body>
+</html>

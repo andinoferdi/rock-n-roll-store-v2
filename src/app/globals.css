@@ -1,0 +1,261 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+:root {
+  --font-sans: var(--font-dm-sans, "DM Sans", ui-sans-serif, system-ui, sans-serif);
+  --font-display: var(--font-bebas-neue, "Bebas Neue", sans-serif);
+  --font-condensed: var(--font-barlow-condensed, "Barlow Condensed", sans-serif);
+
+  --landing-bg: #f8f9ff;
+  --landing-bg-2: #eff2f8;
+  --landing-bg-3: #e7ebf2;
+  --landing-card: #ffffff;
+  --landing-card-hover: #f6f8fc;
+  --landing-border: rgba(10, 12, 22, 0.12);
+  --landing-border-strong: rgba(26, 95, 255, 0.24);
+  --landing-text: #0a0a1a;
+  --landing-text-muted: #2b3550;
+  --landing-text-subtle: #667089;
+  --landing-blue: #1a5fff;
+  --landing-blue-light: #2f6cff;
+  --landing-blue-dim: #0b42d1;
+  --landing-blue-glow: rgba(26, 95, 255, 0.08);
+  --landing-blue-soft: rgba(26, 95, 255, 0.06);
+  --landing-blue-soft-strong: rgba(26, 95, 255, 0.14);
+  --landing-blue-soft-border: rgba(26, 95, 255, 0.2);
+  --landing-tag-text: var(--landing-blue-dim);
+  --landing-shadow-card: 0 2px 10px rgba(20, 35, 80, 0.08);
+  --landing-grid: color-mix(in oklab, #667089 24%, transparent);
+
+  --color-surface-light-base: #f8f9ff;
+  --color-surface-light-elevated: #ffffff;
+  --color-surface-light-subtle: #eff2f8;
+  --color-surface-dark-base: #090912;
+  --color-surface-dark-elevated: #111120;
+  --color-surface-dark-subtle: #141428;
+
+  --color-border-light-soft: rgba(10, 12, 22, 0.12);
+  --color-border-light-strong: rgba(10, 12, 22, 0.2);
+  --color-border-dark-soft: #1a2233;
+  --color-border-dark-strong: #263248;
+
+  --color-primary-50: #eef3ff;
+  --color-primary-300: #9fb9ff;
+  --color-primary-400: #6d95ff;
+  --color-primary-500: #1a5fff;
+  --color-primary-600: #0f4be0;
+  --color-primary-700: #0b3cb7;
+
+  --token-white: #ffffff;
+  --token-white-3: color-mix(in oklab, #ffffff 3%, transparent);
+  --token-white-5: color-mix(in oklab, #ffffff 5%, transparent);
+  --token-white-8: color-mix(in oklab, #ffffff 8%, transparent);
+  --token-white-10: color-mix(in oklab, #ffffff 10%, transparent);
+  --token-white-12: color-mix(in oklab, #ffffff 12%, transparent);
+  --token-white-20: color-mix(in oklab, #ffffff 20%, transparent);
+  --token-white-30: color-mix(in oklab, #ffffff 30%, transparent);
+  --token-white-40: color-mix(in oklab, #ffffff 40%, transparent);
+  --token-white-50: color-mix(in oklab, #ffffff 50%, transparent);
+  --token-white-60: color-mix(in oklab, #ffffff 60%, transparent);
+  --token-white-70: color-mix(in oklab, #ffffff 70%, transparent);
+  --token-white-80: color-mix(in oklab, #ffffff 80%, transparent);
+  --token-white-90: color-mix(in oklab, #ffffff 90%, transparent);
+
+  --token-gray-50: #f8f9ff;
+  --token-gray-100: #eff2f8;
+  --token-gray-200: #dbe2f0;
+  --token-gray-300: #c4cee0;
+  --token-gray-400: #8f9ab3;
+  --token-gray-500: #667089;
+  --token-gray-600: #4a556f;
+  --token-gray-700: #2b3550;
+  --token-gray-800: #1f2740;
+  --token-gray-900: #0a0a1a;
+
+  --token-blue-light-50: #eef3ff;
+  --token-blue-light-200: #bfd2ff;
+  --token-blue-light-300: #9fb9ff;
+  --token-blue-light-400: #6d95ff;
+  --token-blue-light-500: #1a5fff;
+  --token-blue-light-600: #0f4be0;
+  --token-blue-light-700: #0b3cb7;
+
+  --color-success-50: #ecfdf3;
+  --color-success-100: #d1fae2;
+  --color-success-300: #86efb1;
+  --color-success-400: #4ade80;
+  --color-success-500: #22c55e;
+  --color-success-700: #15803d;
+
+  --color-error-50: #fef2f2;
+  --color-error-100: #fee2e2;
+  --color-error-300: #fca5a5;
+  --color-error-400: #f87171;
+  --color-error-500: #ef4444;
+  --color-error-700: #b91c1c;
+
+  --color-warning-50: #fff7ed;
+  --color-warning-100: #ffedd5;
+  --color-warning-300: #fdba74;
+  --color-warning-400: #fb923c;
+  --color-warning-500: #f97316;
+  --color-warning-700: #c2410c;
+
+  --color-intent-error-ring: color-mix(in oklab, var(--color-error-500) 24%, transparent);
+
+  --color-qr-expired: #8f9ab3;
+  --color-qr-success: #22c55e;
+  --color-qr-warning: #f97316;
+  --color-qr-danger: #ef4444;
+  --color-qr-success-glow: color-mix(in oklab, #22c55e 30%, transparent);
+  --color-qr-warning-glow: color-mix(in oklab, #f97316 30%, transparent);
+  --color-qr-danger-glow: color-mix(in oklab, #ef4444 30%, transparent);
+  --color-qr-ring-track: color-mix(in oklab, #8f9ab3 18%, transparent);
+  --color-qr-glass-bg: color-mix(in oklab, #ffffff 10%, transparent);
+  --color-qr-glass-border: color-mix(in oklab, #ffffff 20%, transparent);
+  --color-qr-shadow-soft: color-mix(in oklab, #000000 20%, transparent);
+  --color-qr-shadow-strong: color-mix(in oklab, #000000 30%, transparent);
+  --color-qr-surface-bg: color-mix(in oklab, #ffffff 97%, transparent);
+  --color-qr-surface-border: color-mix(in oklab, #000000 4%, transparent);
+  --color-qr-surface-overlay: color-mix(in oklab, #ffffff 75%, transparent);
+  --color-qr-fg: #0a0a1a;
+  --color-qr-fg-expired: #c4cee0;
+  --color-qr-badge-bg: color-mix(in oklab, #ef4444 90%, transparent);
+  --color-qr-badge-shadow: color-mix(in oklab, #ef4444 40%, transparent);
+  --color-qr-on-color: #ffffff;
+
+  --color-accent-purple-200: #d8b4fe;
+  --color-accent-purple-500: #8b5cf6;
+  --color-accent-coral-200: #fca5a5;
+  --color-accent-coral-400: #fb7185;
+  --color-accent-sky-200: #bae6fd;
+  --color-accent-sky-400: #38bdf8;
+  --color-accent-cyan-200: #a5f3fc;
+  --color-accent-cyan-400: #22d3ee;
+  --color-accent-amber-200: #fde68a;
+  --color-accent-amber-400: #f59e0b;
+
+  --color-brand-figma-green: #0acf83;
+  --color-brand-figma-purple: #a259ff;
+  --color-brand-figma-orange: #f24e1e;
+  --color-brand-figma-coral: #ff7262;
+  --color-brand-figma-blue: #1abcfe;
+
+  --color-social-google-blue: #4285f4;
+  --color-social-google-green: #34a853;
+  --color-social-google-red: #ea4335;
+  --color-social-google-yellow: #fbbc05;
+
+  --color-black: #000000;
+  --color-white: #ffffff;
+}
+
+[data-theme="dark"] {
+  --landing-bg: #090912;
+  --landing-bg-2: #0e0e1a;
+  --landing-bg-3: #141428;
+  --landing-card: #111120;
+  --landing-card-hover: #181830;
+  --landing-border: rgba(255, 255, 255, 0.09);
+  --landing-border-strong: rgba(26, 95, 255, 0.26);
+  --landing-text: #f0f0f8;
+  --landing-text-muted: #b8b8cd;
+  --landing-text-subtle: #7f809b;
+  --landing-tag-text: var(--landing-blue-light);
+  --landing-blue-soft: rgba(26, 95, 255, 0.08);
+  --landing-shadow-card: 0 4px 14px rgba(0, 0, 0, 0.35);
+  --landing-grid: color-mix(in oklab, #7f809b 20%, transparent);
+
+  --token-gray-50: #111120;
+  --token-gray-100: #141428;
+  --token-gray-200: #1e2135;
+  --token-gray-300: #2a3048;
+  --token-gray-400: #7f809b;
+  --token-gray-500: #9fa2b8;
+  --token-gray-600: #b8b8cd;
+  --token-gray-700: #ced0dd;
+  --token-gray-800: #e2e4eb;
+  --token-gray-900: #f0f0f8;
+}
+
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+  transition: none !important;
+}
+
+* {
+  border-color: var(--landing-border);
+}
+
+body {
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  color: var(--landing-text);
+  background: var(--landing-bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+
+.surface-base {
+  background-color: var(--color-surface-light-base);
+}
+
+[data-theme="dark"] .surface-base {
+  background-color: var(--color-surface-dark-base);
+}
+
+.surface-elevated {
+  background-color: var(--color-surface-light-elevated);
+}
+
+[data-theme="dark"] .surface-elevated {
+  background-color: var(--color-surface-dark-elevated);
+}
+
+.surface-subtle {
+  background-color: var(--color-surface-light-subtle);
+}
+
+[data-theme="dark"] .surface-subtle {
+  background-color: var(--color-surface-dark-subtle);
+}
+
+.border-soft {
+  border-color: var(--color-border-light-soft);
+}
+
+[data-theme="dark"] .border-soft {
+  border-color: var(--color-border-dark-soft);
+}
+
+.border-strong {
+  border-color: var(--color-border-light-strong);
+}
+
+[data-theme="dark"] .border-strong {
+  border-color: var(--color-border-dark-strong);
+}
+
+.marketing-nav-glass {
+  background: color-mix(in oklab, var(--landing-bg) 94%, transparent);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 8px 30px -22px color-mix(in oklab, var(--landing-blue) 42%, transparent);
+}
+
+.shadow-theme-xs {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07), 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+@keyframes landingMarquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
