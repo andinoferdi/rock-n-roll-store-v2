@@ -21,7 +21,7 @@ const secondaryButtonClass =
 
 export default function ProductsSection() {
   return (
-    <section className="border-y border-[var(--landing-border)] bg-[var(--landing-bg-2)] py-24" id="products">
+    <section className="bg-[var(--landing-bg)] py-24" id="products">
       <div className="mx-auto w-full max-w-[1200px] px-6">
         <div className="mb-12 flex items-end justify-between gap-6 max-[600px]:flex-col max-[600px]:items-start" data-reveal>
           <div>

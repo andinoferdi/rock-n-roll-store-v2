@@ -8,7 +8,7 @@ const StarIcon = () => (
 
 export default function TestimonialsSection() {
   return (
-    <section className="border-y border-[var(--landing-border)] bg-[var(--landing-bg-2)] py-24" id="testimonials">
+    <section className="bg-[var(--landing-bg)] py-24" id="testimonials">
       <div className="mx-auto w-full max-w-[1200px] px-6">
         <div data-reveal>
           <p className="mb-3 text-[0.75rem] font-semibold tracking-[0.12em] uppercase text-[var(--landing-text-subtle)] [font-family:var(--font-barlow-condensed)]">

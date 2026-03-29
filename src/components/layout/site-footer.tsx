@@ -29,7 +29,7 @@ const linkListClass =
 
 export default function SiteFooter() {
   return (
-    <footer className="border-t border-[var(--landing-border)] bg-[var(--landing-bg-2)] py-16 pb-8">
+    <footer className="border-t border-[var(--landing-border)] bg-[var(--landing-bg)] py-16 pb-8">
       <div className="mx-auto w-full max-w-[1200px] px-6">
         <div className="mb-12 grid grid-cols-[2fr_1fr_1fr_1fr] gap-12 max-[900px]:grid-cols-2 max-[900px]:gap-8 max-[600px]:grid-cols-1">
           <div>

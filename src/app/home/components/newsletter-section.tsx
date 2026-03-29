@@ -11,7 +11,7 @@ export default function NewsletterSection() {
           data-reveal
           className="relative flex items-center justify-between gap-12 overflow-hidden rounded-[12px] border border-[var(--landing-border)] bg-[var(--landing-card)] px-16 py-16 shadow-[var(--landing-shadow-card)] max-[600px]:flex-col max-[600px]:gap-7 max-[600px]:px-7 max-[600px]:py-10"
         >
-          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(26,95,255,0.03)_0%,transparent_58%)]" />
+          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,var(--landing-atmosphere-soft)_0%,transparent_58%)]" />
 
           <div className="relative z-10 max-w-[440px] max-[600px]:max-w-none">
             <h3 className="mb-2 text-[2.25rem] leading-[1.1] tracking-[0.02em] text-[var(--landing-text)] [font-family:var(--font-bebas-neue)]">

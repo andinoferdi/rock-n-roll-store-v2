@@ -2,7 +2,7 @@ import { brandItems } from "@/app/home/data/storefront";
 
 export default function BrandsSection() {
   return (
-    <section className="border-b border-[var(--landing-border)] py-14">
+    <section className="py-14">
       <div className="mx-auto w-full max-w-[1200px] px-6">
         <p className="mb-7 text-center text-[0.75rem] font-semibold tracking-[0.14em] uppercase text-[var(--landing-text-subtle)] [font-family:var(--font-barlow-condensed)]">
           Authorized dealer for

@@ -48,10 +48,10 @@ export default function SiteHeader() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 border-b transition-all duration-300 ${
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "border-[var(--landing-border)] bg-[color-mix(in_oklab,var(--landing-bg)_94%,transparent)] backdrop-blur-xl"
-          : "border-transparent bg-transparent"
+          ? "border-b border-[var(--landing-border)] bg-[color-mix(in_oklab,var(--landing-bg)_90%,transparent)] backdrop-blur-xl"
+          : "border-b-0 bg-transparent"
       }`}
     >
       <div className="mx-auto flex h-[72px] w-full max-w-[1200px] items-center justify-between px-6">
@@ -137,7 +137,7 @@ export default function SiteHeader() {
       </div>
 
       <div
-        className={`border-y border-[var(--landing-border)] bg-[color-mix(in_oklab,var(--landing-bg)_96%,transparent)] px-6 py-4 backdrop-blur-xl transition-[max-height,opacity,padding] duration-300 ease-out max-[900px]:block ${
+        className={`border-y border-[var(--landing-border)] bg-[color-mix(in_oklab,var(--landing-bg)_92%,transparent)] px-6 py-4 backdrop-blur-xl transition-[max-height,opacity,padding] duration-300 ease-out max-[900px]:block ${
           mobileMenuOpen ? "max-h-72 opacity-100" : "max-h-0 overflow-hidden py-0 opacity-0"
         } hidden`}
       >

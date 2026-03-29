@@ -10,12 +10,13 @@
   --font-display: var(--font-bebas-neue, "Bebas Neue", sans-serif);
   --font-condensed: var(--font-barlow-condensed, "Barlow Condensed", sans-serif);
 
-  --landing-bg: #f8f9ff;
-  --landing-bg-2: #eff2f8;
-  --landing-bg-3: #e7ebf2;
-  --landing-card: #ffffff;
-  --landing-card-hover: #f6f8fc;
-  --landing-border: rgba(10, 12, 22, 0.12);
+  --landing-bg: #f6f8fc;
+  --landing-bg-2: #f6f8fc;
+  --landing-bg-3: #f2f5fa;
+  --landing-card: #fbfcff;
+  --landing-card-hover: #f7faff;
+  --landing-bg-card: var(--landing-card);
+  --landing-border: rgba(15, 23, 42, 0.1);
   --landing-border-strong: rgba(26, 95, 255, 0.24);
   --landing-text: #0a0a1a;
   --landing-text-muted: #2b3550;
@@ -23,25 +24,26 @@
   --landing-blue: #1a5fff;
   --landing-blue-light: #2f6cff;
   --landing-blue-dim: #0b42d1;
-  --landing-blue-glow: rgba(26, 95, 255, 0.08);
-  --landing-blue-soft: rgba(26, 95, 255, 0.06);
-  --landing-blue-soft-strong: rgba(26, 95, 255, 0.14);
+  --landing-blue-glow: rgba(26, 95, 255, 0.04);
+  --landing-blue-soft: rgba(26, 95, 255, 0.04);
+  --landing-blue-soft-strong: rgba(26, 95, 255, 0.07);
   --landing-blue-soft-border: rgba(26, 95, 255, 0.2);
+  --landing-atmosphere-soft: rgba(26, 95, 255, 0.025);
   --landing-tag-text: var(--landing-blue-dim);
-  --landing-shadow-card: 0 2px 10px rgba(20, 35, 80, 0.08);
-  --landing-grid: color-mix(in oklab, #667089 24%, transparent);
+  --landing-shadow-card: 0 2px 8px rgba(15, 23, 42, 0.05);
+  --landing-grid: color-mix(in oklab, #667089 14%, transparent);
 
-  --color-surface-light-base: #f8f9ff;
-  --color-surface-light-elevated: #ffffff;
-  --color-surface-light-subtle: #eff2f8;
-  --color-surface-dark-base: #090912;
-  --color-surface-dark-elevated: #111120;
-  --color-surface-dark-subtle: #141428;
+  --color-surface-light-base: #f6f8fc;
+  --color-surface-light-elevated: #fbfcff;
+  --color-surface-light-subtle: #f2f5fa;
+  --color-surface-dark-base: #0d1222;
+  --color-surface-dark-elevated: #121a2d;
+  --color-surface-dark-subtle: #16203a;
 
-  --color-border-light-soft: rgba(10, 12, 22, 0.12);
-  --color-border-light-strong: rgba(10, 12, 22, 0.2);
-  --color-border-dark-soft: #1a2233;
-  --color-border-dark-strong: #263248;
+  --color-border-light-soft: rgba(15, 23, 42, 0.1);
+  --color-border-light-strong: rgba(15, 23, 42, 0.16);
+  --color-border-dark-soft: rgba(148, 163, 184, 0.18);
+  --color-border-dark-strong: rgba(148, 163, 184, 0.28);
 
   --color-primary-50: #eef3ff;
   --color-primary-300: #9fb9ff;
@@ -155,20 +157,23 @@
 }
 
 [data-theme="dark"] {
-  --landing-bg: #090912;
-  --landing-bg-2: #0e0e1a;
-  --landing-bg-3: #141428;
-  --landing-card: #111120;
-  --landing-card-hover: #181830;
-  --landing-border: rgba(255, 255, 255, 0.09);
+  --landing-bg: #0d1222;
+  --landing-bg-2: #0d1222;
+  --landing-bg-3: #16203a;
+  --landing-card: #121a2d;
+  --landing-card-hover: #17233a;
+  --landing-bg-card: var(--landing-card);
+  --landing-border: rgba(148, 163, 184, 0.18);
   --landing-border-strong: rgba(26, 95, 255, 0.26);
   --landing-text: #f0f0f8;
   --landing-text-muted: #b8b8cd;
   --landing-text-subtle: #7f809b;
   --landing-tag-text: var(--landing-blue-light);
-  --landing-blue-soft: rgba(26, 95, 255, 0.08);
-  --landing-shadow-card: 0 4px 14px rgba(0, 0, 0, 0.35);
-  --landing-grid: color-mix(in oklab, #7f809b 20%, transparent);
+  --landing-blue-soft: rgba(26, 95, 255, 0.06);
+  --landing-blue-soft-strong: rgba(26, 95, 255, 0.08);
+  --landing-atmosphere-soft: rgba(26, 95, 255, 0.035);
+  --landing-shadow-card: 0 8px 22px -16px rgba(0, 0, 0, 0.4);
+  --landing-grid: color-mix(in oklab, #7f809b 14%, transparent);
 
   --token-gray-50: #111120;
   --token-gray-100: #141428;
@@ -199,6 +204,29 @@ body {
   background: var(--landing-bg);
   -webkit-font-smoothing: antialiased;
   text-rendering: geometricPrecision;
+}
+
+a[href],
+button,
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+input[type="checkbox"],
+input[type="radio"],
+select,
+summary,
+label[for],
+[role="button"],
+[role="link"] {
+  cursor: pointer;
+}
+
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled,
+[aria-disabled="true"] {
+  cursor: not-allowed;
 }
 
 .surface-base {
@@ -242,9 +270,9 @@ body {
 }
 
 .marketing-nav-glass {
-  background: color-mix(in oklab, var(--landing-bg) 94%, transparent);
+  background: color-mix(in oklab, var(--landing-bg) 90%, transparent);
   backdrop-filter: blur(14px);
-  box-shadow: 0 8px 30px -22px color-mix(in oklab, var(--landing-blue) 42%, transparent);
+  box-shadow: 0 8px 20px -18px color-mix(in oklab, var(--landing-text) 24%, transparent);
 }
 
 .shadow-theme-xs {
