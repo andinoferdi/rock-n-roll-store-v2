@@ -49,7 +49,7 @@ export default function CategoriesSection() {
   return (
     <section className="py-24" id="categories">
       <div className="mx-auto w-full max-w-[1200px] px-6">
-        <div className="mx-auto max-w-[720px] text-center" data-reveal>
+        <div className="mx-auto max-w-[720px] text-center" data-aos="fade-up">
           <p className="mb-3 text-[0.75rem] font-semibold tracking-[0.12em] uppercase text-[var(--landing-text-subtle)] [font-family:var(--font-barlow-condensed)]">
             Shop by Category
           </p>
@@ -69,28 +69,34 @@ export default function CategoriesSection() {
             return (
               <div
                 key={category.name}
-                data-reveal
-                style={{ transitionDelay: `${category.delayMs}ms` }}
-                className={`group relative overflow-hidden rounded-[10px] border border-[var(--landing-border)] bg-[var(--landing-card)] p-6 transition-all duration-200 hover:-translate-y-[1px] hover:border-[var(--landing-border-strong)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.14)] ${
-                  featuredCard ? "row-span-2 min-h-[330px] max-[900px]:row-span-1 max-[900px]:min-h-[240px]" : "min-h-[150px]"
+                data-aos="fade-up"
+                data-aos-delay={category.delayMs}
+                className={`${
+                  featuredCard ? "row-span-2 max-[900px]:row-span-1" : ""
                 } ${wideCard ? "col-span-2 max-[900px]:col-span-1" : ""}`}
               >
-                <div className="pointer-events-none absolute -right-5 -top-5 text-[var(--landing-blue)] opacity-7 transition-[opacity,transform] duration-400 ease-out group-hover:translate-x-1 group-hover:opacity-10">
-                  {CATEGORY_ICONS[category.name]}
-                </div>
+                <div
+                  className={`group relative h-full overflow-hidden rounded-[10px] border border-[var(--landing-border)] bg-[var(--landing-card)] p-6 transition-all duration-200 hover:-translate-y-[1px] hover:border-[var(--landing-border-strong)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.14)] ${
+                    featuredCard ? "min-h-[330px] max-[900px]:min-h-[240px]" : "min-h-[150px]"
+                  }`}
+                >
+                  <div className="pointer-events-none absolute -right-5 -top-5 text-[var(--landing-blue)] opacity-7 transition-[opacity,transform] duration-400 ease-out group-hover:translate-x-1 group-hover:opacity-10">
+                    {CATEGORY_ICONS[category.name]}
+                  </div>
 
-                <div className="absolute right-5 top-5 inline-flex h-8 w-8 items-center justify-center rounded-[4px] border border-[color-mix(in_oklab,var(--landing-blue)_24%,transparent)] bg-[color-mix(in_oklab,var(--landing-card)_86%,var(--landing-blue)_14%)] text-[var(--landing-blue-light)] opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-                  <ArrowIcon />
-                </div>
+                  <div className="absolute right-5 top-5 inline-flex h-8 w-8 items-center justify-center rounded-[4px] border border-[color-mix(in_oklab,var(--landing-blue)_24%,transparent)] bg-[color-mix(in_oklab,var(--landing-card)_86%,var(--landing-blue)_14%)] text-[var(--landing-blue-light)] opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                    <ArrowIcon />
+                  </div>
 
-                <span className="relative mb-2 block text-[0.75rem] font-semibold tracking-[0.1em] uppercase text-[var(--landing-blue-light)] [font-family:var(--font-barlow-condensed)]">
-                  {category.tag}
-                </span>
-                <div className="relative text-[1.75rem] leading-[1] text-[var(--landing-text)] [font-family:var(--font-bebas-neue)]">
-                  {category.name}
-                </div>
-                <div className="relative mt-1.5 text-[0.875rem] text-[var(--landing-text-subtle)]">
-                  {category.count}
+                  <span className="relative mb-2 block text-[0.75rem] font-semibold tracking-[0.1em] uppercase text-[var(--landing-blue-light)] [font-family:var(--font-barlow-condensed)]">
+                    {category.tag}
+                  </span>
+                  <div className="relative text-[1.75rem] leading-[1] text-[var(--landing-text)] [font-family:var(--font-bebas-neue)]">
+                    {category.name}
+                  </div>
+                  <div className="relative mt-1.5 text-[0.875rem] text-[var(--landing-text-subtle)]">
+                    {category.count}
+                  </div>
                 </div>
               </div>
             );

@@ -287,3 +287,7 @@ textarea:disabled,
     transform: translateX(-50%);
   }
 }
+
+body [data-aos="fade-up"] {
+  transform: translate3d(0, 24px, 0);
+}

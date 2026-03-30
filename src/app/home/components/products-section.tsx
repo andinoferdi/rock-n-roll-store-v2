@@ -23,7 +23,7 @@ export default function ProductsSection() {
   return (
     <section className="bg-[var(--landing-bg)] py-24" id="products">
       <div className="mx-auto w-full max-w-[1200px] px-6">
-        <div className="mb-12 flex items-end justify-between gap-6 max-[600px]:flex-col max-[600px]:items-start" data-reveal>
+        <div className="mb-12 flex items-end justify-between gap-6 max-[600px]:flex-col max-[600px]:items-start" data-aos="fade-up">
           <div>
             <p className="mb-3 text-[0.75rem] font-semibold tracking-[0.12em] uppercase text-[var(--landing-text-subtle)] [font-family:var(--font-barlow-condensed)]">
               New Arrivals
@@ -48,46 +48,49 @@ export default function ProductsSection() {
           {productItems.map((product, index) => (
             <div
               key={product.name}
-              data-reveal
-              style={{ transitionDelay: `${Math.min(index, 2) * 100}ms` }}
-              className="group overflow-hidden rounded-[10px] border border-[var(--landing-border)] bg-[var(--landing-card)] transition-all duration-200 hover:-translate-y-[1px] hover:border-[var(--landing-border-strong)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.14)]"
+              data-aos="fade-up"
+              data-aos-delay={Math.min(index, 2) * 100}
             >
-              <div className="relative aspect-[4/3] overflow-hidden bg-[var(--landing-bg-3)]">
-                <Image
-                  alt={product.name}
-                  src={product.image}
-                  width={640}
-                  height={480}
-                  className="h-full w-full object-cover transition-transform duration-400 ease-out group-hover:scale-[1.02]"
-                />
-                {"badge" in product && product.badge ? (
-                  <span
-                    className={`absolute left-3 top-3 rounded-[3px] px-2 py-[3px] text-[0.75rem] font-bold tracking-[0.08em] uppercase [font-family:var(--font-barlow-condensed)] ${
-                      PRODUCT_BADGE_STYLE[product.badge] ?? "bg-[var(--landing-blue)] text-white"
-                    }`}
-                  >
-                    {product.badge}
-                  </span>
-                ) : null}
-              </div>
-
-              <div className="px-5 pb-5 pt-4.5">
-                <div className="mb-1 text-[0.75rem] font-semibold tracking-[0.1em] uppercase text-[var(--landing-text-subtle)] [font-family:var(--font-barlow-condensed)]">
-                  {product.category}
+              <div
+                className="group h-full overflow-hidden rounded-[10px] border border-[var(--landing-border)] bg-[var(--landing-card)] transition-all duration-200 hover:-translate-y-[1px] hover:border-[var(--landing-border-strong)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.14)]"
+              >
+                <div className="relative aspect-[4/3] overflow-hidden bg-[var(--landing-bg-3)]">
+                  <Image
+                    alt={product.name}
+                    src={product.image}
+                    width={640}
+                    height={480}
+                    className="h-full w-full object-cover transition-transform duration-400 ease-out group-hover:scale-[1.02]"
+                  />
+                  {"badge" in product && product.badge ? (
+                    <span
+                      className={`absolute left-3 top-3 rounded-[3px] px-2 py-[3px] text-[0.75rem] font-bold tracking-[0.08em] uppercase [font-family:var(--font-barlow-condensed)] ${
+                        PRODUCT_BADGE_STYLE[product.badge] ?? "bg-[var(--landing-blue)] text-white"
+                      }`}
+                    >
+                      {product.badge}
+                    </span>
+                  ) : null}
                 </div>
-                <div className="mb-2 text-[1.125rem] leading-[1.4] text-[var(--landing-text)]">{product.name}</div>
-                <div className="mb-4 text-[0.875rem] leading-[1.5] text-[var(--landing-text-subtle)]">{product.specs}</div>
-                <div className="flex items-center justify-between">
-                  <span className="text-[1.375rem] tracking-[0.02em] text-[var(--landing-text)] [font-family:var(--font-barlow-condensed)] font-bold">
-                    {product.price}
-                  </span>
-                  <button
-                    type="button"
-                    className="inline-flex h-9 w-9 items-center justify-center rounded-[4px] bg-[var(--landing-blue)] text-white transition-all duration-200 hover:scale-[1.08] hover:bg-[var(--landing-blue-light)]"
-                    aria-label={`Add ${product.name} to cart`}
-                  >
-                    <PlusIcon />
-                  </button>
+
+                <div className="px-5 pb-5 pt-4.5">
+                  <div className="mb-1 text-[0.75rem] font-semibold tracking-[0.1em] uppercase text-[var(--landing-text-subtle)] [font-family:var(--font-barlow-condensed)]">
+                    {product.category}
+                  </div>
+                  <div className="mb-2 text-[1.125rem] leading-[1.4] text-[var(--landing-text)]">{product.name}</div>
+                  <div className="mb-4 text-[0.875rem] leading-[1.5] text-[var(--landing-text-subtle)]">{product.specs}</div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[1.375rem] tracking-[0.02em] text-[var(--landing-text)] [font-family:var(--font-barlow-condensed)] font-bold">
+                      {product.price}
+                    </span>
+                    <button
+                      type="button"
+                      className="inline-flex h-9 w-9 items-center justify-center rounded-[4px] bg-[var(--landing-blue)] text-white transition-all duration-200 hover:scale-[1.08] hover:bg-[var(--landing-blue-light)]"
+                      aria-label={`Add ${product.name} to cart`}
+                    >
+                      <PlusIcon />
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

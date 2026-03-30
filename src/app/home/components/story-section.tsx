@@ -14,7 +14,7 @@ export default function StorySection() {
     <section className="py-24" id="story">
       <div className="mx-auto w-full max-w-[1200px] px-6">
         <div className="grid grid-cols-2 items-center gap-20 max-[900px]:grid-cols-1 max-[900px]:gap-10">
-          <div data-reveal>
+          <div data-aos="fade-up">
             <p className="mb-3 text-[0.75rem] font-semibold tracking-[0.12em] uppercase text-[var(--landing-text-subtle)] [font-family:var(--font-barlow-condensed)]">
               Our Approach
             </p>
@@ -37,7 +37,7 @@ export default function StorySection() {
             </a>
           </div>
 
-          <div data-reveal style={{ transitionDelay: "100ms" }} className="relative">
+          <div data-aos="fade-up" data-aos-delay="150" className="relative">
             <div className="relative overflow-hidden rounded-[12px] border border-[var(--landing-border)] bg-[var(--landing-card)] p-8">
               <div className="relative mb-6 flex h-[220px] items-center justify-center overflow-hidden rounded-[10px] bg-[var(--landing-bg-3)] text-[var(--landing-text-subtle)]">
                 <svg className="h-[120px] w-[120px] text-[var(--landing-blue)] opacity-[0.18]" viewBox="0 0 100 100" fill="currentColor">

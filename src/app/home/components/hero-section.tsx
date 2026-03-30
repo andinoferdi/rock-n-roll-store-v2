@@ -16,7 +16,7 @@ export default function HeroSection() {
       </div>
 
       <div className="relative mx-auto w-full max-w-[1200px] px-6">
-        <div className="mx-auto max-w-[980px] text-center" data-reveal>
+        <div className="mx-auto max-w-[980px] text-center" data-aos="fade-up">
           <div className="mb-7 inline-flex items-center justify-center">
             <span className="inline-flex items-center gap-1.5 rounded-[3px] border border-[var(--landing-blue-soft-border)] bg-[var(--landing-blue-soft)] px-2.5 py-1 text-[0.75rem] font-semibold tracking-[0.1em] uppercase text-[var(--landing-tag-text)] [font-family:var(--font-barlow-condensed)]">
               {heroData.tag}
