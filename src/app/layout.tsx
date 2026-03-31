@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     template: "%s | Rock N Roll Store",
   },
   description:
-    "Rock N Roll Store menghadirkan gitar, bass, drum, dan gear panggung untuk musisi modern.",
+    "Rock N Roll Store delivers guitars, basses, drums, and stage gear for modern musicians.",
   icons: {
     icon: "/images/favicon.ico",
     shortcut: "/images/favicon.ico",

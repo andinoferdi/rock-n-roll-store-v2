@@ -1,4 +1,5 @@
 import type { ZodError } from "zod";
+export * from "@/lib/validations/auth";
 
 export type ValidationFieldErrors = Record<string, string[]>;
 

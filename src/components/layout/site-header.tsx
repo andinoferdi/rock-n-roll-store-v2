@@ -50,17 +50,24 @@ export default function SiteHeader() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "border-b border-[var(--landing-border)] bg-[color-mix(in_oklab,var(--landing-bg)_90%,transparent)] backdrop-blur-xl"
+          ? "marketing-nav-glass"
           : "border-b-0 bg-transparent"
       }`}
     >
-      <div className="mx-auto flex h-[72px] w-full max-w-[1200px] items-center justify-between px-6">
-        <Link href="/" className="flex items-center gap-3" aria-label="Rock N Roll Store home">
-          <span className="inline-flex h-8 w-8 items-center justify-center rounded-[7px] bg-[var(--landing-bg-card)] ring-1 ring-[var(--landing-border)]">
-            <Image src="/images/Logo.png" alt="Rock N Roll Store" width={32} height={32} priority />
+      <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-4">
+        <Link href="/" className="flex items-center gap-3.5" aria-label="Rock N Roll Store home">
+          <span className="inline-flex h-14 w-14 items-center justify-center rounded-[7px] bg-transparent">
+            <Image
+              src="/images/Logo.png"
+              alt="Rock N Roll Store"
+              width={56}
+              height={56}
+              className="h-full w-full object-contain"
+              priority
+            />
           </span>
           <span className="text-[1.35rem] leading-none tracking-[0.06em] text-[var(--landing-text)] [font-family:var(--font-bebas-neue)]">
-            ROCK<span className="text-[var(--landing-blue)]">&apos;N&apos;ROLL</span> STORE
+            ROCK <span className="text-[var(--landing-blue)]">N&apos;</span> ROLL STORE
           </span>
         </Link>
 
@@ -115,8 +122,8 @@ export default function SiteHeader() {
             )}
           </button>
 
-          <Link href="/#products" className={`${primaryButtonClass} max-[900px]:hidden`} aria-label="Browse all gear">
-            Browse All Gear
+          <Link href="/login" className={`${primaryButtonClass} max-[900px]:hidden`} aria-label="Login">
+            Login
           </Link>
 
           <button
@@ -141,7 +148,7 @@ export default function SiteHeader() {
           mobileMenuOpen ? "max-h-72 opacity-100" : "max-h-0 overflow-hidden py-0 opacity-0"
         } hidden`}
       >
-        <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-2">
+        <div className="mx-auto flex w-full max-w-7xl flex-col gap-2">
           {NAV_ITEMS.map((item) => (
             <Link
               key={item.href}
@@ -153,11 +160,11 @@ export default function SiteHeader() {
             </Link>
           ))}
           <Link
-            href="/#products"
+            href="/login"
             className={`${primaryButtonClass} mt-2 w-fit`}
             onClick={() => setMobileMenuOpen(false)}
           >
-            Browse All Gear
+            Login
           </Link>
         </div>
       </div>
