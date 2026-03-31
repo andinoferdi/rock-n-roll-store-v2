@@ -78,44 +78,169 @@ export const productItems = [
   },
 ] as const;
 
-export const brandItems = ["Fender", "Gibson", "Marshall", "Pearl", "Roland", "Boss", "Ibanez", "Nord"] as const;
+export const brandsSectionData = {
+  eyebrow: "Authorized dealer network",
+  title: "Pro lines we keep ready for sessions and stage work.",
+  description:
+    "These brands stay in rotation because parts support, build consistency, and service turnaround are reliable.",
+  railLabel: "Current focus brands",
+} as const;
+
+export const brandItems = [
+  {
+    name: "Fender",
+    emphasis: "anchor",
+    category: "Anchor",
+    note: "Player and Pro series, ready for touring setups.",
+  },
+  {
+    name: "Gibson",
+    emphasis: "anchor",
+    category: "Anchor",
+    note: "Core Les Paul and SG stock with setup checks included.",
+  },
+  {
+    name: "Marshall",
+    emphasis: "anchor",
+    category: "Anchor",
+    note: "Valve and studio combo options for rehearsal rooms.",
+  },
+  {
+    name: "Pearl",
+    emphasis: "core",
+    category: "Core",
+    note: "Shell packs and hardware bundles for live kits.",
+  },
+  {
+    name: "Roland",
+    emphasis: "core",
+    category: "Core",
+    note: "Hybrid percussion and keyboard lines with warranty support.",
+  },
+  {
+    name: "Boss",
+    emphasis: "core",
+    category: "Core",
+    note: "Pedalboard essentials from compact to flagship processors.",
+  },
+  {
+    name: "Ibanez",
+    emphasis: "specialty",
+    category: "Specialty",
+    note: "Fast-neck electric models for modern session players.",
+  },
+  {
+    name: "Nord",
+    emphasis: "specialty",
+    category: "Specialty",
+    note: "Stage keyboard units calibrated before dispatch.",
+  },
+] as const;
 
 export const storyData = {
-  title: "Gear Advice Without the Sales Pitch",
-  body: "We match gear to your setlist, room size, and budget first. If a lower-price option does the job better, we will say it clearly.",
+  eyebrow: "Store Method",
+  title: "Practical Advice Before Any Checkout Push",
+  body: "We map your setlist, room volume, and transport limits first, then shortlist gear that solves those constraints with the least friction.",
   highlights: [
-    "30-day returns with no hidden fees",
-    "Price match on authorized dealers",
-    "Free setup for guitar and bass purchases",
-    "In-house repair bench with certified techs",
+    {
+      title: "Session-first recommendations",
+      detail:
+        "We suggest gear based on your actual rehearsal chain and monitoring setup.",
+    },
+    {
+      title: "Transparent pricing decisions",
+      detail:
+        "If a lower-cost option performs better for your use case, we call it out directly.",
+    },
+    {
+      title: "Setup and support continuity",
+      detail:
+        "Instrument setup, follow-up adjustment, and repair intake stay in one service flow.",
+    },
+    {
+      title: "Fast logistics with clear handoff",
+      detail:
+        "Every shipped order includes setup notes and a confirmed service contact window.",
+    },
   ],
+  cta: {
+    label: "See Verified Player Results",
+    href: "#testimonials",
+  },
+  caseCard: {
+    badge: "Real service case",
+    productName: "Gibson Les Paul Standard 50s",
+    status: "Configured and shipped in 48 hours",
+    price: "$2,499",
+    ratingLabel: "Customer confidence",
+    ratingValue: "4.9 / 5.0",
+    proofNotes: [
+      "Action and intonation calibrated before dispatch.",
+      "Pickup height tuned for clean headroom and gain staging.",
+      "Post-delivery check-in completed after first rehearsal.",
+    ],
+    imageSrc: "/images/product/product-01.jpg",
+    imageAlt: "Guitar prepared for stage and studio session",
+  },
+} as const;
+
+export const testimonialsSectionData = {
+  eyebrow: "Player feedback",
+  title: "Reviews from musicians with real weekly gigs.",
+  description:
+    "Each note below came from customers after delivery, setup, or rehearsal usage, not from sponsored posts.",
+  featuredLabel: "Featured session note",
 } as const;
 
 export const testimonialItems = [
   {
+    featured: true,
     quote:
-      "Ordered a Les Paul on Thursday and it arrived by Saturday in perfect condition. Setup was solid out of the box.",
+      "I ordered a Les Paul for a weekend studio date. It arrived in two days, intonation was dialed in, and we tracked the same night.",
     name: "Reza Kurniawan",
     initials: "RK",
     role: "Guitarist, Jakarta",
+    gear: "Gibson Les Paul Standard",
+    proof:
+      "Delivery confirmed in 48 hours with action and intonation check sheet included.",
   },
   {
+    featured: false,
     quote:
-      "The team recommended a better amp for my use case and saved me real money. Honest and practical advice.",
+      "I came in for a louder rig and they pointed me to the DSL40 instead of a pricier stack. It solved my stage mix and cut cost.",
     name: "Sarah Tanuwijaya",
     initials: "ST",
     role: "Bassist, Bandung",
+    gear: "Marshall DSL40CR Combo",
+    proof:
+      "Saved around $380 versus initial shortlist after room-size based recommendation.",
   },
   {
+    featured: false,
     quote:
-      "My old Telecaster got a full setup and now plays like new. Fast service and clear communication.",
+      "My Telecaster setup came back clean and stable. No fret buzz across rehearsal volume and the update notes were clear.",
     name: "Arya Pratama",
     initials: "AP",
     role: "Studio guitarist, Surabaya",
+    gear: "Full setup service - Fender Telecaster",
+    proof:
+      "Turnaround completed in three days with before-after setup measurement report.",
   },
 ] as const;
 
 export const newsletterData = {
-  title: "Stay Updated on New Stock",
-  description: "Get weekly stock alerts, practical buying notes, and quick setup tips for real playing situations.",
+  eyebrow: "Stock bulletin",
+  title: "Get one useful stock brief every Friday.",
+  description:
+    "We send practical restock alerts, price shifts that matter, and setup notes from our service bench.",
+  helperText: "One email per week. No promo blast. Unsubscribe anytime.",
+  placeholder: "you@yourband.com",
+  ctaLabel: "Send me the Friday brief",
+  submittingLabel: "Saving your request...",
+  successMessage:
+    "You are on the list. Your first stock brief will arrive next Friday.",
+  errorMessage:
+    "Subscription service is not connected yet. Please try again in a moment.",
+  invalidEmailMessage:
+    "Enter a valid email so we can send the weekly stock brief.",
 } as const;
