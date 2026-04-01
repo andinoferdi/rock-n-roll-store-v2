@@ -7,10 +7,8 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const NAV_ITEMS = [
-  { href: "/#categories", label: "Categories" },
-  { href: "/#products", label: "Products" },
-  { href: "/#story", label: "Story" },
-  { href: "/#testimonials", label: "Testimonials" },
+  { href: "/", label: "Home" },
+  { href: "/products", label: "Products" },
 ] as const;
 
 const primaryButtonClass =
@@ -40,11 +38,9 @@ export default function SiteHeader() {
     setMobileMenuOpen(false);
   }, [pathname]);
 
-  useEffect(() => {
-    const closeMenu = () => setMobileMenuOpen(false);
-    window.addEventListener("hashchange", closeMenu);
-    return () => window.removeEventListener("hashchange", closeMenu);
-  }, []);
+  const isNavItemActive = (href: string) => {
+    return pathname === href;
+  };
 
   return (
     <header
@@ -54,7 +50,7 @@ export default function SiteHeader() {
           : "border-b-0 bg-transparent"
       }`}
     >
-      <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-4">
+      <div className="mx-auto grid w-full max-w-7xl grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-4 px-6 py-4 max-[900px]:flex max-[900px]:justify-between">
         <Link href="/" className="flex items-center gap-3.5" aria-label="Rock N Roll Store home">
           <span className="inline-flex h-14 w-14 items-center justify-center rounded-[7px] bg-transparent">
             <Image
@@ -71,13 +67,18 @@ export default function SiteHeader() {
           </span>
         </Link>
 
-        <nav aria-label="Primary navigation">
-          <ul className="flex items-center gap-4 max-[900px]:hidden">
+        <nav aria-label="Primary navigation" className="justify-self-center max-[900px]:hidden">
+          <ul className="flex items-center justify-center gap-4">
             {NAV_ITEMS.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="text-[0.9rem] font-medium text-[var(--landing-text-muted)] transition-colors duration-200 hover:text-[var(--landing-text)]"
+                  className={`rounded-[4px] px-2 py-1 text-[0.9rem] font-medium transition-colors duration-200 ${
+                    isNavItemActive(item.href)
+                      ? "bg-[var(--landing-blue-soft)] text-[var(--landing-blue-light)]"
+                      : "text-[var(--landing-text-muted)] hover:text-[var(--landing-text)]"
+                  }`}
+                  aria-current={isNavItemActive(item.href) ? "page" : undefined}
                 >
                   {item.label}
                 </Link>
@@ -86,7 +87,7 @@ export default function SiteHeader() {
           </ul>
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center justify-self-end gap-3">
           <button
             type="button"
             className="inline-flex h-10 w-10 items-center justify-center rounded-[4px] border border-[var(--landing-border)] bg-[var(--landing-bg-card)] text-[var(--landing-text-muted)] transition-colors duration-200 hover:border-[var(--landing-border-strong)] hover:text-[var(--landing-blue-light)]"
@@ -153,7 +154,12 @@ export default function SiteHeader() {
             <Link
               key={item.href}
               href={item.href}
-              className="rounded-[4px] px-2 py-2 text-[0.92rem] text-[var(--landing-text-muted)] transition-colors duration-200 hover:bg-[var(--landing-bg-2)] hover:text-[var(--landing-text)]"
+              className={`rounded-[4px] px-2 py-2 text-[0.92rem] transition-colors duration-200 hover:bg-[var(--landing-bg-2)] ${
+                isNavItemActive(item.href)
+                  ? "bg-[var(--landing-blue-soft)] text-[var(--landing-blue-light)]"
+                  : "text-[var(--landing-text-muted)] hover:text-[var(--landing-text)]"
+              }`}
+              aria-current={isNavItemActive(item.href) ? "page" : undefined}
               onClick={() => setMobileMenuOpen(false)}
             >
               {item.label}
