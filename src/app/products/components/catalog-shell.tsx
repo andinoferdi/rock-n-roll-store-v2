@@ -39,30 +39,40 @@ export default function ProductsCatalogShell() {
   return (
     <section className="pb-20 pt-8 sm:pb-24 sm:pt-10">
       <div className="mx-auto w-full max-w-[1200px] px-5 sm:px-6">
-        <ActiveFiltersStrip chips={initialActiveFilters} />
+        <div data-aos="fade-up">
+          <ActiveFiltersStrip chips={initialActiveFilters} />
+        </div>
 
         <div className="mt-6 grid items-start gap-6 lg:grid-cols-[232px_minmax(0,1fr)] lg:gap-8">
-          <div className="lg:sticky lg:top-[92px]">
+          <div data-aos="fade-up" data-aos-delay="60" className="lg:sticky lg:top-[92px]">
             <SidebarFilters groups={catalogFilterGroups} />
           </div>
 
           <div className="space-y-4 sm:space-y-5">
-            <ProductsToolbar
-              selectedSort={selectedSort}
-              onSortChange={setSelectedSort}
-              viewMode={viewMode}
-              onViewModeChange={setViewMode}
-              sortOptions={productsSortOptions}
-              resultsLabel={resultsLabel}
-            />
+            <div data-aos="fade-up" data-aos-delay="100">
+              <ProductsToolbar
+                selectedSort={selectedSort}
+                onSortChange={setSelectedSort}
+                viewMode={viewMode}
+                onViewModeChange={setViewMode}
+                sortOptions={productsSortOptions}
+                resultsLabel={resultsLabel}
+              />
+            </div>
 
-            <ProductGrid
-              products={productCatalogItems}
-              viewMode={viewMode}
-              visibleCount={shownCount}
-            />
+            <div data-aos="fade-up" data-aos-delay="140">
+              <ProductGrid
+                products={productCatalogItems}
+                viewMode={viewMode}
+                visibleCount={shownCount}
+              />
+            </div>
 
-            <section className="rounded-[10px] border border-[var(--landing-border)] bg-[var(--landing-card)] p-4 sm:p-5">
+            <section
+              data-aos="fade-up"
+              data-aos-delay="170"
+              className="rounded-[10px] border border-[var(--landing-border)] bg-[var(--landing-card)] p-4 sm:p-5"
+            >
               <p className="text-[0.82rem] text-[var(--landing-text-subtle)]">{resultsLabel}</p>
 
               <div className="mt-2 h-[3px] rounded-full bg-[var(--landing-border)]">

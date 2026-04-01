@@ -98,13 +98,15 @@ export default function ProductGrid({ products, viewMode, visibleCount }: Produc
         viewMode === "list" && "grid-cols-1",
       )}
     >
-      {visibleProducts.map((product) => {
+      {visibleProducts.map((product, index) => {
         const isWishlisted = Boolean(wishlist[product.id]);
         const isAdded = Boolean(addedToCart[product.id]);
 
         return (
           <article
             key={product.id}
+            data-aos="fade-up"
+            data-aos-delay={Math.min(5, index) * 70}
             className={cn(
               "group overflow-hidden rounded-[10px] border border-[var(--landing-border)] bg-[var(--landing-card)] transition-all duration-200 hover:-translate-y-[1px] hover:border-[var(--landing-border-strong)] hover:shadow-[var(--landing-shadow-card)]",
               viewMode === "list" && "sm:grid sm:grid-cols-[320px_1fr]",

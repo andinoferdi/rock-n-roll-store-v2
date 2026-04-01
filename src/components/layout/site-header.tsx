@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 const NAV_ITEMS = [
   { href: "/", label: "Home" },
   { href: "/products", label: "Products" },
+  { href: "/about", label: "About" },
 ] as const;
 
 const primaryButtonClass =
