@@ -9,7 +9,10 @@ const secondaryButtonClass =
 
 export default function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-[var(--landing-bg)] pb-18 pt-24" id="hero">
+    <section
+      className="relative overflow-hidden bg-[var(--landing-bg)] pb-18 pt-[calc(72px+6rem)]"
+      id="hero"
+    >
       <div className="pointer-events-none absolute inset-0">
         <GridBackgroundDemo className="h-full w-full" showLabel={false} />
         <div className="absolute left-1/2 top-[42%] h-[560px] w-[720px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,var(--landing-blue-soft-strong)_0%,transparent_70%)]" />
@@ -46,7 +49,7 @@ export default function HeroSection() {
             </a>
           </div>
 
-          <div className="mx-auto mt-14 flex max-w-[780px] items-start justify-center gap-10 border-t border-[var(--landing-border)] pt-9 max-[720px]:flex-wrap max-[600px]:flex-col max-[600px]:items-start max-[600px]:gap-4">
+          <div className="mx-auto mt-14 flex max-w-[780px] items-start justify-center gap-10 pt-9 max-[720px]:flex-wrap max-[600px]:flex-col max-[600px]:items-start max-[600px]:gap-4">
             {heroData.stats.map((stat, index) => (
               <div key={stat.label} className="contents">
                 <div className="flex flex-col items-start gap-1.5 max-[720px]:items-center max-[600px]:items-start">

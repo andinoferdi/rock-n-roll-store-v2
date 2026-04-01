@@ -12,7 +12,7 @@ import AosInit from "@/providers/aos-init";
 export default function Home() {
   return (
     <SiteShell>
-      <div className="overflow-x-clip pt-[72px] text-[var(--landing-text)] [font-family:var(--font-dm-sans)]">
+      <div className="overflow-x-clip text-[var(--landing-text)] [font-family:var(--font-dm-sans)]">
         <AosInit />
         <HeroSection />
         <MarqueeBand />
