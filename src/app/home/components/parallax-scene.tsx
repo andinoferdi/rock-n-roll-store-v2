@@ -22,8 +22,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-
-const MOBILE_PARALLAX_QUERY = "(max-width: 430px)";
+import { cn } from "@/lib/utils";
 
 type ParallaxRuntime = {
   isCompactViewport: boolean;
@@ -50,21 +49,19 @@ type ParallaxLayerProps = {
   style?: MotionStyle;
 };
 
-function getInitialCompactViewport() {
-  if (typeof window === "undefined") {
-    return false;
-  }
-
-  return window.matchMedia(MOBILE_PARALLAX_QUERY).matches;
-}
-
-function useCompactViewport() {
+function useCompactViewport(mediaQuery: string) {
   const [isCompactViewport, setIsCompactViewport] = useState(
-    getInitialCompactViewport,
+    () => {
+      if (typeof window === "undefined") {
+        return false;
+      }
+
+      return window.matchMedia(mediaQuery).matches;
+    },
   );
 
   useEffect(() => {
-    const mediaQueryList = window.matchMedia(MOBILE_PARALLAX_QUERY);
+    const mediaQueryList = window.matchMedia(mediaQuery);
     const handleChange = () => {
       setIsCompactViewport(mediaQueryList.matches);
     };
@@ -75,40 +72,57 @@ function useCompactViewport() {
     return () => {
       mediaQueryList.removeEventListener("change", handleChange);
     };
-  }, []);
+  }, [mediaQuery]);
 
   return isCompactViewport;
 }
 
 export function ParallaxScene({ children, className, scene }: ParallaxSceneProps) {
-  const sceneRef = useRef<HTMLDivElement>(null);
-  const isCompactViewport = useCompactViewport();
-  const [hasMounted, setHasMounted] = useState(false);
+  const targetRef = useRef<HTMLDivElement>(null);
+  const isCompactViewport = useCompactViewport(scene.responsive.compactQuery);
   const reducedMotionPreference = useReducedMotion();
   const { scrollYProgress } = useScroll({
-    target: sceneRef,
+    target: targetRef,
     offset: [scene.offset[0], scene.offset[1]],
   });
 
   useEffect(() => {
-    setHasMounted(true);
-  }, []);
+    if (process.env.NODE_ENV === "production") {
+      return;
+    }
+
+    const targetElement = targetRef.current;
+    if (!targetElement) {
+      return;
+    }
+
+    const height = targetElement.getBoundingClientRect().height;
+    if (height <= 0) {
+      console.warn("ParallaxScene target has non-positive height.", {
+        className,
+        offset: scene.offset,
+      });
+    }
+  }, [className, scene.offset]);
+
+  const shouldReduceMotion = (scene.responsive.reduceMotionByDefault && Boolean(reducedMotionPreference))
+    || (scene.responsive.mode === "desktop-only" && isCompactViewport);
 
   const runtime = useMemo(
     () => ({
       isCompactViewport,
       scrollYProgress,
-      shouldReduceMotion: !hasMounted || Boolean(reducedMotionPreference),
+      shouldReduceMotion,
     }),
-    [hasMounted, isCompactViewport, reducedMotionPreference, scrollYProgress],
+    [isCompactViewport, scrollYProgress, shouldReduceMotion],
   );
-  const sceneClassName = className ? `relative ${className}` : "relative";
-
   return (
-    <div ref={sceneRef} className={sceneClassName} style={{ position: "relative" }}>
-      <ParallaxRuntimeContext.Provider value={runtime}>
-        {children}
-      </ParallaxRuntimeContext.Provider>
+    <div className={cn("relative", className)} data-parallax-scene>
+      <div ref={targetRef} className="relative h-full w-full">
+        <ParallaxRuntimeContext.Provider value={runtime}>
+          {children}
+        </ParallaxRuntimeContext.Provider>
+      </div>
     </div>
   );
 }
@@ -164,7 +178,11 @@ export function ParallaxLayer({
       : { opacity, scale, y: translation };
 
   return (
-    <motion.div className={className} style={{ ...layerStyle, ...style }}>
+    <motion.div
+      className={className}
+      data-parallax-layer={config.id}
+      style={{ ...layerStyle, ...style }}
+    >
       {children}
     </motion.div>
   );

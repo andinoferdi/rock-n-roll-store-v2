@@ -1,4 +1,5 @@
 import { productItems } from "@/app/home/data/storefront";
+import ProductsParallaxChrome from "@/app/home/components/products-parallax-chrome";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -21,7 +22,10 @@ const secondaryButtonClass =
 
 export default function ProductsSection() {
   return (
-    <section className="bg-[var(--landing-bg)] py-24" id="products">
+    <section className="relative overflow-hidden bg-[var(--landing-bg)] py-24" id="products">
+      <div className="pointer-events-none absolute inset-0">
+        <ProductsParallaxChrome />
+      </div>
       <div className="mx-auto w-full max-w-[1200px] px-6">
         <div className="mb-12 flex items-end justify-between gap-6 max-[600px]:flex-col max-[600px]:items-start" data-aos="fade-up">
           <div>

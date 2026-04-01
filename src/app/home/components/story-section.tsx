@@ -1,4 +1,7 @@
 import { storyData } from "@/app/home/data/storefront";
+import StoryParallaxAside, {
+  StoryParallaxImage,
+} from "@/app/home/components/story-parallax-aside";
 import Image from "next/image";
 
 const CheckIcon = () => (
@@ -73,63 +76,66 @@ export default function StorySection() {
           </div>
 
           <div data-aos="fade-up" data-aos-delay="120" className="lg:col-span-6 lg:pt-6">
-            <article className="overflow-hidden rounded-[12px] border border-[var(--landing-border)] bg-[var(--landing-card)]">
-              <div className="border-b border-[var(--landing-border)] px-4 py-3 sm:px-5">
-                <p className="text-[0.7rem] font-semibold tracking-[0.1em] uppercase text-[var(--landing-blue-light)] [font-family:var(--font-barlow-condensed)]">
-                  {storyData.caseCard.badge}
-                </p>
-              </div>
-
-              <div className="p-4 sm:p-5">
-                <div className="relative aspect-[16/10] overflow-hidden rounded-[10px] border border-[var(--landing-border)] bg-[var(--landing-bg-3)]">
-                  <Image
-                    src={storyData.caseCard.imageSrc}
-                    alt={storyData.caseCard.imageAlt}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-
-                <div className="mt-4 grid gap-3 sm:grid-cols-[1fr_auto] sm:items-end">
-                  <div>
-                    <p className="text-[1.2rem] leading-[1.2] text-[var(--landing-text)] [font-family:var(--font-barlow-condensed)]">
-                      {storyData.caseCard.productName}
-                    </p>
-                    <p className="mt-1 text-[0.85rem] leading-[1.55] text-[var(--landing-text-subtle)]">
-                      {storyData.caseCard.status}
-                    </p>
-                  </div>
-                  <p className="text-[2rem] leading-none text-[var(--landing-text)] [font-family:var(--font-bebas-neue)]">
-                    {storyData.caseCard.price}
+            <StoryParallaxAside>
+              <article className="overflow-hidden rounded-[12px] border border-[var(--landing-border)] bg-[var(--landing-card)]">
+                <div className="border-b border-[var(--landing-border)] px-4 py-3 sm:px-5">
+                  <p className="text-[0.7rem] font-semibold tracking-[0.1em] uppercase text-[var(--landing-blue-light)] [font-family:var(--font-barlow-condensed)]">
+                    {storyData.caseCard.badge}
                   </p>
                 </div>
 
-                <div className="mt-4 border-t border-[var(--landing-border)] pt-4">
-                  <ul className="grid gap-2.5">
-                    {storyData.caseCard.proofNotes.map((note) => (
-                      <li key={note} className="flex items-start gap-2.5">
-                        <span className="mt-[0.42rem] h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--landing-blue)]" />
-                        <span className="text-[0.84rem] leading-[1.55] text-[var(--landing-text-muted)]">
-                          {note}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                <div className="p-4 sm:p-5">
+                  <StoryParallaxImage className="relative aspect-[16/10] overflow-hidden rounded-[10px] border border-[var(--landing-border)] bg-[var(--landing-bg-3)]">
+                    <Image
+                      src={storyData.caseCard.imageSrc}
+                      alt={storyData.caseCard.imageAlt}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 480px"
+                      className="object-cover"
+                    />
+                  </StoryParallaxImage>
 
-                <div className="mt-4 inline-flex items-center gap-2.5 rounded-[10px] border border-[var(--landing-border)] bg-[var(--landing-bg-2)] px-3.5 py-2.5">
-                  <StarIcon />
-                  <div>
-                    <p className="text-[0.66rem] tracking-[0.1em] uppercase text-[var(--landing-text-subtle)] [font-family:var(--font-barlow-condensed)]">
-                      {storyData.caseCard.ratingLabel}
-                    </p>
-                    <p className="text-[0.95rem] text-[var(--landing-text)] [font-family:var(--font-barlow-condensed)]">
-                      {storyData.caseCard.ratingValue}
+                  <div className="mt-4 grid gap-3 sm:grid-cols-[1fr_auto] sm:items-end">
+                    <div>
+                      <p className="text-[1.2rem] leading-[1.2] text-[var(--landing-text)] [font-family:var(--font-barlow-condensed)]">
+                        {storyData.caseCard.productName}
+                      </p>
+                      <p className="mt-1 text-[0.85rem] leading-[1.55] text-[var(--landing-text-subtle)]">
+                        {storyData.caseCard.status}
+                      </p>
+                    </div>
+                    <p className="text-[2rem] leading-none text-[var(--landing-text)] [font-family:var(--font-bebas-neue)]">
+                      {storyData.caseCard.price}
                     </p>
                   </div>
+
+                  <div className="mt-4 border-t border-[var(--landing-border)] pt-4">
+                    <ul className="grid gap-2.5">
+                      {storyData.caseCard.proofNotes.map((note) => (
+                        <li key={note} className="flex items-start gap-2.5">
+                          <span className="mt-[0.42rem] h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--landing-blue)]" />
+                          <span className="text-[0.84rem] leading-[1.55] text-[var(--landing-text-muted)]">
+                            {note}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="mt-4 inline-flex items-center gap-2.5 rounded-[10px] border border-[var(--landing-border)] bg-[var(--landing-bg-2)] px-3.5 py-2.5">
+                    <StarIcon />
+                    <div>
+                      <p className="text-[0.66rem] tracking-[0.1em] uppercase text-[var(--landing-text-subtle)] [font-family:var(--font-barlow-condensed)]">
+                        {storyData.caseCard.ratingLabel}
+                      </p>
+                      <p className="text-[0.95rem] text-[var(--landing-text)] [font-family:var(--font-barlow-condensed)]">
+                        {storyData.caseCard.ratingValue}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </article>
+              </article>
+            </StoryParallaxAside>
           </div>
         </div>
       </div>

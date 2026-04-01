@@ -1,3 +1,232 @@
+export type ParallaxAxis = "x" | "y";
+
+export type ParallaxLayerImportance = "core" | "detail";
+
+export type ParallaxSpringConfig = {
+  stiffness: number;
+  damping: number;
+  mass?: number;
+  restDelta?: number;
+  restSpeed?: number;
+};
+
+export type ParallaxLayerConfig = {
+  id: string;
+  axis: ParallaxAxis;
+  desktopRange: readonly [number, number];
+  mobileRange: readonly [number, number];
+  opacity?: readonly [number, number];
+  scale?: readonly [number, number];
+  spring: ParallaxSpringConfig;
+  importance?: ParallaxLayerImportance;
+};
+
+export type ParallaxResponsiveMode = "adaptive" | "desktop-only";
+
+export type ParallaxSceneConfig = {
+  offset: readonly [
+    "start end" | "start start" | "end end" | "end start",
+    "start end" | "start start" | "end end" | "end start",
+  ];
+  responsive: {
+    mode: ParallaxResponsiveMode;
+    compactQuery: string;
+    maxMobileLayers: number;
+    reduceMotionByDefault: boolean;
+  };
+};
+
+export const heroParallaxPreset: {
+  scene: ParallaxSceneConfig;
+  layers: readonly ParallaxLayerConfig[];
+} = {
+  scene: {
+    offset: ["start start", "end start"],
+    responsive: {
+      mode: "adaptive",
+      compactQuery: "(max-width: 760px)",
+      maxMobileLayers: 3,
+      reduceMotionByDefault: true,
+    },
+  },
+  layers: [
+    {
+      id: "grid",
+      axis: "y",
+      desktopRange: [0, -84],
+      mobileRange: [0, -24],
+      opacity: [1, 0.82],
+      scale: [1, 1.02],
+      spring: {
+        stiffness: 132,
+        damping: 26,
+        mass: 0.54,
+      },
+      importance: "core",
+    },
+    {
+      id: "halo",
+      axis: "y",
+      desktopRange: [0, -248],
+      mobileRange: [0, -78],
+      opacity: [0.52, 0.98],
+      scale: [0.92, 1.12],
+      spring: {
+        stiffness: 126,
+        damping: 28,
+        mass: 0.64,
+      },
+      importance: "core",
+    },
+    {
+      id: "leftOrb",
+      axis: "x",
+      desktopRange: [0, 182],
+      mobileRange: [0, 56],
+      opacity: [0.18, 0.56],
+      scale: [0.9, 1.08],
+      spring: {
+        stiffness: 122,
+        damping: 27,
+        mass: 0.68,
+      },
+      importance: "detail",
+    },
+    {
+      id: "rightOrb",
+      axis: "x",
+      desktopRange: [0, -162],
+      mobileRange: [0, -52],
+      opacity: [0.16, 0.5],
+      scale: [0.92, 1.07],
+      spring: {
+        stiffness: 122,
+        damping: 27,
+        mass: 0.68,
+      },
+      importance: "detail",
+    },
+  ],
+} as const;
+
+export const productsParallaxPreset: {
+  scene: ParallaxSceneConfig;
+  layers: readonly ParallaxLayerConfig[];
+} = {
+  scene: {
+    offset: ["start end", "end start"],
+    responsive: {
+      mode: "adaptive",
+      compactQuery: "(max-width: 760px)",
+      maxMobileLayers: 2,
+      reduceMotionByDefault: true,
+    },
+  },
+  layers: [
+    {
+      id: "productsGrid",
+      axis: "y",
+      desktopRange: [0, -64],
+      mobileRange: [0, -18],
+      opacity: [0.18, 0.38],
+      scale: [1, 1.01],
+      spring: {
+        stiffness: 118,
+        damping: 26,
+        mass: 0.58,
+      },
+      importance: "core",
+    },
+    {
+      id: "productsGlow",
+      axis: "y",
+      desktopRange: [0, -122],
+      mobileRange: [0, -34],
+      opacity: [0.18, 0.62],
+      scale: [0.96, 1.08],
+      spring: {
+        stiffness: 112,
+        damping: 28,
+        mass: 0.64,
+      },
+      importance: "core",
+    },
+    {
+      id: "productsOrb",
+      axis: "x",
+      desktopRange: [0, -96],
+      mobileRange: [0, -28],
+      opacity: [0.12, 0.35],
+      scale: [0.94, 1.05],
+      spring: {
+        stiffness: 106,
+        damping: 28,
+        mass: 0.68,
+      },
+      importance: "detail",
+    },
+  ],
+} as const;
+
+export const storyParallaxPreset: {
+  scene: ParallaxSceneConfig;
+  layers: readonly ParallaxLayerConfig[];
+} = {
+  scene: {
+    offset: ["start end", "end start"],
+    responsive: {
+      mode: "adaptive",
+      compactQuery: "(max-width: 900px)",
+      maxMobileLayers: 2,
+      reduceMotionByDefault: true,
+    },
+  },
+  layers: [
+    {
+      id: "storyPanel",
+      axis: "y",
+      desktopRange: [0, -90],
+      mobileRange: [0, -28],
+      opacity: [1, 0.95],
+      scale: [1, 1.015],
+      spring: {
+        stiffness: 118,
+        damping: 27,
+        mass: 0.6,
+      },
+      importance: "core",
+    },
+    {
+      id: "storyImage",
+      axis: "y",
+      desktopRange: [0, -132],
+      mobileRange: [0, -44],
+      opacity: [1, 0.92],
+      scale: [1, 1.045],
+      spring: {
+        stiffness: 112,
+        damping: 28,
+        mass: 0.65,
+      },
+      importance: "core",
+    },
+    {
+      id: "storyGlow",
+      axis: "x",
+      desktopRange: [0, 76],
+      mobileRange: [0, 20],
+      opacity: [0.14, 0.44],
+      scale: [0.96, 1.08],
+      spring: {
+        stiffness: 104,
+        damping: 28,
+        mass: 0.7,
+      },
+      importance: "detail",
+    },
+  ],
+} as const;
+
 export const heroData = {
   tag: "New Season - 2026 Collection",
   titleTop: "Gear selected for",

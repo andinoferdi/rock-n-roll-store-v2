@@ -1,5 +1,5 @@
 import { heroData } from "@/app/home/data/storefront";
-import GridBackgroundDemo from "@/components/grid-background-demo";
+import HeroParallaxScene from "@/app/home/components/hero-parallax-scene";
 
 const primaryButtonClass =
   "inline-flex h-12 items-center justify-center gap-2 rounded-[4px] border border-transparent bg-[var(--landing-blue)] px-7 text-[1.08rem] font-semibold tracking-[0.04em] text-white transition-all duration-200 hover:bg-[var(--landing-blue-light)] hover:shadow-[0_3px_10px_var(--landing-blue-glow)] [font-family:var(--font-barlow-condensed)]";
@@ -14,8 +14,7 @@ export default function HeroSection() {
       id="hero"
     >
       <div className="pointer-events-none absolute inset-0">
-        <GridBackgroundDemo className="h-full w-full" showLabel={false} />
-        <div className="absolute left-1/2 top-[42%] h-[560px] w-[720px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,var(--landing-blue-soft-strong)_0%,transparent_70%)]" />
+        <HeroParallaxScene />
       </div>
 
       <div className="relative mx-auto w-full max-w-[1200px] px-6">

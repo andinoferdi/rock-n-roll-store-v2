@@ -1,0 +1,2100 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>All Gear — Rock 'n' Roll Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── TOKENS ─────────────────────────────────────────────────── */
+    :root {
+      --blue:       #1A5FFF;
+      --blue-light: #4D85FF;
+      --blue-dim:   #0D3ECC;
+      --blue-glow:  rgba(26, 95, 255, 0.18);
+
+      --f-xs:   0.75rem;
+      --f-sm:   0.875rem;
+      --f-base: 1rem;
+      --f-md:   1.125rem;
+      --f-lg:   1.375rem;
+      --f-xl:   1.75rem;
+      --f-2xl:  2.25rem;
+      --f-3xl:  3rem;
+      --f-4xl:  4rem;
+      --f-5xl:  5.5rem;
+
+      --radius-sm: 4px;
+      --radius:    8px;
+      --radius-lg: 14px;
+
+      --transition: 220ms cubic-bezier(0.4, 0, 0.2, 1);
+
+      --sidebar-w: 230px;
+    }
+
+    [data-theme="dark"] {
+      --bg:           #090912;
+      --bg-2:         #0E0E1A;
+      --bg-3:         #141428;
+      --bg-card:      #111120;
+      --bg-card-h:    #181830;
+      --border:       rgba(255,255,255,0.07);
+      --border-h:     rgba(26, 95, 255, 0.35);
+      --text:         #F0F0F8;
+      --text-2:       #9898B8;
+      --text-3:       #5A5A7A;
+      --text-inv:     #090912;
+      --tag-bg:       rgba(26, 95, 255, 0.12);
+      --tag-text:     var(--blue-light);
+      --shadow:       0 2px 16px rgba(0,0,0,0.5);
+      --shadow-card:  0 4px 24px rgba(0,0,0,0.6);
+    }
+
+    [data-theme="light"] {
+      --bg:           #F8F9FF;
+      --bg-2:         #F0F2FF;
+      --bg-3:         #E6EAFF;
+      --bg-card:      #FFFFFF;
+      --bg-card-h:    #F5F7FF;
+      --border:       rgba(0,0,20,0.08);
+      --border-h:     rgba(26, 95, 255, 0.4);
+      --text:         #0A0A1A;
+      --text-2:       #444466;
+      --text-3:       #8888AA;
+      --text-inv:     #FFFFFF;
+      --tag-bg:       rgba(26, 95, 255, 0.08);
+      --tag-text:     var(--blue-dim);
+      --shadow:       0 2px 12px rgba(0,20,80,0.08);
+      --shadow-card:  0 4px 20px rgba(0,20,80,0.1);
+    }
+
+    /* ─── RESET ──────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-size: var(--f-base);
+      line-height: 1.6;
+      color: var(--text);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      transition: background var(--transition), color var(--transition);
+    }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+    button { font-family: inherit; }
+
+    /* ─── UTILITIES ──────────────────────────────────────────────── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: var(--f-xs);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--tag-text);
+      background: var(--tag-bg);
+      border: 1px solid rgba(26, 95, 255, 0.2);
+      padding: 4px 10px;
+      border-radius: 3px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: var(--f-md);
+      letter-spacing: 0.04em;
+      padding: 12px 26px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      border: none;
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+    }
+
+    .btn-primary {
+      background: var(--blue);
+      color: #fff;
+      box-shadow: 0 0 0 0 var(--blue-glow);
+    }
+    .btn-primary:hover {
+      background: var(--blue-light);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px var(--blue-glow);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover {
+      border-color: var(--border-h);
+      color: var(--blue-light);
+    }
+
+    .section-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: var(--f-xs);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-bottom: 12px;
+    }
+
+    /* ─── NOISE TEXTURE ──────────────────────────────────────────── */
+    .noise::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      opacity: 0.4;
+      mix-blend-mode: overlay;
+      z-index: 1;
+    }
+
+    /* ─── REVEAL ANIMATIONS ──────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.08s; }
+    .reveal-delay-2 { transition-delay: 0.16s; }
+    .reveal-delay-3 { transition-delay: 0.24s; }
+
+    /* ─── NAVBAR ─────────────────────────────────────────────────── */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: color-mix(in srgb, var(--bg) 85%, transparent);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      transition: background var(--transition);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .nav-logo { display: flex; align-items: center; gap: 10px; }
+
+    .nav-logo-mark {
+      width: 32px; height: 32px;
+      position: relative; flex-shrink: 0;
+    }
+    .nav-logo-mark svg { width: 100%; height: 100%; }
+
+    .nav-wordmark {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.06em;
+      line-height: 1;
+      color: var(--text);
+    }
+    .nav-wordmark span { color: var(--blue); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: var(--f-sm);
+      font-weight: 500;
+      color: var(--text-2);
+      transition: color var(--transition);
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a.active { color: var(--blue-light); }
+
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+
+    .theme-toggle {
+      width: 38px; height: 38px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-2);
+      transition: border-color var(--transition), color var(--transition), background var(--transition);
+    }
+    .theme-toggle:hover { border-color: var(--border-h); color: var(--blue-light); }
+
+    .nav-cart { position: relative; }
+    .cart-badge {
+      position: absolute;
+      top: -4px; right: -4px;
+      width: 16px; height: 16px;
+      background: var(--blue);
+      color: #fff;
+      border-radius: 50%;
+      font-size: 9px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ─── PAGE HEADER ────────────────────────────────────────────── */
+    .page-header {
+      position: relative;
+      padding: 120px 0 56px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .page-header-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse 100% 100% at 50% 0%, black 20%, transparent 100%);
+      opacity: 0.6;
+    }
+
+    .page-header-glow {
+      position: absolute;
+      top: -30%;
+      left: -5%;
+      width: 50%;
+      height: 120%;
+      background: radial-gradient(ellipse at center, rgba(26, 95, 255, 0.09) 0%, transparent 65%);
+      filter: blur(60px);
+    }
+
+    .page-header-inner {
+      position: relative;
+      z-index: 2;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: var(--f-xs);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-bottom: 20px;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .breadcrumb a { color: var(--text-3); transition: color var(--transition); }
+    .breadcrumb a:hover { color: var(--blue-light); }
+    .breadcrumb-sep { color: var(--text-3); opacity: 0.4; }
+    .breadcrumb-current { color: var(--text-2); }
+
+    .page-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 6vw, var(--f-4xl));
+      letter-spacing: 0.02em;
+      line-height: 1;
+      color: var(--text);
+      animation: fadeUp 0.5s 0.08s ease both;
+    }
+
+    .page-title .accent { color: var(--blue); }
+
+    .page-header-meta {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      margin-top: 16px;
+      animation: fadeUp 0.5s 0.16s ease both;
+    }
+
+    .page-count {
+      font-size: var(--f-sm);
+      color: var(--text-3);
+    }
+    .page-count strong { color: var(--text-2); font-weight: 500; }
+
+    /* ─── ACTIVE FILTERS ─────────────────────────────────────────── */
+    .active-filters {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .active-filters-label {
+      font-size: var(--f-xs);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      flex-shrink: 0;
+    }
+
+    .filter-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: var(--f-xs);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--blue-light);
+      background: var(--tag-bg);
+      border: 1px solid rgba(26, 95, 255, 0.2);
+      padding: 4px 10px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background var(--transition), border-color var(--transition);
+    }
+
+    .filter-chip:hover { background: rgba(26, 95, 255, 0.2); border-color: var(--border-h); }
+
+    .filter-chip-x {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: rgba(26, 95, 255, 0.25);
+      font-size: 9px;
+      line-height: 1;
+    }
+
+    .clear-all {
+      font-size: var(--f-xs);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px 0;
+      transition: color var(--transition);
+      margin-left: 4px;
+    }
+    .clear-all:hover { color: var(--text); }
+
+    /* ─── CATALOG LAYOUT ─────────────────────────────────────────── */
+    .catalog {
+      padding: 40px 0 96px;
+    }
+
+    .catalog-inner {
+      display: grid;
+      grid-template-columns: var(--sidebar-w) 1fr;
+      gap: 40px;
+      align-items: flex-start;
+    }
+
+    /* ─── SIDEBAR ────────────────────────────────────────────────── */
+    .sidebar {
+      position: sticky;
+      top: 80px;
+    }
+
+    .sidebar-section {
+      border-bottom: 1px solid var(--border);
+      padding: 0 0 20px 0;
+      margin-bottom: 20px;
+    }
+    .sidebar-section:last-child { border-bottom: none; }
+
+    .sidebar-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: var(--f-sm);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-bottom: 14px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .sidebar-toggle-icon {
+      color: var(--text-3);
+      transition: transform var(--transition);
+    }
+
+    .sidebar-section.collapsed .sidebar-toggle-icon {
+      transform: rotate(-90deg);
+    }
+
+    .sidebar-body {
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .sidebar-section.collapsed .sidebar-body {
+      max-height: 0 !important;
+    }
+
+    /* Category list */
+    .cat-filter-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .cat-filter-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background var(--transition);
+      border: 1px solid transparent;
+    }
+
+    .cat-filter-item:hover {
+      background: var(--bg-card);
+      border-color: var(--border);
+    }
+
+    .cat-filter-item.active {
+      background: var(--tag-bg);
+      border-color: rgba(26, 95, 255, 0.2);
+    }
+
+    .cat-filter-name {
+      font-size: var(--f-sm);
+      color: var(--text-2);
+      transition: color var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cat-filter-item.active .cat-filter-name { color: var(--blue-light); }
+    .cat-filter-item:hover .cat-filter-name { color: var(--text); }
+
+    .cat-filter-icon { color: var(--text-3); flex-shrink: 0; }
+    .cat-filter-item.active .cat-filter-icon { color: var(--blue-light); }
+
+    .cat-filter-count {
+      font-size: var(--f-xs);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--text-3);
+      flex-shrink: 0;
+    }
+
+    /* Price range */
+    .price-inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .price-input-wrap {
+      position: relative;
+    }
+
+    .price-prefix {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: var(--f-sm);
+      color: var(--text-3);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+    }
+
+    .price-input {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: var(--f-sm);
+      padding: 8px 10px 8px 22px;
+      transition: border-color var(--transition);
+    }
+
+    .price-input:focus {
+      outline: none;
+      border-color: var(--border-h);
+    }
+
+    .price-slider-track {
+      position: relative;
+      height: 3px;
+      background: var(--border);
+      border-radius: 2px;
+      margin: 8px 0 4px;
+    }
+
+    .price-slider-fill {
+      position: absolute;
+      height: 100%;
+      background: var(--blue);
+      border-radius: 2px;
+      left: 0%;
+      right: 20%;
+    }
+
+    /* Checkboxes */
+    .check-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      padding: 4px 0;
+    }
+
+    .check-box {
+      width: 16px; height: 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 3px;
+      background: var(--bg-card);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color var(--transition), background var(--transition);
+    }
+
+    .check-item.checked .check-box {
+      background: var(--blue);
+      border-color: var(--blue);
+    }
+
+    .check-item.checked .check-box::after {
+      content: '';
+      width: 8px; height: 5px;
+      border-left: 1.5px solid #fff;
+      border-bottom: 1.5px solid #fff;
+      transform: rotate(-45deg) translateY(-1px);
+      display: block;
+    }
+
+    .check-item:hover .check-box { border-color: var(--border-h); }
+
+    .check-label {
+      font-size: var(--f-sm);
+      color: var(--text-2);
+      transition: color var(--transition);
+    }
+
+    .check-item.checked .check-label { color: var(--text); }
+
+    .check-count {
+      font-size: var(--f-xs);
+      color: var(--text-3);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      margin-left: auto;
+    }
+
+    /* ─── PRODUCTS AREA ──────────────────────────────────────────── */
+    .products-area {}
+
+    /* Toolbar */
+    .products-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toolbar-count {
+      font-size: var(--f-sm);
+      color: var(--text-3);
+    }
+    .toolbar-count strong { color: var(--text-2); font-weight: 500; }
+
+    .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sort-select {
+      appearance: none;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: var(--f-sm);
+      letter-spacing: 0.04em;
+      padding: 8px 32px 8px 12px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: border-color var(--transition);
+      background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%235A5A7A' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+    }
+
+    .sort-select:focus { outline: none; border-color: var(--border-h); }
+
+    .view-toggles {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 3px;
+    }
+
+    .view-btn {
+      width: 30px; height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      background: transparent;
+      color: var(--text-3);
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background var(--transition), color var(--transition);
+    }
+
+    .view-btn.active {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .view-btn:not(.active):hover { color: var(--text); background: var(--bg-3); }
+
+    /* ─── PRODUCT CARDS ──────────────────────────────────────────── */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .product-grid.view-2 { grid-template-columns: repeat(2, 1fr); }
+
+    .product-grid.view-list {
+      grid-template-columns: 1fr;
+    }
+
+    .product-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-card:hover {
+      border-color: var(--border-h);
+      box-shadow: var(--shadow-card);
+      transform: translateY(-2px);
+    }
+
+    /* List view card */
+    .product-grid.view-list .product-card {
+      flex-direction: row;
+    }
+
+    .product-grid.view-list .product-img {
+      width: 160px;
+      flex-shrink: 0;
+      aspect-ratio: auto;
+      height: 160px;
+    }
+
+    .product-grid.view-list .product-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .product-img {
+      aspect-ratio: 4/3;
+      background: var(--bg-3);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .product-img svg {
+      color: var(--text-3);
+      transition: transform 400ms ease, color var(--transition);
+    }
+
+    .product-card:hover .product-img svg {
+      transform: scale(1.06);
+      color: var(--blue-light);
+    }
+
+    .product-badge {
+      position: absolute;
+      top: 12px; left: 12px;
+      font-size: var(--f-xs);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 3px;
+    }
+
+    .badge-new   { background: var(--blue); color: #fff; }
+    .badge-hot   { background: #C0392B; color: #fff; }
+    .badge-sale  { background: #1A8060; color: #fff; }
+    .badge-used  { background: #7A6020; color: #fff; }
+
+    .product-wishlist {
+      position: absolute;
+      top: 12px; right: 12px;
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--bg) 80%, transparent);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-3);
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity var(--transition), color var(--transition), border-color var(--transition);
+      backdrop-filter: blur(6px);
+    }
+
+    .product-card:hover .product-wishlist { opacity: 1; }
+    .product-wishlist:hover { color: #E74C3C; border-color: rgba(231,76,60,0.3); }
+    .product-wishlist.active { opacity: 1; color: #E74C3C; }
+
+    .product-info { padding: 16px 18px 18px; flex: 1; display: flex; flex-direction: column; }
+
+    .product-cat {
+      font-size: var(--f-xs);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-bottom: 4px;
+    }
+
+    .product-name {
+      font-size: var(--f-base);
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.4;
+      margin-bottom: 6px;
+    }
+
+    .product-specs {
+      font-size: var(--f-sm);
+      color: var(--text-3);
+      line-height: 1.5;
+      margin-bottom: 14px;
+      flex: 1;
+    }
+
+    .product-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+    }
+
+    .product-price {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: var(--f-lg);
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: 0.02em;
+    }
+
+    .product-price-orig {
+      font-size: var(--f-sm);
+      color: var(--text-3);
+      text-decoration: line-through;
+      margin-left: 6px;
+      font-weight: 400;
+    }
+
+    .product-price-save {
+      font-size: var(--f-xs);
+      color: #27AE60;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-left: 6px;
+    }
+
+    .product-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .product-add {
+      width: 34px; height: 34px;
+      border-radius: var(--radius-sm);
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background var(--transition), transform var(--transition);
+      flex-shrink: 0;
+    }
+    .product-add:hover { background: var(--blue-light); transform: scale(1.08); }
+
+    .product-rating {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 10px;
+    }
+
+    .rating-stars {
+      display: flex;
+      gap: 1px;
+    }
+
+    .star-full { color: #F5A623; font-size: 11px; }
+    .star-half { color: #F5A623; font-size: 11px; opacity: 0.6; }
+    .star-empty { color: var(--text-3); font-size: 11px; }
+
+    .rating-count {
+      font-size: var(--f-xs);
+      color: var(--text-3);
+    }
+
+    /* In-stock indicator */
+    .stock-indicator {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: var(--f-xs);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    .stock-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .stock-in { color: #27AE60; }
+    .stock-in .stock-dot { background: #27AE60; }
+    .stock-low { color: #E67E22; }
+    .stock-low .stock-dot { background: #E67E22; box-shadow: 0 0 0 2px rgba(230,126,34,0.2); }
+
+    /* ─── LOAD MORE ──────────────────────────────────────────────── */
+    .load-more-section {
+      margin-top: 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .load-progress {
+      width: 100%;
+      max-width: 320px;
+      height: 2px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .load-progress-bar {
+      height: 100%;
+      width: 33%;
+      background: linear-gradient(90deg, var(--blue-dim), var(--blue));
+      border-radius: 2px;
+    }
+
+    .load-label {
+      font-size: var(--f-xs);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-3);
+    }
+
+    /* ─── NEWSLETTER (same as index) ─────────────────────────────── */
+    .newsletter-section {
+      background: var(--bg-2);
+      border-top: 1px solid var(--border);
+      padding: 64px 0;
+    }
+
+    .newsletter-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 40px 48px;
+    }
+
+    .newsletter-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--f-2xl);
+      letter-spacing: 0.02em;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .newsletter-desc { font-size: var(--f-sm); color: var(--text-2); max-width: 340px; }
+
+    .newsletter-form { display: flex; gap: 10px; flex-shrink: 0; }
+
+    .newsletter-input {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: var(--f-sm);
+      padding: 10px 16px;
+      width: 240px;
+      transition: border-color var(--transition);
+    }
+    .newsletter-input:focus { outline: none; border-color: var(--border-h); }
+    .newsletter-input::placeholder { color: var(--text-3); }
+
+    /* ─── FOOTER ─────────────────────────────────────────────────── */
+    .footer { padding: 64px 0 32px; border-top: 1px solid var(--border); }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 48px;
+    }
+
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.06em;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+    .footer-logo span { color: var(--blue); }
+
+    .footer-desc { font-size: var(--f-sm); color: var(--text-2); line-height: 1.65; max-width: 260px; margin-bottom: 20px; }
+
+    .footer-social { display: flex; gap: 10px; }
+
+    .social-link {
+      width: 34px; height: 34px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-3);
+      transition: border-color var(--transition), color var(--transition);
+    }
+    .social-link:hover { border-color: var(--border-h); color: var(--blue-light); }
+
+    .footer-col-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: var(--f-xs);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-bottom: 14px;
+    }
+
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .footer-links a { font-size: var(--f-sm); color: var(--text-2); transition: color var(--transition); }
+    .footer-links a:hover { color: var(--text); }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-copy { font-size: var(--f-xs); color: var(--text-3); }
+
+    .footer-legal { display: flex; gap: 20px; }
+    .footer-legal a { font-size: var(--f-xs); color: var(--text-3); transition: color var(--transition); }
+    .footer-legal a:hover { color: var(--text-2); }
+
+    /* ─── MOBILE RESPONSIVE ──────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .catalog-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+        display: none;
+      }
+
+      .sidebar.mobile-open {
+        display: block;
+        margin-bottom: 24px;
+      }
+
+      .product-grid { grid-template-columns: repeat(2, 1fr); }
+      .product-grid.view-list .product-card { flex-direction: column; }
+      .product-grid.view-list .product-img { width: 100%; height: auto; aspect-ratio: 4/3; }
+
+      .nav-links { display: none; }
+
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+
+      .newsletter-inner { flex-direction: column; }
+      .newsletter-form { flex-direction: column; width: 100%; }
+      .newsletter-input { width: 100%; }
+    }
+
+    @media (max-width: 580px) {
+      .product-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .products-toolbar { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── NAVBAR ─────────────────────────────────────────────────── -->
+  <nav class="nav">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="index.html" class="nav-logo">
+          <div class="nav-logo-mark">
+            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="32" height="32" rx="6" fill="#1A5FFF" fill-opacity="0.12"/>
+              <path d="M20 4L10 17H16L12 28L22 13H16L20 4Z" fill="#1A5FFF" stroke="#4D85FF" stroke-width="1"/>
+            </svg>
+          </div>
+          <span class="nav-wordmark">ROCK<span>'N'ROLL</span> STORE</span>
+        </a>
+
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="products.html" class="active">Products</a></li>
+          <li><a href="#">Brands</a></li>
+          <li><a href="#">Trade-In</a></li>
+          <li><a href="#">About</a></li>
+        </ul>
+
+        <div class="nav-right">
+          <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle light/dark mode">
+            <svg id="iconSun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/>
+              <line x1="4.22" y1="4.22" x2="7.05" y2="7.05"/><line x1="16.95" y1="16.95" x2="19.78" y2="19.78"/>
+              <line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="7.05" y2="16.95"/><line x1="16.95" y1="7.05" x2="19.78" y2="4.22"/>
+            </svg>
+            <svg id="iconMoon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+          </button>
+
+          <button class="btn btn-ghost nav-cart" id="cartBtn" style="position:relative; padding:10px 14px;">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+            </svg>
+            <span class="cart-badge" id="cartCount">3</span>
+          </button>
+
+          <a href="#" class="btn btn-primary" style="padding:10px 20px; font-size:0.875rem;">Shop Now</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ─── PAGE HEADER ───────────────────────────────────────────── -->
+  <header class="page-header noise">
+    <div class="page-header-grid"></div>
+    <div class="page-header-glow"></div>
+    <div class="container">
+      <div class="page-header-inner">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="breadcrumb-sep">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </span>
+          <span class="breadcrumb-current">All Gear</span>
+        </nav>
+
+        <h1 class="page-title">
+          All <span class="accent">Gear</span>
+        </h1>
+
+        <div class="page-header-meta">
+          <p class="page-count"><strong>8,240</strong> products available</p>
+          <span class="tag">Free shipping over $100</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ─── CATALOG ───────────────────────────────────────────────── -->
+  <section class="catalog">
+    <div class="container">
+
+      <!-- Active filter chips -->
+      <div class="active-filters reveal">
+        <span class="active-filters-label">Filters:</span>
+        <span class="filter-chip" onclick="this.remove()">
+          Electric Guitar
+          <span class="filter-chip-x">✕</span>
+        </span>
+        <span class="filter-chip" onclick="this.remove()">
+          Under $1,500
+          <span class="filter-chip-x">✕</span>
+        </span>
+        <span class="filter-chip" onclick="this.remove()">
+          In Stock
+          <span class="filter-chip-x">✕</span>
+        </span>
+        <button class="clear-all" onclick="document.querySelector('.active-filters').style.display='none'">Clear all</button>
+      </div>
+
+      <div class="catalog-inner">
+
+        <!-- ─── SIDEBAR ─────────────────────────────────────────── -->
+        <aside class="sidebar" id="sidebar">
+
+          <!-- Categories -->
+          <div class="sidebar-section" id="sec-category">
+            <div class="sidebar-title" onclick="toggleSection('sec-category')">
+              Category
+              <svg class="sidebar-toggle-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="sidebar-body" id="body-sec-category">
+              <ul class="cat-filter-list">
+                <li class="cat-filter-item" onclick="toggleCat(this)">
+                  <span class="cat-filter-name">
+                    <svg class="cat-filter-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg>
+                    All Categories
+                  </span>
+                  <span class="cat-filter-count">8,240</span>
+                </li>
+                <li class="cat-filter-item active" onclick="toggleCat(this)">
+                  <span class="cat-filter-name">
+                    <svg class="cat-filter-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                    Electric Guitar
+                  </span>
+                  <span class="cat-filter-count">1,840</span>
+                </li>
+                <li class="cat-filter-item" onclick="toggleCat(this)">
+                  <span class="cat-filter-name">
+                    <svg class="cat-filter-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                    Acoustic Guitar
+                  </span>
+                  <span class="cat-filter-count">920</span>
+                </li>
+                <li class="cat-filter-item" onclick="toggleCat(this)">
+                  <span class="cat-filter-name">
+                    <svg class="cat-filter-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                    Bass Guitar
+                  </span>
+                  <span class="cat-filter-count">380</span>
+                </li>
+                <li class="cat-filter-item" onclick="toggleCat(this)">
+                  <span class="cat-filter-name">
+                    <svg class="cat-filter-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
+                    Drums
+                  </span>
+                  <span class="cat-filter-count">560</span>
+                </li>
+                <li class="cat-filter-item" onclick="toggleCat(this)">
+                  <span class="cat-filter-name">
+                    <svg class="cat-filter-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="8" width="20" height="12" rx="2"/><line x1="6" y1="8" x2="6" y2="4"/><line x1="10" y1="8" x2="10" y2="4"/><line x1="14" y1="8" x2="14" y2="4"/><line x1="18" y1="8" x2="18" y2="4"/></svg>
+                    Keyboards & Synths
+                  </span>
+                  <span class="cat-filter-count">430</span>
+                </li>
+                <li class="cat-filter-item" onclick="toggleCat(this)">
+                  <span class="cat-filter-name">
+                    <svg class="cat-filter-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="3"/><circle cx="9" cy="12" r="4"/><circle cx="17" cy="9" r="2"/><circle cx="17" cy="15" r="2"/></svg>
+                    Amplifiers
+                  </span>
+                  <span class="cat-filter-count">740</span>
+                </li>
+                <li class="cat-filter-item" onclick="toggleCat(this)">
+                  <span class="cat-filter-name">
+                    <svg class="cat-filter-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="12" r="2"/><circle cx="15" cy="12" r="2"/></svg>
+                    Effects Pedals
+                  </span>
+                  <span class="cat-filter-count">1,120</span>
+                </li>
+                <li class="cat-filter-item" onclick="toggleCat(this)">
+                  <span class="cat-filter-name">
+                    <svg class="cat-filter-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 8h20M2 12h20M2 16h20"/><path d="M6 4v16M18 4v16"/></svg>
+                    Studio & Recording
+                  </span>
+                  <span class="cat-filter-count">850</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Price range -->
+          <div class="sidebar-section" id="sec-price">
+            <div class="sidebar-title" onclick="toggleSection('sec-price')">
+              Price Range
+              <svg class="sidebar-toggle-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="sidebar-body" id="body-sec-price">
+              <div class="price-inputs">
+                <div class="price-input-wrap">
+                  <span class="price-prefix">$</span>
+                  <input class="price-input" type="number" value="0" min="0" max="5000" id="priceMin" />
+                </div>
+                <div class="price-input-wrap">
+                  <span class="price-prefix">$</span>
+                  <input class="price-input" type="number" value="1500" min="0" max="5000" id="priceMax" />
+                </div>
+              </div>
+              <div class="price-slider-track">
+                <div class="price-slider-fill"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Brand -->
+          <div class="sidebar-section" id="sec-brand">
+            <div class="sidebar-title" onclick="toggleSection('sec-brand')">
+              Brand
+              <svg class="sidebar-toggle-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="sidebar-body" id="body-sec-brand">
+              <ul class="check-list">
+                <li class="check-item checked" onclick="toggleCheck(this)">
+                  <div class="check-box"></div>
+                  <span class="check-label">Fender</span>
+                  <span class="check-count">342</span>
+                </li>
+                <li class="check-item checked" onclick="toggleCheck(this)">
+                  <div class="check-box"></div>
+                  <span class="check-label">Gibson</span>
+                  <span class="check-count">218</span>
+                </li>
+                <li class="check-item" onclick="toggleCheck(this)">
+                  <div class="check-box"></div>
+                  <span class="check-label">Marshall</span>
+                  <span class="check-count">180</span>
+                </li>
+                <li class="check-item" onclick="toggleCheck(this)">
+                  <div class="check-box"></div>
+                  <span class="check-label">Taylor</span>
+                  <span class="check-count">156</span>
+                </li>
+                <li class="check-item" onclick="toggleCheck(this)">
+                  <div class="check-box"></div>
+                  <span class="check-label">Martin</span>
+                  <span class="check-count">134</span>
+                </li>
+                <li class="check-item" onclick="toggleCheck(this)">
+                  <div class="check-box"></div>
+                  <span class="check-label">Roland</span>
+                  <span class="check-count">122</span>
+                </li>
+                <li class="check-item" onclick="toggleCheck(this)">
+                  <div class="check-box"></div>
+                  <span class="check-label">Boss</span>
+                  <span class="check-count">98</span>
+                </li>
+                <li class="check-item" onclick="toggleCheck(this)">
+                  <div class="check-box"></div>
+                  <span class="check-label">Nord</span>
+                  <span class="check-count">64</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Availability -->
+          <div class="sidebar-section" id="sec-avail">
+            <div class="sidebar-title" onclick="toggleSection('sec-avail')">
+              Availability
+              <svg class="sidebar-toggle-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="sidebar-body" id="body-sec-avail">
+              <ul class="check-list">
+                <li class="check-item checked" onclick="toggleCheck(this)">
+                  <div class="check-box"></div>
+                  <span class="check-label">In Stock</span>
+                  <span class="check-count">6,840</span>
+                </li>
+                <li class="check-item" onclick="toggleCheck(this)">
+                  <div class="check-box"></div>
+                  <span class="check-label">Pre-order</span>
+                  <span class="check-count">420</span>
+                </li>
+                <li class="check-item" onclick="toggleCheck(this)">
+                  <div class="check-box"></div>
+                  <span class="check-label">Used / Open-box</span>
+                  <span class="check-count">980</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Condition -->
+          <div class="sidebar-section" id="sec-cond">
+            <div class="sidebar-title" onclick="toggleSection('sec-cond')">
+              Condition
+              <svg class="sidebar-toggle-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="sidebar-body" id="body-sec-cond">
+              <ul class="check-list">
+                <li class="check-item checked" onclick="toggleCheck(this)">
+                  <div class="check-box"></div>
+                  <span class="check-label">New</span>
+                  <span class="check-count">7,040</span>
+                </li>
+                <li class="check-item" onclick="toggleCheck(this)">
+                  <div class="check-box"></div>
+                  <span class="check-label">Excellent Used</span>
+                  <span class="check-count">680</span>
+                </li>
+                <li class="check-item" onclick="toggleCheck(this)">
+                  <div class="check-box"></div>
+                  <span class="check-label">Good Used</span>
+                  <span class="check-count">300</span>
+                </li>
+                <li class="check-item" onclick="toggleCheck(this)">
+                  <div class="check-box"></div>
+                  <span class="check-label">Refurbished</span>
+                  <span class="check-count">220</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        </aside>
+
+        <!-- ─── PRODUCTS AREA ───────────────────────────────────── -->
+        <div class="products-area">
+
+          <!-- Toolbar -->
+          <div class="products-toolbar reveal">
+            <div class="toolbar-left">
+              <span class="toolbar-count"><strong>1,840</strong> electric guitars</span>
+            </div>
+            <div class="toolbar-right">
+              <select class="sort-select" id="sortSelect">
+                <option value="featured">Featured</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="newest">Newest First</option>
+                <option value="rating">Top Rated</option>
+                <option value="popular">Most Popular</option>
+              </select>
+
+              <div class="view-toggles">
+                <button class="view-btn active" id="view3" title="3-column grid" onclick="setView(3, this)">
+                  <svg width="14" height="14" viewBox="0 0 18 18" fill="currentColor">
+                    <rect x="0" y="0" width="5" height="5" rx="1"/><rect x="6.5" y="0" width="5" height="5" rx="1"/><rect x="13" y="0" width="5" height="5" rx="1"/>
+                    <rect x="0" y="6.5" width="5" height="5" rx="1"/><rect x="6.5" y="6.5" width="5" height="5" rx="1"/><rect x="13" y="6.5" width="5" height="5" rx="1"/>
+                    <rect x="0" y="13" width="5" height="5" rx="1"/><rect x="6.5" y="13" width="5" height="5" rx="1"/><rect x="13" y="13" width="5" height="5" rx="1"/>
+                  </svg>
+                </button>
+                <button class="view-btn" id="view2" title="2-column grid" onclick="setView(2, this)">
+                  <svg width="14" height="14" viewBox="0 0 18 18" fill="currentColor">
+                    <rect x="0" y="0" width="7.5" height="7.5" rx="1"/><rect x="10.5" y="0" width="7.5" height="7.5" rx="1"/>
+                    <rect x="0" y="10.5" width="7.5" height="7.5" rx="1"/><rect x="10.5" y="10.5" width="7.5" height="7.5" rx="1"/>
+                  </svg>
+                </button>
+                <button class="view-btn" id="viewList" title="List view" onclick="setView('list', this)">
+                  <svg width="14" height="14" viewBox="0 0 18 18" fill="currentColor">
+                    <rect x="0" y="0" width="18" height="4" rx="1"/>
+                    <rect x="0" y="7" width="18" height="4" rx="1"/>
+                    <rect x="0" y="14" width="18" height="4" rx="1"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Grid -->
+          <div class="product-grid" id="productGrid">
+
+            <!-- 1. Fender Stratocaster HSS -->
+            <div class="product-card reveal">
+              <div class="product-img">
+                <svg width="110" height="130" viewBox="0 0 110 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M68 6L73 11L57 26C63 33 65 41 61 49C58 54 53 57 47 57C42 57 38 54 36 51L34 48C31 45 29 41 29 37C29 31 32 27 37 25C45 21 53 24 58 30L68 6Z" fill="#1A5FFF" fill-opacity="0.55" stroke="#4D85FF" stroke-width="1.5"/>
+                  <circle cx="44" cy="38" r="5" fill="#0D3ECC" stroke="#4D85FF" stroke-width="1.5"/>
+                  <line x1="30" y1="56" x2="36" y2="126" stroke="#4D85FF" stroke-width="3" stroke-linecap="round"/>
+                  <line x1="36" y1="6" x2="73" y2="6" stroke="#1A5FFF" stroke-width="2"/>
+                  <line x1="39" y1="10" x2="65" y2="10" stroke="#1A5FFF" stroke-width="1.5" opacity="0.4"/>
+                  <circle cx="36" cy="75" r="2" fill="#4D85FF" opacity="0.7"/>
+                  <circle cx="36" cy="95" r="2" fill="#4D85FF" opacity="0.7"/>
+                  <circle cx="36" cy="115" r="2" fill="#4D85FF" opacity="0.7"/>
+                </svg>
+                <span class="product-badge badge-new">New</span>
+                <button class="product-wishlist" aria-label="Add to wishlist">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                </button>
+              </div>
+              <div class="product-info">
+                <div class="product-cat">Electric Guitar</div>
+                <div class="product-name">Fender Player II Stratocaster HSS</div>
+                <div class="product-rating">
+                  <div class="rating-stars">
+                    <span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span><span class="star-half">★</span>
+                  </div>
+                  <span class="rating-count">(184)</span>
+                </div>
+                <div class="product-specs">Alder body · Maple neck · 22 frets · Tremolo bridge</div>
+                <div class="product-footer">
+                  <div>
+                    <span class="product-price">$849</span>
+                  </div>
+                  <div class="product-actions">
+                    <span class="stock-indicator stock-in"><span class="stock-dot"></span>In stock</span>
+                    <button class="product-add" aria-label="Add to cart">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. Gibson Les Paul Standard -->
+            <div class="product-card reveal reveal-delay-1">
+              <div class="product-img">
+                <svg width="90" height="130" viewBox="0 0 90 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <ellipse cx="45" cy="88" rx="28" ry="35" fill="#1A5FFF" fill-opacity="0.5" stroke="#4D85FF" stroke-width="1.5"/>
+                  <ellipse cx="45" cy="88" rx="16" ry="20" fill="#0D3ECC" fill-opacity="0.4" stroke="#4D85FF" stroke-width="1"/>
+                  <rect x="41" y="8" width="8" height="55" rx="4" fill="#1A5FFF" fill-opacity="0.4" stroke="#4D85FF" stroke-width="1.5"/>
+                  <rect x="39" y="4" width="12" height="10" rx="3" fill="#1A5FFF" fill-opacity="0.5" stroke="#4D85FF" stroke-width="1"/>
+                  <circle cx="45" cy="78" r="4" fill="#4D85FF" fill-opacity="0.6"/>
+                  <circle cx="45" cy="93" r="4" fill="#4D85FF" fill-opacity="0.6"/>
+                  <line x1="30" y1="85" x2="60" y2="85" stroke="#4D85FF" stroke-width="1" opacity="0.4"/>
+                </svg>
+                <span class="product-badge badge-hot">Popular</span>
+                <button class="product-wishlist active" aria-label="Add to wishlist">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                </button>
+              </div>
+              <div class="product-info">
+                <div class="product-cat">Electric Guitar</div>
+                <div class="product-name">Gibson Les Paul Standard '50s</div>
+                <div class="product-rating">
+                  <div class="rating-stars">
+                    <span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span>
+                  </div>
+                  <span class="rating-count">(312)</span>
+                </div>
+                <div class="product-specs">Mahogany body · Burstbucker pickups · Tune-o-Matic bridge</div>
+                <div class="product-footer">
+                  <div>
+                    <span class="product-price">$2,499</span>
+                  </div>
+                  <div class="product-actions">
+                    <span class="stock-indicator stock-in"><span class="stock-dot"></span>In stock</span>
+                    <button class="product-add" aria-label="Add to cart">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. PRS SE Custom 24 -->
+            <div class="product-card reveal reveal-delay-2">
+              <div class="product-img">
+                <svg width="95" height="130" viewBox="0 0 95 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M47 60 C60 55, 72 65, 70 82 C68 99, 55 108, 47 108 C39 108, 26 99, 24 82 C22 65, 34 55, 47 60Z" fill="#1A5FFF" fill-opacity="0.45" stroke="#4D85FF" stroke-width="1.5"/>
+                  <path d="M47 60 C50 50, 55 35, 52 18 C50 10, 44 7, 40 7 C38 7, 36 9, 36 12 L36 62" fill="none" stroke="#4D85FF" stroke-width="3" stroke-linecap="round"/>
+                  <circle cx="47" cy="80" r="5" fill="#0D3ECC" fill-opacity="0.7" stroke="#4D85FF" stroke-width="1"/>
+                  <circle cx="47" cy="96" r="5" fill="#0D3ECC" fill-opacity="0.7" stroke="#4D85FF" stroke-width="1"/>
+                  <line x1="28" y1="82" x2="66" y2="82" stroke="#4D85FF" stroke-width="0.8" opacity="0.35"/>
+                  <line x1="30" y1="64" x2="64" y2="64" stroke="#4D85FF" stroke-width="0.8" opacity="0.3"/>
+                </svg>
+                <span class="product-badge badge-sale">Sale</span>
+                <button class="product-wishlist" aria-label="Add to wishlist">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                </button>
+              </div>
+              <div class="product-info">
+                <div class="product-cat">Electric Guitar</div>
+                <div class="product-name">PRS SE Custom 24-08</div>
+                <div class="product-rating">
+                  <div class="rating-stars">
+                    <span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span><span class="star-half">★</span>
+                  </div>
+                  <span class="rating-count">(97)</span>
+                </div>
+                <div class="product-specs">Mahogany body · Maple top · 85/15 S pickups · Wide Thin neck</div>
+                <div class="product-footer">
+                  <div>
+                    <span class="product-price">$699</span>
+                    <span class="product-price-orig">$849</span>
+                    <span class="product-price-save">-18%</span>
+                  </div>
+                  <div class="product-actions">
+                    <span class="stock-indicator stock-low"><span class="stock-dot"></span>4 left</span>
+                    <button class="product-add" aria-label="Add to cart">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4. Fender Telecaster -->
+            <div class="product-card reveal">
+              <div class="product-img">
+                <svg width="110" height="130" viewBox="0 0 110 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="28" y="48" width="52" height="64" rx="8" fill="#1A5FFF" fill-opacity="0.4" stroke="#4D85FF" stroke-width="1.5"/>
+                  <rect x="35" y="55" width="38" height="44" rx="5" fill="#0D3ECC" fill-opacity="0.25" stroke="#4D85FF" stroke-width="0.8" stroke-opacity="0.4"/>
+                  <rect x="46" y="6" width="8" height="45" rx="4" fill="#1A5FFF" fill-opacity="0.45" stroke="#4D85FF" stroke-width="1.5"/>
+                  <rect x="43" y="3" width="14" height="10" rx="3" fill="#1A5FFF" fill-opacity="0.5" stroke="#4D85FF" stroke-width="1"/>
+                  <line x1="28" y1="70" x2="80" y2="70" stroke="#4D85FF" stroke-width="1" opacity="0.35"/>
+                  <circle cx="36" cy="75" r="3" fill="#4D85FF" fill-opacity="0.5"/>
+                  <circle cx="72" cy="75" r="3" fill="#4D85FF" fill-opacity="0.5"/>
+                </svg>
+                <span class="product-badge badge-new">New</span>
+                <button class="product-wishlist" aria-label="Add to wishlist">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                </button>
+              </div>
+              <div class="product-info">
+                <div class="product-cat">Electric Guitar</div>
+                <div class="product-name">Fender Player II Telecaster</div>
+                <div class="product-rating">
+                  <div class="rating-stars">
+                    <span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span>
+                  </div>
+                  <span class="rating-count">(228)</span>
+                </div>
+                <div class="product-specs">Alder body · 9.5" radius · 6-saddle bridge · Noiseless pickups</div>
+                <div class="product-footer">
+                  <div>
+                    <span class="product-price">$879</span>
+                  </div>
+                  <div class="product-actions">
+                    <span class="stock-indicator stock-in"><span class="stock-dot"></span>In stock</span>
+                    <button class="product-add" aria-label="Add to cart">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 5. Epiphone SG Standard -->
+            <div class="product-card reveal reveal-delay-1">
+              <div class="product-img">
+                <svg width="90" height="130" viewBox="0 0 90 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M25 85 C25 65, 35 52, 45 50 C55 52, 65 65, 65 85 C65 105, 55 118, 45 118 C35 118, 25 105, 25 85Z" fill="#1A5FFF" fill-opacity="0.4" stroke="#4D85FF" stroke-width="1.5"/>
+                  <path d="M35 55 C33 48, 32 38, 33 30 C34 24, 37 18, 37 14 L38 10" stroke="#4D85FF" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                  <path d="M55 55 C57 48, 58 38, 57 30 C56 24, 53 18, 53 14 L52 10" stroke="#4D85FF" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                  <circle cx="45" cy="77" r="5" fill="#0D3ECC" fill-opacity="0.7" stroke="#4D85FF" stroke-width="1"/>
+                  <circle cx="45" cy="95" r="5" fill="#0D3ECC" fill-opacity="0.7" stroke="#4D85FF" stroke-width="1"/>
+                </svg>
+                <button class="product-wishlist" aria-label="Add to wishlist">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                </button>
+              </div>
+              <div class="product-info">
+                <div class="product-cat">Electric Guitar</div>
+                <div class="product-name">Epiphone SG Standard '61</div>
+                <div class="product-rating">
+                  <div class="rating-stars">
+                    <span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span><span class="star-empty">★</span>
+                  </div>
+                  <span class="rating-count">(144)</span>
+                </div>
+                <div class="product-specs">Mahogany body · ProBucker-2 & 3 humbuckers · LockTone bridge</div>
+                <div class="product-footer">
+                  <div>
+                    <span class="product-price">$449</span>
+                  </div>
+                  <div class="product-actions">
+                    <span class="stock-indicator stock-in"><span class="stock-dot"></span>In stock</span>
+                    <button class="product-add" aria-label="Add to cart">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 6. Squier Classic Vibe Strat (used) -->
+            <div class="product-card reveal reveal-delay-2">
+              <div class="product-img">
+                <svg width="110" height="130" viewBox="0 0 110 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M65 8L70 13L54 28C59 35 61 43 57 51C54 56 49 59 43 59C38 59 34 56 32 53L30 50C27 47 25 43 25 39C25 33 28 29 33 27C41 23 49 26 54 32L65 8Z" fill="#4D85FF" fill-opacity="0.35" stroke="#4D85FF" stroke-width="1.5" stroke-dasharray="4 2"/>
+                  <circle cx="40" cy="40" r="5" fill="#0D3ECC" fill-opacity="0.5" stroke="#4D85FF" stroke-width="1.5"/>
+                  <line x1="26" y1="58" x2="32" y2="126" stroke="#4D85FF" stroke-width="2.5" stroke-linecap="round"/>
+                </svg>
+                <span class="product-badge badge-used">Used</span>
+                <button class="product-wishlist" aria-label="Add to wishlist">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                </button>
+              </div>
+              <div class="product-info">
+                <div class="product-cat">Electric Guitar - Used</div>
+                <div class="product-name">Squier Classic Vibe '50s Strat</div>
+                <div class="product-rating">
+                  <div class="rating-stars">
+                    <span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span><span class="star-half">★</span>
+                  </div>
+                  <span class="rating-count">(76)</span>
+                </div>
+                <div class="product-specs">Maple neck · Alnico V pickups · Excellent condition · 2022</div>
+                <div class="product-footer">
+                  <div>
+                    <span class="product-price">$249</span>
+                    <span class="product-price-orig">$379</span>
+                  </div>
+                  <div class="product-actions">
+                    <span class="stock-indicator stock-low"><span class="stock-dot"></span>2 left</span>
+                    <button class="product-add" aria-label="Add to cart">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 7. Gretsch G2622 -->
+            <div class="product-card reveal">
+              <div class="product-img">
+                <svg width="95" height="130" viewBox="0 0 95 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M47 55 C62 50, 76 62, 74 82 C72 102, 58 115, 47 115 C36 115, 22 102, 20 82 C18 62, 32 50, 47 55Z" fill="#1A5FFF" fill-opacity="0.38" stroke="#4D85FF" stroke-width="1.5"/>
+                  <ellipse cx="47" cy="82" rx="12" ry="18" fill="none" stroke="#4D85FF" stroke-width="0.8" stroke-opacity="0.5"/>
+                  <rect x="43" y="6" width="8" height="52" rx="4" fill="#1A5FFF" fill-opacity="0.4" stroke="#4D85FF" stroke-width="1.5"/>
+                  <circle cx="47" cy="72" r="3.5" fill="#4D85FF" fill-opacity="0.6"/>
+                  <circle cx="47" cy="90" r="3.5" fill="#4D85FF" fill-opacity="0.6"/>
+                  <path d="M22 82 C22 70, 30 60, 47 58" stroke="#4D85FF" stroke-width="0.7" stroke-opacity="0.3" fill="none"/>
+                </svg>
+                <span class="product-badge badge-hot">Popular</span>
+                <button class="product-wishlist" aria-label="Add to wishlist">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                </button>
+              </div>
+              <div class="product-info">
+                <div class="product-cat">Electric Guitar</div>
+                <div class="product-name">Gretsch G2622 Streamliner Center Block</div>
+                <div class="product-rating">
+                  <div class="rating-stars">
+                    <span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span>
+                  </div>
+                  <span class="rating-count">(88)</span>
+                </div>
+                <div class="product-specs">Semi-hollow · Broad'Tron BT-2S humbuckers · 12" radius</div>
+                <div class="product-footer">
+                  <div>
+                    <span class="product-price">$549</span>
+                  </div>
+                  <div class="product-actions">
+                    <span class="stock-indicator stock-in"><span class="stock-dot"></span>In stock</span>
+                    <button class="product-add" aria-label="Add to cart">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 8. Schecter Hellraiser -->
+            <div class="product-card reveal reveal-delay-1">
+              <div class="product-img">
+                <svg width="90" height="130" viewBox="0 0 90 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M20 88 C18 70, 25 52, 45 48 C65 52, 72 70, 70 88 C68 106, 57 120, 45 120 C33 120, 22 106, 20 88Z" fill="#1A5FFF" fill-opacity="0.42" stroke="#4D85FF" stroke-width="1.5"/>
+                  <path d="M30 55 L28 40 C27 30, 29 15, 33 8" stroke="#4D85FF" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                  <path d="M60 55 L62 40 C63 30, 61 15, 57 8" stroke="#4D85FF" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                  <line x1="29" y1="8" x2="61" y2="8" stroke="#4D85FF" stroke-width="1.5"/>
+                  <rect x="37" y="72" width="16" height="10" rx="2" fill="#0D3ECC" fill-opacity="0.7" stroke="#4D85FF" stroke-width="1"/>
+                  <rect x="37" y="90" width="16" height="10" rx="2" fill="#0D3ECC" fill-opacity="0.7" stroke="#4D85FF" stroke-width="1"/>
+                </svg>
+                <button class="product-wishlist" aria-label="Add to wishlist">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                </button>
+              </div>
+              <div class="product-info">
+                <div class="product-cat">Electric Guitar</div>
+                <div class="product-name">Schecter Hellraiser C-1 FR</div>
+                <div class="product-rating">
+                  <div class="rating-stars">
+                    <span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span><span class="star-half">★</span>
+                  </div>
+                  <span class="rating-count">(112)</span>
+                </div>
+                <div class="product-specs">Mahogany body · EMG 81/89 active · Floyd Rose · Ebony fretboard</div>
+                <div class="product-footer">
+                  <div>
+                    <span class="product-price">$999</span>
+                  </div>
+                  <div class="product-actions">
+                    <span class="stock-indicator stock-in"><span class="stock-dot"></span>In stock</span>
+                    <button class="product-add" aria-label="Add to cart">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 9. Jackson JS22 (budget pick) -->
+            <div class="product-card reveal reveal-delay-2">
+              <div class="product-img">
+                <svg width="95" height="130" viewBox="0 0 95 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M20 78 C15 60, 25 48, 35 44 L45 6 L55 44 C65 48, 80 60, 75 78 C70 96, 57 110, 47 110 C37 110, 25 96, 20 78Z" fill="#1A5FFF" fill-opacity="0.38" stroke="#4D85FF" stroke-width="1.5"/>
+                  <circle cx="47" cy="74" r="4" fill="#0D3ECC" fill-opacity="0.7" stroke="#4D85FF" stroke-width="1"/>
+                  <circle cx="47" cy="89" r="4" fill="#0D3ECC" fill-opacity="0.7" stroke="#4D85FF" stroke-width="1"/>
+                  <line x1="45" y1="6" x2="45" y2="44" stroke="#4D85FF" stroke-width="1" opacity="0.4"/>
+                </svg>
+                <span class="product-badge badge-new">New</span>
+                <button class="product-wishlist" aria-label="Add to wishlist">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                </button>
+              </div>
+              <div class="product-info">
+                <div class="product-cat">Electric Guitar</div>
+                <div class="product-name">Jackson JS22 Dinky Arch Top</div>
+                <div class="product-rating">
+                  <div class="rating-stars">
+                    <span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span><span class="star-full">★</span><span class="star-empty">★</span>
+                  </div>
+                  <span class="rating-count">(201)</span>
+                </div>
+                <div class="product-specs">Poplar body · Maple neck · 24 frets · Dual Jackson humbuckers</div>
+                <div class="product-footer">
+                  <div>
+                    <span class="product-price">$249</span>
+                  </div>
+                  <div class="product-actions">
+                    <span class="stock-indicator stock-in"><span class="stock-dot"></span>In stock</span>
+                    <button class="product-add" aria-label="Add to cart">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <!-- /product-grid -->
+
+          <!-- Load more -->
+          <div class="load-more-section reveal">
+            <div class="load-label">Showing 9 of 1,840 products</div>
+            <div class="load-progress">
+              <div class="load-progress-bar"></div>
+            </div>
+            <button class="btn btn-ghost" id="loadMoreBtn" onclick="loadMore()">
+              Load More
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+          </div>
+
+        </div>
+        <!-- /products-area -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── NEWSLETTER ─────────────────────────────────────────────── -->
+  <section class="newsletter-section">
+    <div class="container">
+      <div class="newsletter-inner reveal">
+        <div class="newsletter-content">
+          <h3 class="newsletter-title">Get First Access to New Gear</h3>
+          <p class="newsletter-desc">
+            New drops, limited runs, and honest reviews — once a week, no spam.
+            Unsubscribe any time.
+          </p>
+        </div>
+        <div class="newsletter-form">
+          <input type="email" class="newsletter-input" placeholder="Your email address" />
+          <button class="btn btn-primary">Subscribe</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ─────────────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">ROCK<span>'N'ROLL</span> STORE</div>
+          <p class="footer-desc">
+            Musical instruments and gear for players at every level.
+            Independently owned since 2009.
+          </p>
+          <div class="footer-social">
+            <a href="#" class="social-link" aria-label="Instagram">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="#" class="social-link" aria-label="YouTube">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.94 1.96C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/></svg>
+            </a>
+            <a href="#" class="social-link" aria-label="X">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Instruments</div>
+          <ul class="footer-links">
+            <li><a href="#">Electric Guitars</a></li>
+            <li><a href="#">Acoustic Guitars</a></li>
+            <li><a href="#">Bass Guitars</a></li>
+            <li><a href="#">Drum Kits</a></li>
+            <li><a href="#">Keyboards & Synths</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Gear</div>
+          <ul class="footer-links">
+            <li><a href="#">Amplifiers</a></li>
+            <li><a href="#">Effects Pedals</a></li>
+            <li><a href="#">Recording</a></li>
+            <li><a href="#">Strings & Picks</a></li>
+            <li><a href="#">Accessories</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Store</div>
+          <ul class="footer-links">
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Trade-Ins</a></li>
+            <li><a href="#">Repair Service</a></li>
+            <li><a href="#">Financing</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span class="footer-copy">&copy; 2025 Rock 'n' Roll Store. All rights reserved.</span>
+        <div class="footer-legal">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Use</a>
+          <a href="#">Cookie Settings</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ─── SCRIPTS ────────────────────────────────────────────────── -->
+  <script>
+    /* ── Theme toggle ── */
+    const html = document.documentElement;
+    const btn = document.getElementById('themeToggle');
+    const iconSun = document.getElementById('iconSun');
+    const iconMoon = document.getElementById('iconMoon');
+
+    function setTheme(theme) {
+      html.setAttribute('data-theme', theme);
+      localStorage.setItem('rnr-theme', theme);
+      iconSun.style.display  = theme === 'dark' ? '' : 'none';
+      iconMoon.style.display = theme === 'dark' ? 'none' : '';
+    }
+
+    const saved = localStorage.getItem('rnr-theme');
+    if (saved) {
+      setTheme(saved);
+    } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+      setTheme('light');
+    } else {
+      setTheme('dark');
+    }
+
+    btn.addEventListener('click', () => {
+      setTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    });
+
+    /* ── Scroll reveal ── */
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+    reveals.forEach(el => observer.observe(el));
+
+    /* ── Navbar scroll border ── */
+    const nav = document.querySelector('.nav');
+    window.addEventListener('scroll', () => {
+      nav.style.borderBottomColor = window.scrollY > 10 ? 'var(--border)' : 'transparent';
+    }, { passive: true });
+
+    /* ── Cart add interaction ── */
+    document.querySelectorAll('.product-add').forEach(addBtn => {
+      addBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const prev = this.innerHTML;
+        this.style.background = 'var(--blue-light)';
+        this.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+        const badge = document.getElementById('cartCount');
+        badge.textContent = parseInt(badge.textContent) + 1;
+        setTimeout(() => {
+          this.style.background = '';
+          this.innerHTML = prev;
+        }, 1200);
+      });
+    });
+
+    /* ── View toggle ── */
+    function setView(mode, el) {
+      const grid = document.getElementById('productGrid');
+      document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+      el.classList.add('active');
+      grid.className = 'product-grid';
+      if (mode === 2) grid.classList.add('view-2');
+      if (mode === 'list') grid.classList.add('view-list');
+    }
+
+    /* ── Sidebar section collapse ── */
+    function toggleSection(id) {
+      const sec = document.getElementById(id);
+      const body = document.getElementById('body-' + id);
+      const isCollapsed = sec.classList.toggle('collapsed');
+      body.style.maxHeight = isCollapsed ? '0' : body.scrollHeight + 'px';
+    }
+
+    // Init sidebar body heights
+    document.querySelectorAll('.sidebar-body').forEach(b => {
+      b.style.maxHeight = b.scrollHeight + 'px';
+    });
+
+    /* ── Category filter ── */
+    function toggleCat(el) {
+      document.querySelectorAll('.cat-filter-item').forEach(i => i.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    /* ── Checkbox filter ── */
+    function toggleCheck(el) {
+      el.classList.toggle('checked');
+    }
+
+    /* ── Wishlist toggle ── */
+    document.querySelectorAll('.product-wishlist').forEach(w => {
+      w.addEventListener('click', function(e) {
+        e.stopPropagation();
+        this.classList.toggle('active');
+        const path = this.querySelector('path');
+        if (this.classList.contains('active')) {
+          this.querySelector('svg').setAttribute('fill', 'currentColor');
+        } else {
+          this.querySelector('svg').setAttribute('fill', 'none');
+        }
+      });
+    });
+
+    /* ── Load more ── */
+    let page = 1;
+    function loadMore() {
+      const btn = document.getElementById('loadMoreBtn');
+      const label = document.querySelector('.load-label');
+      const fill = document.querySelector('.load-progress-bar');
+      btn.innerHTML = `Loading...`;
+      btn.style.opacity = '0.6';
+      btn.style.pointerEvents = 'none';
+
+      setTimeout(() => {
+        page++;
+        const shown = Math.min(page * 9, 1840);
+        const pct = Math.round((shown / 1840) * 100);
+        label.textContent = `Showing ${shown} of 1,840 products`;
+        fill.style.width = pct + '%';
+        btn.innerHTML = `Load More <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>`;
+        btn.style.opacity = '';
+        btn.style.pointerEvents = '';
+        if (shown >= 1840) {
+          btn.style.display = 'none';
+          label.textContent = `All 1,840 products loaded`;
+        }
+      }, 900);
+    }
+  </script>
+</body>
+</html>
