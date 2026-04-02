@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Barlow_Condensed, Bebas_Neue, DM_Sans } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
+import FloatingChatbot from "@/components/chatbot/floating-chatbot";
 import { ToasterProvider } from "@/providers/toaster";
 
 const bebasNeue = Bebas_Neue({
@@ -58,6 +59,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ToasterProvider />
+          <FloatingChatbot />
           <div className="isolate flex min-h-screen flex-col">{children}</div>
         </ThemeProvider>
       </body>

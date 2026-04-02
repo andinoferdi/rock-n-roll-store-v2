@@ -154,6 +154,30 @@
 
   --color-black: #000000;
   --color-white: #ffffff;
+
+  --chatbot-accent: var(--landing-blue);
+  --chatbot-accent-strong: var(--landing-blue-light);
+  --chatbot-on-accent: var(--color-white);
+  --chatbot-on-accent-muted: var(--token-white-80);
+  --chatbot-surface: var(--color-surface-light-elevated);
+  --chatbot-surface-subtle: var(--color-surface-light-subtle);
+  --chatbot-border: var(--color-border-light-soft);
+  --chatbot-border-strong: var(--landing-border-strong);
+  --chatbot-text: var(--token-gray-900);
+  --chatbot-text-muted: var(--token-gray-700);
+  --chatbot-text-subtle: var(--token-gray-500);
+  --chatbot-operator-bubble: var(--token-white);
+  --chatbot-user-bubble: var(--landing-blue);
+  --chatbot-unread: var(--color-error-500);
+  --chatbot-avatar-bg: var(--landing-blue-soft);
+  --chatbot-avatar-text: var(--landing-blue-dim);
+  --chatbot-focus-ring: var(--landing-blue-soft-border);
+  --chatbot-shadow-strong: color-mix(in oklab, var(--token-gray-900) 28%, transparent);
+  --chatbot-shadow-soft: color-mix(in oklab, var(--token-gray-900) 10%, transparent);
+  --chatbot-online: var(--color-success-400);
+  --chatbot-control-bg: color-mix(in oklab, var(--color-black) 15%, transparent);
+  --chatbot-control-bg-hover: color-mix(in oklab, var(--color-black) 24%, transparent);
+  --chatbot-control-border: var(--token-white-30);
 }
 
 [data-theme="dark"] {
@@ -185,6 +209,23 @@
   --token-gray-700: #ced0dd;
   --token-gray-800: #e2e4eb;
   --token-gray-900: #f0f0f8;
+
+  --chatbot-surface: var(--color-surface-dark-elevated);
+  --chatbot-surface-subtle: var(--color-surface-dark-subtle);
+  --chatbot-border: var(--color-border-dark-soft);
+  --chatbot-border-strong: var(--color-border-dark-strong);
+  --chatbot-text: var(--token-gray-900);
+  --chatbot-text-muted: var(--token-gray-700);
+  --chatbot-text-subtle: var(--token-gray-500);
+  --chatbot-operator-bubble: color-mix(in oklab, var(--color-surface-dark-subtle) 90%, transparent);
+  --chatbot-user-bubble: var(--color-primary-500);
+  --chatbot-avatar-bg: color-mix(in oklab, var(--color-primary-500) 18%, transparent);
+  --chatbot-avatar-text: var(--token-gray-900);
+  --chatbot-shadow-strong: color-mix(in oklab, var(--color-black) 48%, transparent);
+  --chatbot-shadow-soft: color-mix(in oklab, var(--color-black) 30%, transparent);
+  --chatbot-control-bg: color-mix(in oklab, var(--color-black) 35%, transparent);
+  --chatbot-control-bg-hover: color-mix(in oklab, var(--color-black) 55%, transparent);
+  --chatbot-control-border: var(--token-white-40);
 }
 
 html.theme-switching *,
@@ -195,6 +236,10 @@ html.theme-switching *::after {
 
 * {
   border-color: var(--landing-border);
+}
+
+html {
+  position: relative;
 }
 
 body {
@@ -285,6 +330,19 @@ textarea:disabled,
   }
   to {
     transform: translateX(-50%);
+  }
+}
+
+@keyframes chatbotPulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.14);
   }
 }
 

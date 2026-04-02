@@ -50,15 +50,7 @@ type ParallaxLayerProps = {
 };
 
 function useCompactViewport(mediaQuery: string) {
-  const [isCompactViewport, setIsCompactViewport] = useState(
-    () => {
-      if (typeof window === "undefined") {
-        return false;
-      }
-
-      return window.matchMedia(mediaQuery).matches;
-    },
-  );
+  const [isCompactViewport, setIsCompactViewport] = useState(false);
 
   useEffect(() => {
     const mediaQueryList = window.matchMedia(mediaQuery);
@@ -81,6 +73,12 @@ export function ParallaxScene({ children, className, scene }: ParallaxSceneProps
   const targetRef = useRef<HTMLDivElement>(null);
   const isCompactViewport = useCompactViewport(scene.responsive.compactQuery);
   const reducedMotionPreference = useReducedMotion();
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
   const { scrollYProgress } = useScroll({
     target: targetRef,
     offset: [scene.offset[0], scene.offset[1]],
@@ -105,8 +103,9 @@ export function ParallaxScene({ children, className, scene }: ParallaxSceneProps
     }
   }, [className, scene.offset]);
 
-  const shouldReduceMotion = (scene.responsive.reduceMotionByDefault && Boolean(reducedMotionPreference))
-    || (scene.responsive.mode === "desktop-only" && isCompactViewport);
+  const shouldReduceMotion = hasMounted
+    && ((scene.responsive.reduceMotionByDefault && Boolean(reducedMotionPreference))
+      || (scene.responsive.mode === "desktop-only" && isCompactViewport));
 
   const runtime = useMemo(
     () => ({

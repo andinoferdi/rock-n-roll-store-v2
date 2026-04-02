@@ -12,21 +12,13 @@ type UseParallaxLayersInput = {
   layers: readonly ParallaxLayerConfig[];
 };
 
-function getInitialCompactState(mediaQuery: string) {
-  if (typeof window === "undefined") {
-    return false;
-  }
-
-  return window.matchMedia(mediaQuery).matches;
-}
-
 export function useParallaxLayers({ scene, layers }: UseParallaxLayersInput) {
-  const shouldReduceMotion = useReducedMotion();
-  const [isCompactViewport, setIsCompactViewport] = useState(() =>
-    getInitialCompactState(scene.responsive.compactQuery),
-  );
+  const reducedMotionPreference = useReducedMotion();
+  const [hasMounted, setHasMounted] = useState(false);
+  const [isCompactViewport, setIsCompactViewport] = useState(false);
 
   useEffect(() => {
+    setHasMounted(true);
     const mediaQueryList = window.matchMedia(scene.responsive.compactQuery);
     const handleChange = () => {
       setIsCompactViewport(mediaQueryList.matches);
@@ -36,6 +28,8 @@ export function useParallaxLayers({ scene, layers }: UseParallaxLayersInput) {
     mediaQueryList.addEventListener("change", handleChange);
     return () => mediaQueryList.removeEventListener("change", handleChange);
   }, [scene.responsive.compactQuery]);
+
+  const shouldReduceMotion = hasMounted && Boolean(reducedMotionPreference);
 
   const visibleLayers = useMemo(() => {
     const coreLayers = layers.filter((layer) => layer.importance !== "detail");
@@ -62,7 +56,7 @@ export function useParallaxLayers({ scene, layers }: UseParallaxLayersInput) {
 
   return {
     isCompactViewport,
-    shouldReduceMotion: Boolean(shouldReduceMotion),
+    shouldReduceMotion,
     visibleLayers,
   };
 }
