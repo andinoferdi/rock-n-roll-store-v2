@@ -2,6 +2,7 @@ import {
   testimonialItems,
   testimonialsSectionData,
 } from "@/app/home/data/storefront";
+import TestimonialsMarquee from "@/components/ui/testimonials-marquee";
 
 const StarIcon = () => (
   <svg
@@ -20,6 +21,11 @@ export default function TestimonialsSection() {
   const supportingTestimonials = testimonialItems.filter(
     (item) => item.name !== featuredTestimonial.name,
   );
+  const marqueeItems = supportingTestimonials.map((item) => ({
+    quote: item.quote,
+    name: item.name,
+    title: `${item.role} - ${item.proof}`,
+  }));
 
   return (
     <section className="bg-[var(--landing-bg)] py-16 sm:py-20 lg:py-24" id="testimonials">
@@ -85,45 +91,14 @@ export default function TestimonialsSection() {
             </div>
           </article>
 
-          <div className="grid gap-4 lg:col-span-5">
-            {supportingTestimonials.map((testimonial, index) => (
-              <article
-                key={testimonial.name}
-                data-aos="fade-up"
-                data-aos-delay={Math.min(index + 1, 3) * 90}
-                className="rounded-[12px] border border-[var(--landing-border)] bg-[var(--landing-card)] px-5 py-5 transition-all duration-200 hover:border-[var(--landing-border-strong)]"
-              >
-                <div className="flex gap-[3px]">
-                  {Array.from({ length: 5 }).map((_, starIndex) => (
-                    <StarIcon key={`${testimonial.name}-${starIndex}`} />
-                  ))}
-                </div>
-                <p className="mt-3 text-[0.95rem] leading-[1.65] text-[var(--landing-text-muted)]">
-                  &ldquo;{testimonial.quote}&rdquo;
-                </p>
-                <div className="mt-4 rounded-[10px] border border-[var(--landing-border)] bg-[var(--landing-bg-2)] p-3">
-                  <p className="text-[0.66rem] tracking-[0.1em] uppercase text-[var(--landing-text-subtle)] [font-family:var(--font-barlow-condensed)]">
-                    Proof point
-                  </p>
-                  <p className="mt-1 text-[0.84rem] leading-[1.5] text-[var(--landing-text)]">
-                    {testimonial.proof}
-                  </p>
-                </div>
-                <div className="mt-4 flex items-center gap-3 border-t border-[var(--landing-border)] pt-3.5">
-                  <div className="inline-flex h-[36px] w-[36px] items-center justify-center rounded-full border border-[var(--landing-border-strong)] bg-[var(--landing-blue-soft)] text-[13px] font-bold text-[var(--landing-blue-light)] [font-family:var(--font-barlow-condensed)]">
-                    {testimonial.initials}
-                  </div>
-                  <div>
-                    <p className="text-[0.86rem] font-semibold text-[var(--landing-text)]">
-                      {testimonial.name}
-                    </p>
-                    <p className="text-[0.74rem] text-[var(--landing-text-subtle)]">
-                      {testimonial.role}
-                    </p>
-                  </div>
-                </div>
-              </article>
-            ))}
+          <div className="lg:col-span-5" data-aos="fade-up" data-aos-delay="90">
+            <TestimonialsMarquee
+              items={marqueeItems}
+              speed="slow"
+              direction="left"
+              pauseOnHover
+              className="rounded-[12px] border border-[var(--landing-border)] bg-[var(--landing-card)] p-2"
+            />
           </div>
         </div>
       </div>

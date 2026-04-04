@@ -178,6 +178,10 @@
   --chatbot-control-bg: color-mix(in oklab, var(--color-black) 15%, transparent);
   --chatbot-control-bg-hover: color-mix(in oklab, var(--color-black) 24%, transparent);
   --chatbot-control-border: var(--token-white-30);
+
+  --scrollbar-track: color-mix(in oklab, var(--landing-bg-2) 82%, transparent);
+  --scrollbar-thumb: color-mix(in oklab, var(--landing-text-subtle) 34%, transparent);
+  --scrollbar-thumb-hover: color-mix(in oklab, var(--landing-text-muted) 48%, transparent);
 }
 
 [data-theme="dark"] {
@@ -226,6 +230,10 @@
   --chatbot-control-bg: color-mix(in oklab, var(--color-black) 35%, transparent);
   --chatbot-control-bg-hover: color-mix(in oklab, var(--color-black) 55%, transparent);
   --chatbot-control-border: var(--token-white-40);
+
+  --scrollbar-track: color-mix(in oklab, var(--landing-bg-3) 86%, transparent);
+  --scrollbar-thumb: color-mix(in oklab, var(--token-gray-500) 46%, transparent);
+  --scrollbar-thumb-hover: color-mix(in oklab, var(--token-gray-600) 56%, transparent);
 }
 
 html.theme-switching *,
@@ -240,6 +248,32 @@ html.theme-switching *::after {
 
 html {
   position: relative;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 9999px;
+  border: 2px solid var(--scrollbar-track);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
 }
 
 body {
@@ -331,6 +365,20 @@ textarea:disabled,
   to {
     transform: translateX(-50%);
   }
+}
+
+@keyframes scroll {
+  to {
+    transform: translate(calc(-50% - 0.5rem));
+  }
+}
+
+.animate-scroll {
+  animation-name: scroll;
+  animation-duration: var(--animation-duration, 40s);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: var(--animation-direction, forwards);
 }
 
 @keyframes chatbotPulse {
@@ -436,4 +484,10 @@ body [data-aos="fade-up"] {
 .about-timeline-event-milestone {
   color: var(--landing-text);
   font-weight: 500;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-scroll {
+    animation: none !important;
+  }
 }

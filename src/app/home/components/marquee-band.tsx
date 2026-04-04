@@ -3,7 +3,7 @@ import { marqueeItems } from "@/app/home/data/storefront";
 export default function MarqueeBand() {
   return (
     <div className="overflow-hidden border-y border-[var(--landing-blue)] bg-[var(--landing-blue)] py-3.5">
-      <div className="flex w-max animate-[landingMarquee_28s_linear_infinite] items-center gap-4 whitespace-nowrap">
+      <div className="flex w-max items-center gap-4 whitespace-nowrap motion-safe:animate-[landingMarquee_40s_linear_infinite] motion-reduce:animate-none">
         {[0, 1].map((setIndex) =>
           marqueeItems.map((item) => (
             <span
