@@ -10,6 +10,7 @@ import {
   findChatbotArticleById,
 } from "@/components/chatbot/mock-articles";
 import type {
+  ChatAudioClip,
   ChatAttachment,
   ChatMessage,
   ChatOperator,
@@ -47,7 +48,7 @@ const TEAM_MEMBERS: ChatOperator[] = [
   },
 ];
 
-const WEBSITE_AVATAR = "/images/logo.png";
+const WEBSITE_AVATAR = "/images/Logo.png";
 
 const INITIAL_MESSAGES: ChatMessage[] = [
   {
@@ -64,6 +65,24 @@ function createTimestamp() {
     hour: "2-digit",
     minute: "2-digit",
   }).format(new Date());
+}
+
+function collectMessageMediaUrls(messages: ChatMessage[]): Set<string> {
+  const urls = new Set<string>();
+
+  for (const message of messages) {
+    if (message.audioClip?.blobUrl) {
+      urls.add(message.audioClip.blobUrl);
+    }
+
+    for (const attachment of message.attachments ?? []) {
+      if (attachment.previewUrl) {
+        urls.add(attachment.previewUrl);
+      }
+    }
+  }
+
+  return urls;
 }
 
 export default function FloatingChatbot() {
@@ -84,6 +103,7 @@ export default function FloatingChatbot() {
   const replyTimerRef = useRef<number | null>(null);
   const closeResetTimerRef = useRef<number | null>(null);
   const previousDesktopArticleDetailOpenRef = useRef(false);
+  const ownedMessageMediaUrlsRef = useRef<Set<string>>(new Set());
 
   const isExpanded = panelMode === "expanded";
   const activeArticle = activeArticleId
@@ -152,6 +172,16 @@ export default function FloatingChatbot() {
   }, [isExpanded, isMobileViewport]);
 
   useEffect(() => {
+    const nextUrls = collectMessageMediaUrls(messages);
+    for (const url of ownedMessageMediaUrlsRef.current) {
+      if (!nextUrls.has(url)) {
+        URL.revokeObjectURL(url);
+      }
+    }
+    ownedMessageMediaUrlsRef.current = nextUrls;
+  }, [messages]);
+
+  useEffect(() => {
     return () => {
       if (replyTimerRef.current !== null) {
         window.clearTimeout(replyTimerRef.current);
@@ -159,6 +189,10 @@ export default function FloatingChatbot() {
       if (closeResetTimerRef.current !== null) {
         window.clearTimeout(closeResetTimerRef.current);
       }
+      for (const url of ownedMessageMediaUrlsRef.current) {
+        URL.revokeObjectURL(url);
+      }
+      ownedMessageMediaUrlsRef.current.clear();
     };
   }, []);
 
@@ -290,9 +324,10 @@ export default function FloatingChatbot() {
   const submitMessage = (payload: {
     text: string;
     attachments: ChatAttachment[];
+    audioClip?: ChatAudioClip | null;
   }) => {
     const text = payload.text.trim();
-    if (!text && payload.attachments.length === 0) return;
+    if (!text && payload.attachments.length === 0 && !payload.audioClip) return;
 
     const outgoing: ChatMessage = {
       id: `user-${Date.now()}`,
@@ -300,6 +335,7 @@ export default function FloatingChatbot() {
       text,
       timestamp: createTimestamp(),
       attachments: payload.attachments.length > 0 ? payload.attachments : undefined,
+      audioClip: payload.audioClip ?? undefined,
     };
 
     setMessages((currentMessages) => [...currentMessages, outgoing]);
@@ -387,6 +423,7 @@ export default function FloatingChatbot() {
               <ChatComposer
                 value={inputValue}
                 isDisabled={isSending}
+                isPanelOpen={isExpanded}
                 inputRef={composerRef}
                 onChange={setInputValue}
                 onSubmit={submitMessage}

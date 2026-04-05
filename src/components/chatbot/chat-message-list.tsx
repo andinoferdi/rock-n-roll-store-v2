@@ -1,4 +1,5 @@
 import Image from "next/image";
+import ChatAudioPlayer from "@/components/chatbot/chat-audio-player";
 import type { ChatMessage } from "@/components/chatbot/types";
 import { useEffect, useRef } from "react";
 
@@ -7,17 +8,17 @@ type ChatMessageListProps = {
   isSending: boolean;
 };
 
+function formatFileSize(size: number) {
+  if (size < 1024) return `${size} B`;
+  if (size < 1024 * 1024) return `${(size / 1024).toFixed(1)} KB`;
+  return `${(size / (1024 * 1024)).toFixed(1)} MB`;
+}
+
 export default function ChatMessageList({
   messages,
   isSending,
 }: ChatMessageListProps) {
   const bottomRef = useRef<HTMLDivElement>(null);
-
-  const formatFileSize = (size: number) => {
-    if (size < 1024) return `${size} B`;
-    if (size < 1024 * 1024) return `${(size / 1024).toFixed(1)} KB`;
-    return `${(size / (1024 * 1024)).toFixed(1)} MB`;
-  };
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -39,7 +40,6 @@ export default function ChatMessageList({
               key={message.id}
               className={`flex items-end gap-2 ${isOperator ? "justify-start" : "justify-end"}`}
             >
-              {/* Operator avatar on the left */}
               {isOperator && (
                 <div className="flex-shrink-0 self-end">
                   {message.avatarUrl ? (
@@ -70,7 +70,9 @@ export default function ChatMessageList({
                 }`}
               >
                 {message.text ? (
-                  <p className="whitespace-pre-wrap break-words">{message.text}</p>
+                  <p className="whitespace-pre-wrap break-words">
+                    {message.text}
+                  </p>
                 ) : null}
 
                 {message.attachments && message.attachments.length > 0 ? (
@@ -84,7 +86,8 @@ export default function ChatMessageList({
                             : "border-[color-mix(in_oklab,var(--chatbot-on-accent)_35%,transparent)] bg-[color-mix(in_oklab,var(--chatbot-on-accent)_16%,transparent)]"
                         }`}
                       >
-                        {attachment.kind === "image" && attachment.previewUrl ? (
+                        {attachment.kind === "image" &&
+                        attachment.previewUrl ? (
                           <Image
                             src={attachment.previewUrl}
                             alt={attachment.name}
@@ -124,6 +127,23 @@ export default function ChatMessageList({
                   </div>
                 ) : null}
 
+                {message.audioClip ? (
+                  <div
+                    className={
+                      message.text ||
+                      (message.attachments && message.attachments.length > 0)
+                        ? "mt-2"
+                        : ""
+                    }
+                  >
+                    <ChatAudioPlayer
+                      blobUrl={message.audioClip.blobUrl}
+                      durationSec={message.audioClip.durationSec}
+                      variant={isOperator ? "default" : "on-accent"}
+                    />
+                  </div>
+                ) : null}
+
                 <p
                   className={`mt-1 text-[0.63rem] ${
                     isOperator
@@ -140,7 +160,6 @@ export default function ChatMessageList({
 
         {isSending && (
           <div className="flex items-end gap-2">
-            {/* Placeholder avatar while sending */}
             <span className="inline-flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full border border-[var(--chatbot-border)] bg-[var(--chatbot-surface-subtle)] text-[0.6rem] font-semibold uppercase text-[var(--chatbot-text-muted)]">
               AG
             </span>

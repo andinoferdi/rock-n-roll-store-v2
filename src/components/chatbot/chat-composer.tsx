@@ -1,5 +1,11 @@
+"use client";
+
 import Image from "next/image";
-import type { ChatAttachment } from "@/components/chatbot/types";
+import ChatEmojiPicker from "@/components/chatbot/chat-emoji-picker";
+import ChatVoiceCard from "@/components/chatbot/chat-voice-card";
+import { useAudioRecorder } from "@/components/chatbot/use-audio-recorder";
+import { useAttachments } from "@/components/chatbot/use-attachments";
+import type { ChatAttachment, ChatAudioClip } from "@/components/chatbot/types";
 import {
   useEffect,
   useRef,
@@ -11,125 +17,19 @@ import {
 type ChatComposerProps = {
   value: string;
   isDisabled: boolean;
+  isPanelOpen: boolean;
   inputRef: RefObject<HTMLTextAreaElement | null>;
   onChange: (value: string) => void;
-  onSubmit: (payload: { text: string; attachments: ChatAttachment[] }) => void;
+  onSubmit: (payload: {
+    text: string;
+    attachments: ChatAttachment[];
+    audioClip?: ChatAudioClip | null;
+  }) => void;
 };
 
-type EmojiGroup = {
-  id: string;
-  title: string;
-  items: string[];
-};
-
-const EMOJI_GROUPS: EmojiGroup[] = [
-  {
-    id: "smileys",
-    title: "Smileys & People",
-    items: [
-      "\u{1F600}",
-      "\u{1F601}",
-      "\u{1F602}",
-      "\u{1F923}",
-      "\u{1F603}",
-      "\u{1F604}",
-      "\u{1F605}",
-      "\u{1F606}",
-      "\u{1F609}",
-      "\u{1F60A}",
-      "\u{1F60B}",
-      "\u{1F60E}",
-      "\u{1F60D}",
-      "\u{1F618}",
-      "\u{1F617}",
-      "\u{1F619}",
-      "\u{1F61A}",
-      "\u{1F642}",
-      "\u{1F917}",
-      "\u{1F929}",
-      "\u{1F914}",
-      "\u{1F610}",
-      "\u{1F611}",
-      "\u{1F636}",
-      "\u{1F644}",
-      "\u{1F60F}",
-      "\u{1F623}",
-      "\u{1F625}",
-      "\u{1F62E}",
-      "\u{1F910}",
-      "\u{1F62F}",
-      "\u{1F62A}",
-      "\u{1F62B}",
-      "\u{1F971}",
-      "\u{1F634}",
-      "\u{1F60C}",
-      "\u{1F61B}",
-      "\u{1F61C}",
-      "\u{1F61D}",
-      "\u{1F924}",
-    ],
-  },
-  {
-    id: "gestures",
-    title: "Popular Gestures",
-    items: [
-      "\u{1F44D}",
-      "\u{1F44E}",
-      "\u{1F44F}",
-      "\u{1F64C}",
-      "\u{1F64F}",
-      "\u{1F44C}",
-      "\u{1F91D}",
-      "\u{1F525}",
-      "\u{2764}\u{FE0F}",
-      "\u{1F4AF}",
-      "\u{1F3B8}",
-      "\u{1F3B5}",
-      "\u{1F3B6}",
-      "\u{1F69A}",
-      "\u{1F4E6}",
-      "\u{1F6CD}\u{FE0F}",
-      "\u{2B50}",
-      "\u{2705}",
-      "\u{26A1}",
-      "\u{1F3AF}",
-    ],
-  },
-];
-
-const MAX_ATTACHMENT_SIZE_BYTES = 10 * 1024 * 1024; // 10 MB
-const MAX_ATTACHMENT_COUNT = 5;
-
-// Derive a short display label from a MIME type, e.g. "application/pdf" → "PDF"
 function mimeToLabel(mimeType: string): string {
   const sub = mimeType.split("/")[1] ?? mimeType;
   return sub.split("+")[0].toUpperCase().slice(0, 6);
-}
-
-function formatFileSize(size: number) {
-  if (size < 1024) return `${size} B`;
-  if (size < 1024 * 1024) return `${(size / 1024).toFixed(1)} KB`;
-  return `${(size / (1024 * 1024)).toFixed(1)} MB`;
-}
-
-function createAttachmentFromFile(file: File): ChatAttachment | null {
-  const isImage = file.type.startsWith("image/");
-  const isPdf = file.type === "application/pdf";
-
-  if (!isImage && !isPdf) return null;
-  if (file.size > MAX_ATTACHMENT_SIZE_BYTES) return null;
-
-  return {
-    id:
-      typeof crypto !== "undefined" && "randomUUID" in crypto
-        ? crypto.randomUUID()
-        : `${Date.now()}-${file.name}`,
-    name: file.name,
-    size: file.size,
-    mimeType: file.type || "application/octet-stream",
-    previewUrl: isImage ? URL.createObjectURL(file) : undefined,
-    kind: isImage ? "image" : "document",
-  };
 }
 
 function insertEmojiAtCaret(
@@ -145,7 +45,6 @@ function insertEmojiAtCaret(
       cursorEnd: merged.length,
     };
   }
-
   const start = textareaElement.selectionStart ?? currentValue.length;
   const end = textareaElement.selectionEnd ?? currentValue.length;
   const value = currentValue.slice(0, start) + emoji + currentValue.slice(end);
@@ -153,32 +52,6 @@ function insertEmojiAtCaret(
   return { value, cursorStart: cursor, cursorEnd: cursor };
 }
 
-// ─── Document icon (white paperclip on a green square) ───────────────────────
-function DocIcon() {
-  return (
-    <span
-      className="inline-flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl"
-      style={{ backgroundColor: "#2563eb" }}
-      aria-hidden="true"
-    >
-      <svg
-        width="18"
-        height="18"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="white"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
-      </svg>
-    </span>
-  );
-}
-
-// ─── Individual attachment card — Bibit style ─────────────────────────────────
-// Remove badge stays inside the card so it does not get clipped.
 function AttachmentCard({
   attachment,
   onRemove,
@@ -193,13 +66,11 @@ function AttachmentCard({
         animation: "chatbotAttachIn 260ms cubic-bezier(0.16, 1, 0.3, 1) both",
       }}
     >
-      {/* Floating × badge */}
       <button
         type="button"
         aria-label={`Remove attachment ${attachment.name}`}
         onClick={onRemove}
-        className="absolute right-1 top-1 z-10 inline-flex h-5 w-5 items-center justify-center rounded-full text-white transition-transform hover:scale-110 active:scale-95"
-        style={{ backgroundColor: "#2563eb" }}
+        className="absolute right-1 top-1 z-10 inline-flex h-5 w-5 items-center justify-center rounded-full bg-[var(--chatbot-accent)] text-[var(--chatbot-on-accent)] transition-transform hover:scale-110 active:scale-95"
       >
         <svg
           width="9"
@@ -216,7 +87,6 @@ function AttachmentCard({
         </svg>
       </button>
 
-      {/* Card body */}
       <div className="flex max-w-[188px] items-center gap-2.5 rounded-xl border border-[var(--chatbot-border)] bg-[var(--chatbot-surface)] px-2.5 py-2 shadow-[0_1px_4px_var(--chatbot-shadow-soft)]">
         {attachment.kind === "image" && attachment.previewUrl ? (
           <Image
@@ -228,11 +98,27 @@ function AttachmentCard({
             className="h-10 w-10 flex-shrink-0 rounded-lg border border-[var(--chatbot-border)] object-cover"
           />
         ) : (
-          <DocIcon />
+          // Doc icon uses accent token — no hardcoded hex
+          <span
+            className="inline-flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-[var(--chatbot-accent)] text-[var(--chatbot-on-accent)]"
+            aria-hidden="true"
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
+            </svg>
+          </span>
         )}
 
         <div className="min-w-0">
-          {/* Truncate long filenames — strip extension for cleaner display */}
           <p className="truncate text-[0.73rem] font-semibold leading-tight text-[var(--chatbot-text)]">
             {attachment.name.replace(/\.[^.]+$/, "")}
           </p>
@@ -245,126 +131,112 @@ function AttachmentCard({
   );
 }
 
+function InlineError({ message }: { message: string }) {
+  return (
+    <div
+      className="mx-3 mt-2 flex items-start gap-1.5 rounded-lg border border-[var(--chatbot-border)] bg-[var(--chatbot-article-surface)] px-2.5 py-1.5"
+      role="status"
+      aria-live="polite"
+    >
+      <svg
+        width="12"
+        height="12"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="mt-[1px] flex-shrink-0 text-[var(--chatbot-text-muted)]"
+        aria-hidden="true"
+      >
+        <circle cx="12" cy="12" r="10" />
+        <line x1="12" y1="8" x2="12" y2="12" />
+        <line x1="12" y1="16" x2="12.01" y2="16" />
+      </svg>
+      <p className="text-[0.7rem] leading-snug text-[var(--chatbot-text-muted)]">
+        {message}
+      </p>
+    </div>
+  );
+}
+
 export default function ChatComposer({
   value,
   isDisabled,
+  isPanelOpen,
   inputRef,
   onChange,
   onSubmit,
 }: ChatComposerProps) {
+  const {
+    recorderState,
+    audioDraft,
+    recordingDurationSec,
+    audioError,
+    waveformBars,
+    handleRecordClick,
+    stopRecording,
+    clearAudioDraft,
+  } = useAudioRecorder({ isPanelOpen });
+
+  const {
+    attachments,
+    attachmentError,
+    removeAttachment,
+    handleFileSelection,
+    clearAttachments,
+  } = useAttachments();
+
   const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
-  const [attachments, setAttachments] = useState<ChatAttachment[]>([]);
-  const [attachmentError, setAttachmentError] = useState("");
+
   const wrapperRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  // Track attachments for cleanup on unmount
-  const attachmentsRef = useRef<ChatAttachment[]>([]);
 
   // Auto-resize textarea
   useEffect(() => {
-    const textareaElement = inputRef.current;
-    if (!textareaElement) return;
+    const el = inputRef.current;
+    if (!el) return;
 
     const maxHeight = 260;
-    textareaElement.style.height = "auto";
-    const nextHeight = Math.min(textareaElement.scrollHeight, maxHeight);
-    textareaElement.style.height = `${nextHeight}px`;
-    textareaElement.style.overflowY =
-      textareaElement.scrollHeight > maxHeight ? "auto" : "hidden";
-    textareaElement.style.overflowX = "hidden";
-    textareaElement.style.overflowWrap = "break-word";
+    el.style.height = "auto";
+    const nextHeight = Math.min(el.scrollHeight, maxHeight);
+    el.style.height = `${nextHeight}px`;
+    el.style.overflowY = el.scrollHeight > maxHeight ? "auto" : "hidden";
+    el.style.overflowX = "hidden";
+    el.style.overflowWrap = "break-word";
   }, [inputRef, value]);
 
-  // Close emoji picker on outside click / Escape
+  // Close emoji picker on outside click or Escape
   useEffect(() => {
     if (!isEmojiPickerOpen) return;
 
     const handleOutsideClick = (event: MouseEvent) => {
-      if (!wrapperRef.current) return;
-      if (!wrapperRef.current.contains(event.target as Node)) {
+      if (!wrapperRef.current?.contains(event.target as Node)) {
         setIsEmojiPickerOpen(false);
       }
     };
-
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") setIsEmojiPickerOpen(false);
     };
 
     document.addEventListener("mousedown", handleOutsideClick);
     window.addEventListener("keydown", handleEscape);
-
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
       window.removeEventListener("keydown", handleEscape);
     };
   }, [isEmojiPickerOpen]);
 
-  // Keep ref in sync for cleanup
-  useEffect(() => {
-    attachmentsRef.current = attachments;
-  }, [attachments]);
-
-  // Revoke all object URLs on unmount
-  useEffect(() => {
-    return () => {
-      attachmentsRef.current.forEach((a) => {
-        if (a.previewUrl) URL.revokeObjectURL(a.previewUrl);
-      });
-    };
-  }, []);
-
-  const removeAttachment = (attachmentId: string) => {
-    setAttachments((current) => {
-      const target = current.find((a) => a.id === attachmentId);
-      if (target?.previewUrl) URL.revokeObjectURL(target.previewUrl);
-      return current.filter((a) => a.id !== attachmentId);
-    });
-    setAttachmentError("");
-  };
-
-  const handleFileSelection = (event: ChangeEvent<HTMLInputElement>) => {
-    const fileList = event.target.files;
-    if (!fileList || fileList.length === 0) return;
-
-    const selectedFiles = Array.from(fileList);
-    setAttachmentError("");
-
-    setAttachments((current) => {
-      const next = [...current];
-
-      for (const file of selectedFiles) {
-        if (next.length >= MAX_ATTACHMENT_COUNT) {
-          setAttachmentError(`Up to ${MAX_ATTACHMENT_COUNT} files allowed.`);
-          break;
-        }
-
-        const parsed = createAttachmentFromFile(file);
-        if (!parsed) {
-          setAttachmentError(
-            file.size > MAX_ATTACHMENT_SIZE_BYTES
-              ? `${file.name} exceeds 10 MB.`
-              : `Only images and PDFs are allowed: ${file.name}`,
-          );
-          continue;
-        }
-
-        next.push(parsed);
-      }
-
-      return next;
-    });
-
-    // Reset so the same file can be re-selected
-    event.target.value = "";
-  };
-
   const handleSubmit = () => {
     const trimmedText = value.trim();
-    if (isDisabled || (!trimmedText && attachments.length === 0)) return;
+    if (isDisabled || (!trimmedText && attachments.length === 0 && !audioDraft))
+      return;
 
-    onSubmit({ text: trimmedText, attachments });
-    setAttachments([]);
-    setAttachmentError("");
+    onSubmit({ text: trimmedText, attachments, audioClip: audioDraft });
+    setIsEmojiPickerOpen(false);
+    clearAttachments({ revoke: false });
+    clearAudioDraft({ revoke: false });
   };
 
   const handlePickEmoji = (emoji: string) => {
@@ -379,65 +251,33 @@ export default function ChatComposer({
     });
   };
 
-  const hasContent = value.trim().length > 0 || attachments.length > 0;
+  const hasContent =
+    value.trim().length > 0 || attachments.length > 0 || audioDraft !== null;
+  const showVoiceCard = recorderState !== "idle" || audioDraft !== null;
 
   return (
     <div
       ref={wrapperRef}
       className="relative flex-shrink-0 border-t border-[var(--chatbot-border)] bg-[var(--chatbot-surface)]"
     >
-      {/* Keyframe for card entrance */}
       <style>{`
         @keyframes chatbotAttachIn {
           from { opacity: 0; transform: translateY(6px) scale(0.94); }
           to   { opacity: 1; transform: translateY(0px) scale(1); }
         }
+        @keyframes chatbotRecordPulse {
+          0%, 100% { opacity: 1; }
+          50%       { opacity: 0.45; }
+        }
       `}</style>
 
-      {/* ── Emoji picker ──────────────────────────────────────────────────── */}
-      {isEmojiPickerOpen && (
-        <div
-          id="chatbot-emoji-picker"
-          className="absolute bottom-[calc(100%+0.5rem)] left-3 right-3 z-20 overflow-hidden rounded-2xl border border-[var(--chatbot-border)] bg-[var(--chatbot-surface)] shadow-[0_10px_24px_-10px_var(--chatbot-shadow-strong)]"
-          role="dialog"
-          aria-label="Emoji picker"
-        >
-          <div className="max-h-56 space-y-3 overflow-y-auto p-3 chatbot-scrollable">
-            {EMOJI_GROUPS.map((group) => (
-              <section key={group.id}>
-                <p className="mb-2 text-[0.78rem] font-semibold text-[var(--chatbot-text-muted)]">
-                  {group.title}
-                </p>
-                <div className="grid grid-cols-8 gap-1.5">
-                  {group.items.map((emoji) => (
-                    <button
-                      key={`${group.id}-${emoji}`}
-                      type="button"
-                      aria-label={`Insert emoji ${emoji}`}
-                      onClick={() => handlePickEmoji(emoji)}
-                      className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-[1.25rem] leading-none transition-colors hover:bg-[var(--chatbot-surface-subtle)]"
-                    >
-                      {emoji}
-                    </button>
-                  ))}
-                </div>
-              </section>
-            ))}
-          </div>
-          <div className="border-t border-[var(--chatbot-border)] px-3 py-2">
-            <span className="inline-flex items-center rounded-full bg-[var(--chatbot-accent)] px-3 py-1 text-[0.75rem] font-semibold text-[var(--chatbot-on-accent)]">
-              Smileys
-            </span>
-          </div>
-        </div>
-      )}
+      {/* Emoji picker */}
+      {isEmojiPickerOpen && <ChatEmojiPicker onPickEmoji={handlePickEmoji} />}
 
-      {/* ── Attachment preview strip ───────────────────────────────────────
-          Appears above the textarea when files are staged.
-          Cards have Bibit-style: green doc icon, floating × badge. */}
+      {/* Attachment preview strip */}
       {attachments.length > 0 && (
         <div className="px-3 pt-3">
-          <div className="flex max-h-[7rem] flex-wrap gap-x-3 gap-y-3 overflow-y-auto chatbot-scrollable pb-0.5 pr-0.5 pl-0.5 pt-0.5">
+          <div className="chatbot-scrollable flex max-h-[7rem] flex-wrap gap-3 overflow-y-auto pb-0.5 pl-0.5 pr-0.5 pt-0.5">
             {attachments.map((attachment) => (
               <AttachmentCard
                 key={attachment.id}
@@ -449,41 +289,32 @@ export default function ChatComposer({
         </div>
       )}
 
-      {/* ── Inline error ──────────────────────────────────────────────────── */}
-      {attachmentError && (
-        <div
-          className="mx-3 mt-2 flex items-start gap-1.5 rounded-lg border border-[var(--chatbot-border)] bg-[var(--chatbot-article-surface)] px-2.5 py-1.5"
-          role="status"
-          aria-live="polite"
-        >
-          <svg
-            width="12"
-            height="12"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="mt-[1px] flex-shrink-0 text-[var(--chatbot-text-muted)]"
-            aria-hidden="true"
-          >
-            <circle cx="12" cy="12" r="10" />
-            <line x1="12" y1="8" x2="12" y2="12" />
-            <line x1="12" y1="16" x2="12.01" y2="16" />
-          </svg>
-          <p className="text-[0.7rem] leading-snug text-[var(--chatbot-text-muted)]">
-            {attachmentError}
-          </p>
+      {/* Voice card: recording / processing / recorded */}
+      {showVoiceCard && (
+        <div className="px-3 pt-2">
+          <ChatVoiceCard
+            recorderState={recorderState}
+            audioDraft={audioDraft}
+            recordingDurationSec={recordingDurationSec}
+            waveformBars={waveformBars}
+            onStop={stopRecording}
+            onClearDraft={clearAudioDraft}
+          />
         </div>
       )}
 
-      {/* ── Textarea ──────────────────────────────────────────────────────── */}
+      {/* Inline errors */}
+      {attachmentError && <InlineError message={attachmentError} />}
+      {audioError && <InlineError message={audioError} />}
+
+      {/* Textarea */}
       <div className="px-4 pb-1 pt-3">
         <textarea
           ref={inputRef}
           value={value}
-          onChange={(event) => onChange(event.target.value)}
+          onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
+            onChange(event.target.value)
+          }
           placeholder="Write your message..."
           aria-label="Write your message"
           rows={1}
@@ -493,14 +324,13 @@ export default function ChatComposer({
               handleSubmit();
             }
           }}
-          className="w-full min-h-[36px] resize-none bg-transparent text-[0.86rem] leading-[1.55] text-[var(--chatbot-text)] outline-none placeholder:text-[var(--chatbot-text-subtle)]"
+          className="min-h-[36px] w-full resize-none bg-transparent text-[0.86rem] leading-[1.55] text-[var(--chatbot-text)] outline-none placeholder:text-[var(--chatbot-text-subtle)]"
           style={{ overflow: "hidden", overflowWrap: "break-word" }}
         />
       </div>
 
-      {/* ── Toolbar ───────────────────────────────────────────────────────── */}
+      {/* Toolbar */}
       <div className="flex items-center justify-between px-3 pb-3">
-        {/* Hidden native file input */}
         <input
           ref={fileInputRef}
           type="file"
@@ -512,7 +342,7 @@ export default function ChatComposer({
         />
 
         <div className="flex items-center gap-1">
-          {/* Emoji */}
+          {/* Emoji toggle */}
           <button
             type="button"
             aria-label="Insert emoji"
@@ -543,11 +373,15 @@ export default function ChatComposer({
             </svg>
           </button>
 
-          {/* Attach — badge shows count when files are queued */}
+          {/* Attach */}
           <button
             type="button"
             aria-label="Upload file"
-            onClick={() => fileInputRef.current?.click()}
+            onClick={() => {
+              if (recorderState === "recording") return;
+              fileInputRef.current?.click();
+            }}
+            disabled={recorderState === "recording"}
             className={`relative inline-flex h-8 w-8 items-center justify-center rounded-full transition-colors ${
               attachments.length > 0
                 ? "bg-blue-100 text-blue-600 dark:bg-blue-500/15 dark:text-blue-400"
@@ -567,11 +401,10 @@ export default function ChatComposer({
             >
               <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
             </svg>
-            {/* File count badge */}
             {attachments.length > 0 && (
+              // Count badge uses accent token — no hardcoded hex
               <span
-                className="absolute -right-0.5 -top-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full text-[0.48rem] font-bold text-white"
-                style={{ backgroundColor: "#2563eb" }}
+                className="absolute -right-0.5 -top-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-[var(--chatbot-accent)] text-[0.48rem] font-bold text-[var(--chatbot-on-accent)]"
                 aria-hidden="true"
               >
                 {attachments.length}
@@ -582,8 +415,20 @@ export default function ChatComposer({
           {/* Record audio */}
           <button
             type="button"
-            aria-label="Record audio message"
-            className="inline-flex h-8 w-8 items-center justify-center rounded-full text-[var(--chatbot-text-subtle)] transition-colors hover:bg-[var(--chatbot-surface-subtle)] hover:text-[var(--chatbot-text)]"
+            aria-label={
+              recorderState === "recording"
+                ? "Stop recording audio message"
+                : "Record audio message"
+            }
+            onClick={() => handleRecordClick(isDisabled)}
+            disabled={recorderState === "processing"}
+            className={`inline-flex h-8 w-8 items-center justify-center rounded-full transition-colors ${
+              recorderState === "recording"
+                ? "bg-red-500 text-white hover:bg-red-600"
+                : recorderState === "processing"
+                  ? "cursor-not-allowed opacity-40 text-[var(--chatbot-text-subtle)]"
+                  : "text-[var(--chatbot-text-subtle)] hover:bg-[var(--chatbot-surface-subtle)] hover:text-[var(--chatbot-text)]"
+            }`}
           >
             <svg
               width="18"
@@ -604,7 +449,7 @@ export default function ChatComposer({
           </button>
         </div>
 
-        {/* Send button */}
+        {/* Send */}
         <button
           type="button"
           onClick={handleSubmit}

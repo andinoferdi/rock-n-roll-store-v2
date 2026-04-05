@@ -14,6 +14,14 @@ export type ChatAttachment = {
   kind: ChatAttachmentKind;
 };
 
+export type ChatAudioClip = {
+  id: string;
+  blobUrl: string;
+  mimeType: string;
+  durationSec: number;
+  sizeBytes: number;
+};
+
 export type ChatTextMessage = {
   id: string;
   sender: ChatSender;
@@ -21,6 +29,7 @@ export type ChatTextMessage = {
   timestamp: string;
   avatarUrl?: string;
   attachments?: ChatAttachment[];
+  audioClip?: ChatAudioClip;
 };
 
 export type ChatMessage = ChatTextMessage;
