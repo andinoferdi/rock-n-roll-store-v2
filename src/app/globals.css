@@ -178,6 +178,10 @@
   --chatbot-control-bg: color-mix(in oklab, var(--color-black) 15%, transparent);
   --chatbot-control-bg-hover: color-mix(in oklab, var(--color-black) 24%, transparent);
   --chatbot-control-border: var(--token-white-30);
+  --chatbot-article-surface: color-mix(in oklab, var(--landing-bg-2) 76%, transparent);
+  --chatbot-article-border: color-mix(in oklab, var(--landing-border) 90%, transparent);
+  --chatbot-article-muted: var(--token-gray-500);
+  --chatbot-article-heading: var(--token-gray-900);
 
   --scrollbar-track: color-mix(in oklab, var(--landing-bg-2) 82%, transparent);
   --scrollbar-thumb: color-mix(in oklab, var(--landing-text-subtle) 34%, transparent);
@@ -230,6 +234,10 @@
   --chatbot-control-bg: color-mix(in oklab, var(--color-black) 35%, transparent);
   --chatbot-control-bg-hover: color-mix(in oklab, var(--color-black) 55%, transparent);
   --chatbot-control-border: var(--token-white-40);
+  --chatbot-article-surface: color-mix(in oklab, var(--color-surface-dark-subtle) 78%, transparent);
+  --chatbot-article-border: color-mix(in oklab, var(--color-border-dark-soft) 94%, transparent);
+  --chatbot-article-muted: var(--token-gray-500);
+  --chatbot-article-heading: var(--token-gray-900);
 
   --scrollbar-track: color-mix(in oklab, var(--landing-bg-3) 86%, transparent);
   --scrollbar-thumb: color-mix(in oklab, var(--token-gray-500) 46%, transparent);

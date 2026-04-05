@@ -17,5 +17,5 @@ export function getErrorMessage(error: unknown): string {
     return error.message;
   }
 
-  return 'Terjadi kesalahan. Coba lagi.';
+  return "Something went wrong. Please try again.";
 }

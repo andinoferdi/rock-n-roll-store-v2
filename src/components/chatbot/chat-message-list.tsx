@@ -13,6 +13,12 @@ export default function ChatMessageList({
 }: ChatMessageListProps) {
   const bottomRef = useRef<HTMLDivElement>(null);
 
+  const formatFileSize = (size: number) => {
+    if (size < 1024) return `${size} B`;
+    if (size < 1024 * 1024) return `${(size / 1024).toFixed(1)} KB`;
+    return `${(size / (1024 * 1024)).toFixed(1)} MB`;
+  };
+
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isSending]);
@@ -63,9 +69,61 @@ export default function ChatMessageList({
                     : "rounded-2xl rounded-br-[4px] bg-[var(--chatbot-user-bubble)] px-3.5 py-2.5 text-[var(--chatbot-on-accent)]"
                 }`}
               >
-                <p className="whitespace-pre-wrap break-words">
-                  {message.text}
-                </p>
+                {message.text ? (
+                  <p className="whitespace-pre-wrap break-words">{message.text}</p>
+                ) : null}
+
+                {message.attachments && message.attachments.length > 0 ? (
+                  <div className={`${message.text ? "mt-2" : ""} space-y-1.5`}>
+                    {message.attachments.map((attachment) => (
+                      <div
+                        key={attachment.id}
+                        className={`flex items-center gap-2 rounded-xl border px-2.5 py-2 ${
+                          isOperator
+                            ? "border-[var(--chatbot-border)] bg-[var(--chatbot-surface-subtle)]"
+                            : "border-[color-mix(in_oklab,var(--chatbot-on-accent)_35%,transparent)] bg-[color-mix(in_oklab,var(--chatbot-on-accent)_16%,transparent)]"
+                        }`}
+                      >
+                        {attachment.kind === "image" && attachment.previewUrl ? (
+                          <Image
+                            src={attachment.previewUrl}
+                            alt={attachment.name}
+                            width={40}
+                            height={40}
+                            unoptimized
+                            className="h-10 w-10 rounded-lg border border-[var(--chatbot-border)] object-cover"
+                          />
+                        ) : (
+                          <span
+                            className={`inline-flex h-10 w-10 items-center justify-center rounded-lg text-[0.62rem] font-semibold ${
+                              isOperator
+                                ? "border border-[var(--chatbot-border)] bg-[var(--chatbot-surface)] text-[var(--chatbot-text-muted)]"
+                                : "bg-[color-mix(in_oklab,var(--chatbot-on-accent)_20%,transparent)] text-[var(--chatbot-on-accent)]"
+                            }`}
+                          >
+                            PDF
+                          </span>
+                        )}
+
+                        <div className="min-w-0">
+                          <p className="truncate text-[0.73rem] font-semibold">
+                            {attachment.name}
+                          </p>
+                          <p
+                            className={`text-[0.65rem] ${
+                              isOperator
+                                ? "text-[var(--chatbot-text-muted)]"
+                                : "text-[var(--chatbot-on-accent-muted)]"
+                            }`}
+                          >
+                            {formatFileSize(attachment.size)}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : null}
+
                 <p
                   className={`mt-1 text-[0.63rem] ${
                     isOperator

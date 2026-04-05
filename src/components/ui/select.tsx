@@ -79,7 +79,7 @@ const SelectContent = React.forwardRef<
       hasSearch = false,
       onSearchChange,
       searchValue = "",
-      searchPlaceholder = "Cari...",
+      searchPlaceholder = "Search...",
       children,
       ...props
     },
@@ -247,7 +247,7 @@ const SelectEmpty = ({ children }: { children?: React.ReactNode }) => (
     data-slot="select-empty"
     className="py-6 text-center text-sm text-(--token-gray-500) dark:text-(--token-gray-400)"
   >
-    {children || "Tidak ada hasil ditemukan"}
+    {children || "No results found"}
   </div>
 );
 
@@ -256,7 +256,7 @@ export default function UiSelect({
   onChange,
   options,
   className,
-  placeholder = "Pilih opsi",
+  placeholder = "Select an option",
   disabled,
 }: SimpleSelectProps) {
   return (

@@ -3,9 +3,9 @@ import { describe, expect, it } from "vitest";
 
 describe("ApiError", () => {
   it("stores message, name, and status", () => {
-    const error = new ApiError("Request gagal", 400);
+    const error = new ApiError("Request failed", 400);
 
-    expect(error.message).toBe("Request gagal");
+    expect(error.message).toBe("Request failed");
     expect(error.name).toBe("ApiError");
     expect(error.status).toBe(400);
   });
@@ -25,7 +25,7 @@ describe("getErrorMessage", () => {
   });
 
   it("returns fallback for unknown errors", () => {
-    expect(getErrorMessage(null)).toBe("Terjadi kesalahan. Coba lagi.");
-    expect(getErrorMessage({})).toBe("Terjadi kesalahan. Coba lagi.");
+    expect(getErrorMessage(null)).toBe("Something went wrong. Please try again.");
+    expect(getErrorMessage({})).toBe("Something went wrong. Please try again.");
   });
 });
